@@ -7,6 +7,7 @@ public class MessageKeys {
     public static final String EMAIL_EXISTED = "user.login.email_existed";
     public static final String EMAIL_AND_PASSWORD_FAILED = "user.login.email_and_password_failed";
     public static final String CAN_NOT_CREATE_ACCOUNT_ROLE_ADMIN = "user.login.can_not_account_role_admin";
+    public static final String ACCOUNT_NOT_LOGIN = "account.not_login";
 
     // register
     public static final String PASSWORD_NOT_MATCH = "user.register.password_not_match";

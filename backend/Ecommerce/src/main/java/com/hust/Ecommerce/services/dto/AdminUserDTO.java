@@ -3,21 +3,25 @@ package com.hust.Ecommerce.services.dto;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hust.Ecommerce.constants.MessageKeys;
 
-import jakarta.validation.constraints.NotBlank;
+import com.hust.Ecommerce.models.Role;
+import com.hust.Ecommerce.models.User;
+
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
 public class AdminUserDTO implements Serializable {
     private Long id;
 
@@ -25,7 +29,7 @@ public class AdminUserDTO implements Serializable {
     private String fullName;
 
     @JsonProperty("email")
-    @NotBlank(message = MessageKeys.EMAIL_REQUIRED)
+
     private String email;
 
     private String address;
@@ -33,6 +37,8 @@ public class AdminUserDTO implements Serializable {
     @Size(max = 256)
     @JsonProperty("image_url")
     private String imageUrl;
+
+    private boolean isActivated = false;
 
     @JsonProperty("date_of_birth")
     private Instant dateOfBirth;
@@ -52,5 +58,19 @@ public class AdminUserDTO implements Serializable {
     private Instant lastModifiedDate;
 
     private Set<String> roles;
+
+    public AdminUserDTO(User user) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.fullName = user.getFullName();
+        this.address = user.getAddress();
+        this.isActivated = user.isActivated();
+        this.imageUrl = user.getImageUrl();
+        this.createdBy = user.getCreatedBy();
+        this.createdDate = user.getCreatedDate();
+        this.lastModifiedBy = user.getLastModifiedBy();
+        this.lastModifiedDate = user.getLastModifiedDate();
+        this.roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
+    }
 
 }

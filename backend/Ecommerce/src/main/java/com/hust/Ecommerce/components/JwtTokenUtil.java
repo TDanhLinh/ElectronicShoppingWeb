@@ -28,7 +28,7 @@ public class JwtTokenUtil {
     private long tokenValidityInSeconds;
     private final JwtEncoder jwtEncoder;
 
-    public String createToken(Authentication authentication) {
+    public String createJwt(Authentication authentication) {
 
         try {
             String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)

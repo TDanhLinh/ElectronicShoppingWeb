@@ -46,6 +46,10 @@ public class RandomUtil {
         return generateRandomAlphanumericString();
     }
 
+    public static String generateRefreshToken() {
+        return generateRandomAlphanumericString();
+    }
+
     /**
      * Generate a reset key.
      *

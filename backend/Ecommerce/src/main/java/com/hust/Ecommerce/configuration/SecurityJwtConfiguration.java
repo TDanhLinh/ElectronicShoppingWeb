@@ -16,16 +16,22 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
+import com.hust.Ecommerce.exceptions.payload.DataNotFoundException;
+import com.hust.Ecommerce.repositories.TokenRepository;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.nimbusds.jose.util.Base64;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @Slf4j
+@RequiredArgsConstructor
 public class SecurityJwtConfiguration {
     @Value("${jwt.base64-secret}")
     private String jwtKey;
+
+    private final TokenRepository tokenRepository;
 
     @Bean
     public JwtDecoder jwtDecoder() {
@@ -33,6 +39,9 @@ public class SecurityJwtConfiguration {
                 .build();
         return token -> {
             try {
+                log.info("token is {}", token);
+                if (tokenRepository.findByToken(token).isEmpty())
+                    throw new DataNotFoundException("Token khong ton tai trong data base");
                 return jwtDecoder.decode(token);
             } catch (Exception e) {
                 log.error("exception in decoder {}", e.getMessage());

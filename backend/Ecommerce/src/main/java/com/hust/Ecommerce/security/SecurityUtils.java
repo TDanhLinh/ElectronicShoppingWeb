@@ -15,7 +15,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 public class SecurityUtils {
     public static final MacAlgorithm JWT_ALGORITHM = MacAlgorithm.HS512;
 
-    public static final String AUTHORITIES_KEY = "Role";
+    public static final String AUTHORITIES_KEY = "Role ";
 
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();

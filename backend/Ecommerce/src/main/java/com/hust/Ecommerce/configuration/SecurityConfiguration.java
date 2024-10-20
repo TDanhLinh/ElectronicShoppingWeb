@@ -15,12 +15,9 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.hust.Ecommerce.web.filters.CustomJwtAuthenticationFilter;
-
-import lombok.RequiredArgsConstructor;
+import com.hust.Ecommerce.security.JwtAuthenticationEntryPoint;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
         @Value("${api.prefix}")
@@ -28,8 +25,6 @@ public class SecurityConfiguration {
 
         @Value("${domain.protocol}")
         private String domainProtocol;
-
-        private final CustomJwtAuthenticationFilter customJwtAuthenticationFilter;
 
         @Bean
         public PasswordEncoder passwordEncoder() {
@@ -41,8 +36,6 @@ public class SecurityConfiguration {
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .cors(AbstractHttpConfigurer::disable) // Enable CORS
-                                .addFilterAfter(customJwtAuthenticationFilter,
-                                                UsernamePasswordAuthenticationFilter.class)
                                 .authorizeHttpRequests(request -> request
                                                 .requestMatchers(HttpMethod.GET,
                                                                 String.format("%s/activate/**", apiPrefix),
@@ -62,8 +55,8 @@ public class SecurityConfiguration {
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.POST,
                                                                 String.format("%s/register", apiPrefix),
-                                                                String.format("%s/authenticate", apiPrefix),
-                                                                String.format("%s/users/refresh-token", apiPrefix))
+                                                                String.format("%s/login", apiPrefix),
+                                                                String.format("%s/refresh-token", apiPrefix))
                                                 .permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
@@ -74,7 +67,9 @@ public class SecurityConfiguration {
                                                                                 new BearerTokenAuthenticationEntryPoint())
                                                                 .accessDeniedHandler(
                                                                                 new BearerTokenAccessDeniedHandler()))
-                                .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+                                .oauth2ResourceServer(oauth2 -> oauth2
+                                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                                                .jwt());
 
                 // http.securityMatcher(String.valueOf(EndpointRequest.toAnyEndpoint()));
                 return http.build();
