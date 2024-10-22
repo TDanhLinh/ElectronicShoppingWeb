@@ -5,7 +5,7 @@
 /* header layout */
 .header {
     height: var(--header-height);
-    background-image: linear-gradient(0, #f73a27, #fe5430);
+    background-image: linear-gradient(0, rgb(79, 48, 254), rgb(64, 31, 255));
     position: fixed;
     top: 0;
     right: 0;
