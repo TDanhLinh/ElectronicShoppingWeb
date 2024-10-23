@@ -34,7 +34,7 @@ export function Mobile_category() {
             <ul className="mobile-category__list">
                 {
                     category.map((item, index) => (
-                        <li className="mobile-category__item">
+                        <li key={index} className="mobile-category__item">
                             <div className="mobile-category__link">{item.name}</div>
                         </li>
                     ))
