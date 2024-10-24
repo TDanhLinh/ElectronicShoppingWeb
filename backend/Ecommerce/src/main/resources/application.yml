@@ -1,0 +1,47 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: Ecommerce-backend
+
+    #config mysql8
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/ecommerce?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${MYSQL_ROOT_USERNAME:root}
+    password: ${MYSQL_ROOT_PASSWORD:root}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: takidev0705@gmail.com
+    password: wgkq giha fycu gnud
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  messages:
+    basename: i18n/messages
+api:
+  prefix: /api/v1
+
+domain:
+  protocol: http://localhost:${server.port}
+  front_end_protocol: http://localhost:3000
+
+jwt:
+  expiration-token: 2592000 # 30 days = 30 * 24 * 60 * 60
+  expiration-refresh-token: 5184000 # 60 days = 60 * 24 * 60 * 60
+  base64-secret: ZjMzMDNkMzMzMzBhNDE5NDZkN2FjNTkxMjE5M2IzMmI1ZThkMDFkNzQzNTNmZDZhYTc0Zjk4Mzg1MmViYTkyYTdmYzI3NDk3NDBhZDU2MzRjNGExYmQyZTg4OGZjMzk1Yzc0M2YwODI5MDJlMWM1Y2EyN2Q3MzY2NmJiODNlNzI=
