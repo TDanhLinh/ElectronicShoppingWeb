@@ -5,22 +5,22 @@
   lang="en"
 >
   <head>
-    <title th:text="#{email.activation.title}">ElectronicShop activation</title>
+    <title th:text="#{email.activation.title}">ElectronicShop creation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}" />
   </head>
   <body>
     <p th:text="#{email.activation.greeting(${user.name})}">Dear</p>
-    <p th:text="#{email.activation.text1}">
-      Your account has been created, please click on the URL below to activate
-      it:
+    <p th:text="#{email.creation.text1}">
+      Your account has been created, please click on the URL below to set
+      password it:
     </p>
     <p>
       <a
-        th:with="url=(@{|${baseUrl}${prefix}/account/activate?key=${user.activationKey}|})"
+        th:with="url=(@{|${frontEndUrl}/password/reset/${user.resetKey}|})"
         th:href="${url}"
         th:text="${url}"
-        >Activation link</a
+        >link</a
       >
     </p>
     <p>

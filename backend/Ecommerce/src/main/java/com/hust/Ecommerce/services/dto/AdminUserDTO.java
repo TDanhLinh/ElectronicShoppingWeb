@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.hust.Ecommerce.models.Role;
 import com.hust.Ecommerce.models.User;
+import com.hust.Ecommerce.models.enumeration.Gender;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,27 +26,32 @@ import lombok.Setter;
 public class AdminUserDTO implements Serializable {
     private Long id;
 
-    @JsonProperty("full_name")
-    private String fullName;
-
     @JsonProperty("email")
-
     private String email;
+
+    @JsonProperty("name")
+    private String name;
+
+    private Gender gender;
+
+    @JsonProperty("phone_number")
+    private String phoneNumber;
 
     private String address;
 
-    @Size(max = 256)
+    @JsonProperty("date_of_birth")
+    private Instant dateOfBirth;
+
     @JsonProperty("image_url")
     private String imageUrl;
 
     private boolean isActivated = false;
 
+    private boolean isBanned = false;
+
     @Size(min = 2, max = 10)
     @JsonProperty("lang_key")
     private String langKey;
-
-    @JsonProperty("date_of_birth")
-    private Instant dateOfBirth;
 
     @JsonProperty("facebook_account_id")
     private int facebookAccountId;
@@ -66,9 +72,12 @@ public class AdminUserDTO implements Serializable {
     public AdminUserDTO(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
-        this.fullName = user.getFullName();
+        this.name = user.getName();
         this.address = user.getAddress();
+        this.phoneNumber = user.getPhoneNumber();
+        this.gender = user.getGender();
         this.isActivated = user.isActivated();
+        this.isBanned = user.isBanned();
         this.imageUrl = user.getImageUrl();
         this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();

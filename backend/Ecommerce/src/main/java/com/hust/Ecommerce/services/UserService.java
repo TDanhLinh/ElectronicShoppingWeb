@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hust.Ecommerce.components.JwtTokenUtil;
-import com.hust.Ecommerce.constants.LangKeys;
+import com.hust.Ecommerce.constants.Constants;
 import com.hust.Ecommerce.constants.MessageKeys;
 import com.hust.Ecommerce.constants.RoleKeys;
 import com.hust.Ecommerce.dtos.requests.RefreshTokenDTO;
@@ -29,6 +30,7 @@ import com.hust.Ecommerce.exceptions.payload.PermissionDenyException;
 import com.hust.Ecommerce.models.Role;
 import com.hust.Ecommerce.models.Token;
 import com.hust.Ecommerce.models.User;
+import com.hust.Ecommerce.models.enumeration.Gender;
 import com.hust.Ecommerce.repositories.RoleRepository;
 import com.hust.Ecommerce.repositories.UserRepository;
 import com.hust.Ecommerce.security.SecurityUtils;
@@ -62,14 +64,17 @@ public class UserService {
 
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
+
         newUser.setEmail(userDTO.getEmail());
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
 
-        if (userDTO.getFullName() != null) {
-            newUser.setFullName(userDTO.getFullName());
+        if (userDTO.getName() != null) {
+            newUser.setName(userDTO.getName());
         }
-
+        if (userDTO.getPhoneNumber() != null) {
+            newUser.setPhoneNumber(userDTO.getPhoneNumber());
+        }
         // config image url
         if (userDTO.getImageUrl() != null) {
             newUser.setImageUrl(userDTO.getImageUrl());
@@ -77,13 +82,15 @@ public class UserService {
         if (userDTO.getLangKey() != null) {
             newUser.setLangKey(userDTO.getLangKey());
         } else {
-            newUser.setLangKey(LangKeys.DEFAULT_LANGUAGE);
+            newUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         }
         // new user is not active
         newUser.setActivated(false);
+        newUser.setBanned(false);
 
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
+
         Set<Role> roles = new HashSet<>();
         roleRepository.findById(RoleKeys.USER).ifPresent(roles::add);
         newUser.setRoles(roles);
@@ -120,14 +127,18 @@ public class UserService {
         return createTokenAndSave(email, password, false);
     }
 
-    public void updateUser(String fullName, String address, String imageUrl, Instant datOfBirth) {
+    public void updateUser(String name, Gender gender, String phoneNumber, String address, String imageUrl,
+            Instant datOfBirth) {
         SecurityUtils.getCurrentUserLogin()
                 .flatMap(userRepository::findByEmail)
                 .ifPresent(user -> {
-                    user.setFullName(fullName);
+                    user.setName(name);
+                    user.setPhoneNumber(phoneNumber);
+                    user.setGender(gender);
                     user.setAddress(address);
                     user.setImageUrl(imageUrl);
                     user.setDateOfBirth(datOfBirth);
+                    // save update user
                     userRepository.save(user);
                     log.debug("Changed Information for User: {}", user);
                 });
@@ -190,6 +201,83 @@ public class UserService {
                     user.setResetKey(null);
                     user.setResetDate(null);
                     return user;
+                });
+    }
+
+    public User createUser(AdminUserDTO userDTO) {
+        User user = new User();
+
+        user.setEmail(userDTO.getEmail());
+        user.setName(userDTO.getName());
+
+        user.setImageUrl(userDTO.getImageUrl());
+
+        if (userDTO.getLangKey() == null) {
+            user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
+        } else {
+            user.setLangKey(userDTO.getLangKey());
+        }
+
+        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
+        user.setPassword(encryptedPassword);
+
+        user.setResetKey(RandomUtil.generateResetKey());
+        user.setResetDate(Instant.now());
+
+        user.setActivated(true);
+        user.setBanned(false);
+
+        if (userDTO.getRoles() != null) {
+            Set<Role> roles = userDTO
+                    .getRoles()
+                    .stream()
+                    .map(roleRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toSet());
+
+            user.setRoles(roles);
+        }
+
+        userRepository.save(user);
+        log.debug("Created Information for User: {}", user);
+        return user;
+    }
+
+    // public Optional<AdminUserDTO> updateUser(AdminUserDTO userDTO) {
+    // return Optional.of(userRepository.findById(userDTO.getId()))
+    // .filter(Optional::isPresent)
+    // .map(Optional::get)
+    // .map(user -> {
+    // user.setName(userDTO.getName());
+    // user.setImageUrl(userDTO.getImageUrl());
+    // user.setActivated(userDTO.isActivated());
+    // user.setLangKey(userDTO.getLangKey());
+    // Set<Role> manageRoles = user.getRoles();
+    // manageRoles.clear();
+
+    // userDTO
+    // .getRoles()
+    // .stream()
+    // .map(roleRepository::findById)
+    // .filter(Optional::isPresent)
+    // .map(Optional::get)
+    // .forEach(manageRoles::add);
+
+    // userRepository.save(user);
+
+    // log.debug("Changed Information for User: {}", user);
+    // return user;
+    // })
+    // .map(AdminUserDTO::new);
+    // }
+
+    public void deleteUser(String email) {
+        userRepository
+                .findByEmail(email)
+                .ifPresent(user -> {
+                    userRepository.delete(user);
+                    log.debug("Deleted User: {}", user);
                 });
     }
 

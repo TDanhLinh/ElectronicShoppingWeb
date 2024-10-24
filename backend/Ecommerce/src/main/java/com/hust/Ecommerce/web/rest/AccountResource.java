@@ -172,10 +172,13 @@ public class AccountResource {
                         }
 
                         userService.updateUser(
-                                        userDTO.getFullName(),
+                                        userDTO.getName(),
+                                        userDTO.getGender(),
+                                        userDTO.getPhoneNumber(),
                                         userDTO.getAddress(),
                                         userDTO.getImageUrl(),
                                         userDTO.getDateOfBirth());
+
                         return ResponseEntity.ok(ApiResponse.builder()
                                         .success(true)
                                         .build());
@@ -244,9 +247,7 @@ public class AccountResource {
                 if (user.isPresent()) {
                         mailService.sendPasswordResetMail(user.get());
                 } else {
-                        // Pretend the request has been successful to prevent checking which emails
-                        // really exist
-                        // but log that an invalid attempt has been made
+
                         log.warn("Password reset requested for non existing mail");
                 }
         }
