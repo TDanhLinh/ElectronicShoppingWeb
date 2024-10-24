@@ -18,10 +18,14 @@ Nếu trong pages có thư mục aloalo, trong thư mục aloalo có file home.j
 đối với index.js, web được sinh ra sẽ là http://localhost:3000<br/>
 <br/>
 <br/>
-Đối với 1 trang web bình thường sẽ cần file .html, .html sẽ có thể head. Với nextjs thì sẽ không tạo file .html nào cả.<br/>
-Nếu muốn có 1 file để hiển thị head và body như .html, tạo _document.js trong pages, chỉ nên thay đổi head, body chỉ thêm chứ không được xóa 2 thẻ Main với NextScript<br/>
-Nếu muốn import các file css để cấu hình layout cho cả trang web, có thể tạo _app.js trong pages, chỉ được phép import, còn lại giữ nguyên<br/>
-Đúng ra cả _document và _app đều dùng để thay đổi phần head, một số thẻ chỉ nên dùng trong _document và 1 số chỉ nên dùng trong _app. Khi chạy xem warning để biết rõ hơn.<br/>
+Đối với 1 trang web bình thường sẽ cần file .html, .html sẽ có thể head, body. Với nextjs thì sẽ không tạo file .html nào cả.<br/>
+Nếu muốn có 1 file để hiển thị head và body như .html, tạo _document.js trong pages, chỉ nên thay đổi head, body chỉ thêm chứ không được xóa 2 thẻ Main với NextScript, cú pháp như trong thư mục pages<br/>
+Nếu muốn import các file css để cấu hình layout cho cả trang web, có thể tạo _app.js trong pages, import những file css hoặc viết lại thẻ Head để thay đổi title hoặc icon.<br/>
+Cả _document và _app đều dùng để thay đổi phần head, một số thẻ trong head chỉ nên dùng trong _document và 1 số chỉ nên dùng trong _app. Khi chạy xem warning để biết rõ hơn.<br/>
+<br/>
+<br/>
+Khi viết 1 trang mới, VD với about.js, nếu muốn thay đổi title, icon, thay stylesheet hoặc gì đó, có thể thay đổi head bằng cách sử dụng thẻ Head. Lưu ý rằng luôn phải dùng head của nextjs, import Head from 'next/head' <br/>
+Vì mỗi trang web sẽ có css khác nhau nên mỗi trang nên tự viết lại head<br/>
 <br/>
 <br/>
 tên file index.js, _app.js, _document là rất quan trọng, không nên thay đổi hay đặt trùng tên.<br/>
