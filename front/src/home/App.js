@@ -1,5 +1,5 @@
 import { App_container } from "./app_container/App_container";
-import {Header} from "./header/Header"
+import { Header } from "./header/Header"
 
 export function App() {
   return (
@@ -9,5 +9,3 @@ export function App() {
     </div>
   );
 }
-
-export default App;

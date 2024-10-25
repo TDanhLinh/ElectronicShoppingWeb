@@ -10,7 +10,7 @@ export function App_container() {
                     <div className="col l-2 m-0 c-0">
                         <Category />
                     </div>
-                    <div class="col l-10 m-12 c-12">
+                    <div className="col l-10 m-12 c-12">
                         <Home_filter />
                         <Mobile_category />
                     </div>
