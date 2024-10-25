@@ -14,7 +14,6 @@ export default function login() {
                 />
 
                 <link rel="stylesheet" href="/assets/css/login.css" />
-
                 <link rel="icon" href="/favicon.png" />
 
                 <title>Đăng nhập</title>
