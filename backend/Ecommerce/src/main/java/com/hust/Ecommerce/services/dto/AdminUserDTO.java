@@ -13,6 +13,7 @@ import com.hust.Ecommerce.models.User;
 import com.hust.Ecommerce.models.enumeration.Gender;
 import com.hust.Ecommerce.util.InstantDateOnlyDeserializer;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class AdminUserDTO implements Serializable {
     private String email;
 
     @JsonProperty("name")
+    @NotNull(message = "field name is not accept null")
     private String name;
 
     private Gender gender;

@@ -4,11 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.tomcat.util.http.HeaderUtil;
-import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,7 +15,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +24,7 @@ import com.hust.Ecommerce.constants.MessageKeys;
 import com.hust.Ecommerce.constants.RoleKeys;
 import com.hust.Ecommerce.dtos.responses.ApiResponse;
 import com.hust.Ecommerce.dtos.responses.ListPageResponse;
-import com.hust.Ecommerce.exceptions.payload.AccountAlreadyExistsException;
+import com.hust.Ecommerce.exceptions.payload.DataNotFoundException;
 import com.hust.Ecommerce.exceptions.payload.EmailAlreadyUsedException;
 import com.hust.Ecommerce.exceptions.payload.InvalidParamException;
 import com.hust.Ecommerce.models.User;
@@ -124,45 +119,74 @@ public class UserResource {
                 }
         }
 
-        // @PutMapping({ "/users", "/users/{email}" })
+        // @PutMapping("/users/{id}")
         // @PreAuthorize("hasAuthority(\"" + RoleKeys.ADMIN + "\")")
-        // public ResponseEntity<AdminUserDTO> updateUser(
-        // @PathVariable(name = "email", required = false) String email,
-        // @Valid @RequestBody AdminUserDTO userDTO
-        // ) {
+        // public ResponseEntity<ApiResponse<?>> updateUser(
+        // @PathVariable(name = "id", required = true) Long id,
+        // @Valid @RequestBody AdminUserDTO userDTO, BindingResult bindingResult) {
+        // try {
+        // if (bindingResult.hasErrors()) {
+        // List<String> errorMessages = bindingResult.getFieldErrors().stream()
+        // .map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+        // return ResponseEntity.badRequest().body(
+        // ApiResponse.builder()
+        // .message(MessageKeys.ERROR_MESSAGE)
+        // .errors(errorMessages).build());
+        // }
+
         // log.debug("REST request to update User : {}", userDTO);
 
-        // Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
+        // Optional<User> existingUser = userRepository.findById(id);
         // if (existingUser.isPresent() &&
-        // (!existingUser.orElseThrow().getId().equals(userDTO.getId()))) {
+        // (!existingUser.orElseThrow().getEmail().equals(userDTO.getEmail()))) {
         // throw new EmailAlreadyUsedException(MessageKeys.EMAIL_EXISTED);
         // }
 
         // Optional<AdminUserDTO> updatedUser = userService.updateUser(userDTO);
+        // if (updatedUser.isEmpty()) {
+        // throw new UsernameNotFoundException(MessageKeys.USER_NOT_FOUND);
+        // }
+        // return ResponseEntity.ok(ApiResponse.builder()
+        // .success(true)
+        // .payload(updatedUser)
+        // .build());
 
-        // return ResponseUtil.wrapOrNotFound(
-        // updatedUser,
-        // HeaderUtil.createAlert(applicationName, "userManagement.updated",
-        // userDTO.getLogin())
-        // );
+        // } catch (Exception e) {
+        // return ResponseEntity.badRequest().body(ApiResponse.builder()
+        // .error(e.getMessage())
+        // .message(MessageKeys.ERROR_MESSAGE)
+        // .build());
+        // }
         // }
 
-        // @GetMapping("/users/{login}")
-        // @PreAuthorize("hasAuthority(\"" + RoleKeys.ADMIN + "\")")
-        // public ResponseEntity<AdminUserDTO> getUser(@PathVariable("email") /*
-        // * @Pattern(regexp = Constants.LOGIN_REGEX)
-        // */ String login) {
-        // log.debug("REST request to get User : {}", login);
-        // return ResponseUtil.wrapOrNotFound(
-        // userService.getUserWithAuthoritiesByLogin(login).map(AdminUserDTO::new));
-        // }
+        @GetMapping("/users/{id}")
+        @PreAuthorize("hasAuthority(\"" + RoleKeys.ADMIN + "\")")
+        public ResponseEntity<ApiResponse<?>> getUser(@PathVariable("id") Long id) {
+                try {
+                        log.debug("REST request to get User : {}", id);
+                        Optional<User> user = userRepository.findById(id);
+                        if (user.isEmpty()) {
+                                throw new DataNotFoundException(MessageKeys.USER_NOT_FOUND);
+                        }
+                        return ResponseEntity.ok(ApiResponse.<AdminUserDTO>builder()
+                                        .success(true)
+                                        .payload(new AdminUserDTO(user.get()))
+                                        .build());
+                } catch (Exception e) {
+                        return ResponseEntity.badRequest().body(ApiResponse.builder()
+                                        .error(e.getMessage())
+                                        .message(MessageKeys.ERROR_MESSAGE)
+                                        .build());
+                }
 
-        @DeleteMapping("/users/{email}")
+        }
+
+        @DeleteMapping("/users/{id}")
         @PreAuthorize("hasAuthority(\"" + RoleKeys.ADMIN + "\")")
         public ResponseEntity<Void> deleteUser(
-                        @PathVariable("email") /* @Pattern(regexp = Constants.LOGIN_REGEX) */ String email) {
-                log.debug("REST request to delete User: {}", email);
-                userService.deleteUser(email);
+                        @PathVariable("id") /* @Pattern(regexp = Constants.LOGIN_REGEX) */ Long id) {
+                log.debug("REST request to delete User: {}", id);
+                userService.deleteUser(id);
                 return ResponseEntity.noContent()
                                 .build();
         }

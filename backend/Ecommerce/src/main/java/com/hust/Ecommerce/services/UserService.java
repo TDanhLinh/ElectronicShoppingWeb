@@ -272,9 +272,9 @@ public class UserService {
     // .map(AdminUserDTO::new);
     // }
 
-    public void deleteUser(String email) {
+    public void deleteUser(Long id) {
         userRepository
-                .findByEmail(email)
+                .findById(id)
                 .ifPresent(user -> {
                     userRepository.delete(user);
                     log.debug("Deleted User: {}", user);
