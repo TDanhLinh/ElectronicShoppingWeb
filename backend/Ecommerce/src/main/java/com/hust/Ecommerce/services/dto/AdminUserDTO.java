@@ -5,11 +5,13 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.hust.Ecommerce.models.Role;
 import com.hust.Ecommerce.models.User;
 import com.hust.Ecommerce.models.enumeration.Gender;
+import com.hust.Ecommerce.util.InstantDateOnlyDeserializer;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -40,6 +42,8 @@ public class AdminUserDTO implements Serializable {
     private String address;
 
     @JsonProperty("date_of_birth")
+    @JsonDeserialize(using = InstantDateOnlyDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private Instant dateOfBirth;
 
     @JsonProperty("image_url")
@@ -75,6 +79,7 @@ public class AdminUserDTO implements Serializable {
         this.name = user.getName();
         this.address = user.getAddress();
         this.phoneNumber = user.getPhoneNumber();
+        this.dateOfBirth = user.getDateOfBirth();
         this.gender = user.getGender();
         this.isActivated = user.isActivated();
         this.isBanned = user.isBanned();
@@ -84,6 +89,7 @@ public class AdminUserDTO implements Serializable {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.langKey = user.getLangKey();
+
         this.roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
     }
 
