@@ -1,5 +1,5 @@
 body {
-    background-image: url('assets/img/payment_background.png');/* Đường dẫn đến ảnh cục bộ */
+    background-image: url('/assets/img/payment_background.png');/* Đường dẫn đến ảnh cục bộ */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
