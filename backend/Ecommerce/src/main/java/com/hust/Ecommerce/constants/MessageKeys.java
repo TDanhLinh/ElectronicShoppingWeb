@@ -11,6 +11,7 @@ public class MessageKeys {
 
     // register
     public static final String PASSWORD_NOT_MATCH = "user.register.password_not_match";
+    public static final String PASSWORD_NOT_VALID = "user.register.password_not_valid";
     public static final String REGISTER_ACCOUNT_SUCCESS = "user.register.account_successlly";
     public static final String ACTIVE_ACCOUNT_SUCCESS = "user.active.account_successlly";
     public static final String REGISTER_SUCCESS = "user.register.register_successlly";

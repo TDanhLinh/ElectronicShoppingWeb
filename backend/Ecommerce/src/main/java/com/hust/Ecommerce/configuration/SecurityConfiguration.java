@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                                 .cors(AbstractHttpConfigurer::disable) // Enable CORS
                                 .authorizeHttpRequests(request -> request
                                                 .requestMatchers(HttpMethod.GET,
-                                                                String.format("%s/activate/**", apiPrefix),
+                                                                String.format("%s/account/activate/**", apiPrefix),
 
                                                                 // sagger-ui
                                                                 "/v2/api-docs",
@@ -56,7 +56,14 @@ public class SecurityConfiguration {
                                                 .requestMatchers(HttpMethod.POST,
                                                                 String.format("%s/register", apiPrefix),
                                                                 String.format("%s/login", apiPrefix),
-                                                                String.format("%s/refresh-token", apiPrefix))
+                                                                String.format("%s/refresh-token", apiPrefix),
+                                                                String.format("%s/account/reset-password/init",
+                                                                                apiPrefix))
+
+                                                .permitAll()
+                                                .requestMatchers(HttpMethod.PUT,
+                                                                String.format("%s/account/reset-password/finish/**",
+                                                                                apiPrefix))
                                                 .permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session

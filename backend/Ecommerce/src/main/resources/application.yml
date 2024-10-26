@@ -23,14 +23,23 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
-    password:
+    username: takidev0705@gmail.com
+    password: wgkq giha fycu gnud
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
+  messages:
+    basename: i18n/messages
 api:
   prefix: /api/v1
 
 domain:
   protocol: http://localhost:${server.port}
+  front_end_protocol: http://localhost:3000
 
 jwt:
   expiration-token: 2592000 # 30 days = 30 * 24 * 60 * 60

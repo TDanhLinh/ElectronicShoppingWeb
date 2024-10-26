@@ -3,12 +3,11 @@ package com.hust.Ecommerce.web.rest;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,32 +18,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hust.Ecommerce.constants.MessageKeys;
+import com.hust.Ecommerce.dtos.requests.EmailInput;
+import com.hust.Ecommerce.dtos.requests.ForgotPasswordDTO;
+import com.hust.Ecommerce.dtos.requests.LoginVM;
+import com.hust.Ecommerce.dtos.requests.ManagedUserVM;
 import com.hust.Ecommerce.dtos.requests.PasswordChangeDTO;
-import com.hust.Ecommerce.dtos.requests.RefreshTokenDTO;
+
 import com.hust.Ecommerce.dtos.responses.ApiResponse;
 import com.hust.Ecommerce.dtos.responses.LoginResponse;
 import com.hust.Ecommerce.exceptions.payload.DataNotFoundException;
-import com.hust.Ecommerce.exceptions.payload.EmailAlreadyUsedException;
-import com.hust.Ecommerce.exceptions.payload.InvalidPasswordException;
+
 import com.hust.Ecommerce.models.Token;
 import com.hust.Ecommerce.models.User;
-import com.hust.Ecommerce.repositories.TokenRepository;
+
 import com.hust.Ecommerce.security.SecurityUtils;
-import com.hust.Ecommerce.services.TokenService;
+import com.hust.Ecommerce.services.MailService;
+
 import com.hust.Ecommerce.services.UserService;
 import com.hust.Ecommerce.services.dto.AdminUserDTO;
-import com.hust.Ecommerce.web.rest.vm.LoginVM;
-import com.hust.Ecommerce.web.rest.vm.ManagedUserVM;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("${api.prefix}")
 @RequiredArgsConstructor
+@Slf4j
 public class AccountResource {
 
         private final UserService userService;
+        private final MailService mailService;
 
         @PostMapping("/register")
         public ResponseEntity<ApiResponse<?>> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM,
@@ -59,7 +63,8 @@ public class AccountResource {
                                                                 .errors(errorMessages).build());
                         }
                         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
-                        // mailService.sendActivationEmail(user);
+                        mailService.sendActivationEmail(user);
+
                         return ResponseEntity.ok(ApiResponse.builder()
                                         .success(true)
                                         .message(MessageKeys.REGISTER_ACCOUNT_SUCCESS)
@@ -73,14 +78,14 @@ public class AccountResource {
 
         }
 
-        @GetMapping("/activate")
+        @GetMapping("/account/activate")
         public ResponseEntity<ApiResponse<?>> activateAccount(@RequestParam(value = "key") String key) {
                 try {
                         Optional<User> user = userService.activateRegistration(key);
                         if (!user.isPresent()) {
                                 throw new DataNotFoundException(MessageKeys.USER_NOT_FOUND);
                         }
-                        return ResponseEntity.ok().body(ApiResponse.builder()
+                        return ResponseEntity.ok(ApiResponse.builder()
                                         .message(MessageKeys.ACTIVE_ACCOUNT_SUCCESS)
                                         .success(true)
                                         .build());
@@ -167,10 +172,13 @@ public class AccountResource {
                         }
 
                         userService.updateUser(
-                                        userDTO.getFullName(),
+                                        userDTO.getName(),
+                                        userDTO.getGender(),
+                                        userDTO.getPhoneNumber(),
                                         userDTO.getAddress(),
                                         userDTO.getImageUrl(),
                                         userDTO.getDateOfBirth());
+
                         return ResponseEntity.ok(ApiResponse.builder()
                                         .success(true)
                                         .build());
@@ -233,33 +241,45 @@ public class AccountResource {
         // .build());
         // }
         // }
+        @PostMapping(path = "/account/reset-password/init")
+        public void requestPasswordReset(@RequestBody EmailInput email) {
+                Optional<User> user = userService.requestPasswordReset(email.getEmail());
+                if (user.isPresent()) {
+                        mailService.sendPasswordResetMail(user.get());
+                } else {
 
-        // @PostMapping(path = "/account/reset-password/init")
-        // public void requestPasswordReset(@RequestBody String mail) {
-        // Optional<User> user = userService.requestPasswordReset(mail);
-        // if (user.isPresent()) {
-        // mailService.sendPasswordResetMail(user.orElseThrow());
-        // } else {
-        // // Pretend the request has been successful to prevent checking which emails
-        // really exist
-        // // but log that an invalid attempt has been made
-        // log.warn("Password reset requested for non existing mail");
-        // }
-        // }
+                        log.warn("Password reset requested for non existing mail");
+                }
+        }
 
-        // @PostMapping(path = "/account/reset-password/finish")
-        // public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword)
-        // {
-        // if (isPasswordLengthInvalid(keyAndPassword.getNewPassword())) {
-        // throw new InvalidPasswordException();
-        // }
-        // Optional<User> user =
-        // userService.completePasswordReset(keyAndPassword.getNewPassword(),
-        // keyAndPassword.getKey());
+        @PutMapping(path = "/account/reset-password/finish")
+        public ResponseEntity<ApiResponse<?>> finishPasswordReset(@RequestBody ForgotPasswordDTO forgotPasswordDTO,
+                        @RequestParam(value = "key") String key,
+                        BindingResult bindingResult) {
+                try {
+                        if (bindingResult.hasErrors()) {
+                                List<String> errorMessages = bindingResult.getFieldErrors().stream()
+                                                .map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+                                return ResponseEntity.badRequest().body(
+                                                ApiResponse.builder()
+                                                                .message(MessageKeys.ERROR_MESSAGE)
+                                                                .errors(errorMessages).build());
+                        }
+                        Optional<User> user = userService.completePasswordReset(forgotPasswordDTO.getPassword(),
+                                        key);
 
-        // if (!user.isPresent()) {
-        // throw new AccountResourceException("No user was found for this reset key");
-        // }
-        // }
+                        if (!user.isPresent()) {
+                                throw new DataNotFoundException(MessageKeys.USER_NOT_FOUND);
+                        }
+                        return ResponseEntity.ok(ApiResponse.builder()
+                                        .success(true).build());
+                } catch (Exception e) {
+                        return ResponseEntity.badRequest().body(ApiResponse.builder()
+                                        .error(e.getMessage())
+                                        .message(MessageKeys.ERROR_MESSAGE)
+                                        .build());
+                }
+
+        }
 
 }
