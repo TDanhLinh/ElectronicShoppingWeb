@@ -9,7 +9,6 @@ export function Header() {
                 <Navbar />
                 <Search />
             </div>
-            <Sort_bar />
         </header>
     )
 }
