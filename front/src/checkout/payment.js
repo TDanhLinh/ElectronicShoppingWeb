@@ -2,6 +2,13 @@
 import { useEffect, useState } from 'react';
 
 export function Payment() {
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const user = localStorage.getItem('user');
+            if (!user || user.length === 0) window.location.href = '/login';
+        }
+    })
+    
     const [cartItems, setCartItems] = useState([]);
 
     // Thêm các sản phẩm mẫu vào giỏ hàng khi trang được tải lần đầu

@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { Login } from "../src/sign-in-sign-up/Login"
+import { Profile } from "../src/profile/Profile"
 
 export default function login() {
     return (
@@ -10,15 +10,15 @@ export default function login() {
                 <meta name="theme-color" content="#000000" />
                 <meta
                     name="description"
-                    content="Đăng nhập"
+                    content="Profile"
                 />
 
-                <link rel="stylesheet" href="/assets/css/sign-in-sign-up.css" />
+                <link rel="stylesheet" href="/assets/css/profile.css" />
                 <link rel="icon" href="/favicon.png" />
 
-                <title>Đăng nhập</title>
+                <title>Profile</title>
             </Head>
-            <Login />
+            <Profile />
         </>
     )
 }

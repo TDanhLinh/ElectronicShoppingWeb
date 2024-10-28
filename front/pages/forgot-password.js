@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { Login } from "../src/sign-in-sign-up/Login"
+import { ForgotPassword } from "../src/sign-in-sign-up/ForgotPassword"
 
 export default function login() {
     return (
@@ -10,15 +10,15 @@ export default function login() {
                 <meta name="theme-color" content="#000000" />
                 <meta
                     name="description"
-                    content="Đăng nhập"
+                    content="Quên mật khẩu"
                 />
 
                 <link rel="stylesheet" href="/assets/css/sign-in-sign-up.css" />
                 <link rel="icon" href="/favicon.png" />
 
-                <title>Đăng nhập</title>
+                <title>Quên mật khẩu</title>
             </Head>
-            <Login />
+            <ForgotPassword />
         </>
     )
 }
