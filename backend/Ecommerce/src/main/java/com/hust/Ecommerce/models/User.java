@@ -21,6 +21,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -37,6 +38,8 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "users")
+// @org.springframework.data.elasticsearch.annotations.Document(indexName =
+// "user")
 public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     @Id
@@ -103,12 +106,13 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     private Instant resetDate = null;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "users_roles", joinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "role_name", referencedColumnName = "name") })
-    @BatchSize(size = 20)
-    private Set<Role> roles = new HashSet<>();
+    @OneToOne
+    // @JoinTable(name = "users_roles", joinColumns = {
+    // @JoinColumn(name = "user_id", referencedColumnName = "id") },
+    // inverseJoinColumns = {
+    // @JoinColumn(name = "role_name", referencedColumnName = "name") })
+    // @BatchSize(size = 20)
+    private Role role;
 
     @Override
     public Long getId() {

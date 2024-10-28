@@ -23,7 +23,7 @@ import com.hust.Ecommerce.dtos.requests.ForgotPasswordDTO;
 import com.hust.Ecommerce.dtos.requests.LoginVM;
 import com.hust.Ecommerce.dtos.requests.ManagedUserVM;
 import com.hust.Ecommerce.dtos.requests.PasswordChangeDTO;
-
+import com.hust.Ecommerce.dtos.requests.RefreshTokenDTO;
 import com.hust.Ecommerce.dtos.responses.ApiResponse;
 import com.hust.Ecommerce.dtos.responses.LoginResponse;
 import com.hust.Ecommerce.exceptions.payload.DataNotFoundException;
@@ -192,7 +192,7 @@ public class AccountResource {
 
         }
 
-        @PutMapping(path = "/account/change-password")
+        @PutMapping("/account/change-password")
         public ResponseEntity<ApiResponse<?>> changePassword(@RequestBody PasswordChangeDTO passwordChangeDto,
                         BindingResult bindingResult) {
                 try {
@@ -218,29 +218,29 @@ public class AccountResource {
 
         }
 
-        // // refreshToken
-        // @PostMapping("/refresh-token")
-        // public ResponseEntity<ApiResponse<?>> refreshToken(@RequestBody
-        // RefreshTokenDTO refreshTokenDTO) {
-        // try {
-        // Token newToken = userService.refreshToken(refreshTokenDTO);
-        // AdminUserDTO userResponse = new AdminUserDTO(newToken.getUser());
+        // refreshToken
+        @PostMapping("/refresh-token")
+        public ResponseEntity<ApiResponse<?>> refreshToken(@RequestBody RefreshTokenDTO refreshTokenDTO) {
+                try {
+                        Token newToken = userService.refreshToken(refreshTokenDTO.getRefreshToken());
+                        AdminUserDTO userResponse = new AdminUserDTO(newToken.getUser());
 
-        // return ResponseEntity.ok(ApiResponse.builder()
-        // .success(true)
-        // .payload(LoginResponse.builder()
-        // .token(newToken.getToken())
-        // .refreshToken(newToken.getRefreshToken())
-        // .user(userResponse)
-        // .build())
-        // .build());
-        // } catch (Exception e) {
-        // return ResponseEntity.badRequest().body(ApiResponse.builder()
-        // .error(e.getMessage())
-        // .message(MessageKeys.ERROR_REFRESH_TOKEN)
-        // .build());
-        // }
-        // }
+                        return ResponseEntity.ok(ApiResponse.builder()
+                                        .success(true)
+                                        .payload(LoginResponse.builder()
+                                                        .token(newToken.getToken())
+                                                        .refreshToken(newToken.getRefreshToken())
+                                                        .user(userResponse)
+                                                        .build())
+                                        .build());
+                } catch (Exception e) {
+                        return ResponseEntity.badRequest().body(ApiResponse.builder()
+                                        .error(e.getMessage())
+                                        .message(MessageKeys.ERROR_REFRESH_TOKEN)
+                                        .build());
+                }
+        }
+
         @PostMapping(path = "/account/reset-password/init")
         public void requestPasswordReset(@RequestBody EmailInput email) {
                 Optional<User> user = userService.requestPasswordReset(email.getEmail());

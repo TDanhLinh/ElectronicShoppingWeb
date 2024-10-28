@@ -73,7 +73,7 @@ public class AdminUserDTO implements Serializable {
 
     private Instant lastModifiedDate;
 
-    private Set<String> roles;
+    private String role;
 
     public AdminUserDTO(User user) {
         this.id = user.getId();
@@ -92,7 +92,7 @@ public class AdminUserDTO implements Serializable {
         this.lastModifiedDate = user.getLastModifiedDate();
         this.langKey = user.getLangKey();
 
-        this.roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toSet());
+        this.role = user.getRole().getName();
     }
 
 }

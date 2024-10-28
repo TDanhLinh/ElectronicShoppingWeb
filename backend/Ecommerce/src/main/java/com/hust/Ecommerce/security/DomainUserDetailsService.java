@@ -40,12 +40,13 @@ public class DomainUserDetailsService implements UserDetailsService {
             throw new UserNotActivatedException("User " + email + " was not activated");
         }
 
-        List<SimpleGrantedAuthority> grantedAuthorities = user
-                .getRoles()
-                .stream()
-                .map(Role::getName)
-                .map(SimpleGrantedAuthority::new)
-                .toList();
+        List<SimpleGrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(user.getRole().getName()));
+        // List<SimpleGrantedAuthority> grantedAuthorities = user
+        // .getRoles()
+        // .stream()
+        // .map(Role::getName)
+        // .map(SimpleGrantedAuthority::new)
+        // .toList();
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 grantedAuthorities);
     }
