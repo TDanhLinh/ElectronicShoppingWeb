@@ -50,6 +50,7 @@ public class MessageKeys {
 
     // token
     public static final String ERROR_REFRESH_TOKEN = "user.refresh_token.failed";
+    public static final String TOKEN_NOT_FOUND = "user.token.not_found";
     public static final String FILES_REQUIRED = "file.required";
     public static final String FILES_IMAGES_SUCCESS = "file.images.success";
     public static final String FILES_IMAGES_FAILED = "file.images.failed";

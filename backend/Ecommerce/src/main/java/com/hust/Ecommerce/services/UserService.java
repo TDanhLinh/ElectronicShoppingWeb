@@ -283,6 +283,10 @@ public class UserService {
                 });
     }
 
+    public void logout(String jwt) {
+        tokenService.deleteTokenWithJwt(jwt);
+    }
+
     // kiem tra exist email, authenticated , create accesstoken, refreshtoken, save
     public Token createTokenAndSave(String email, String password) {
 

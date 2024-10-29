@@ -82,7 +82,7 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @JsonIgnore
     private int googleAccountId;
 
-    @Column(name = "is-banned")
+    @Column(name = "is_banned")
     private boolean isBanned;
 
     @Column(name = "is_activated")

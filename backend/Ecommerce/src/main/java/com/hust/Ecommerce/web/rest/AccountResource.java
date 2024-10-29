@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import com.hust.Ecommerce.constants.MessageKeys;
 import com.hust.Ecommerce.dtos.requests.EmailInput;
@@ -282,4 +283,21 @@ public class AccountResource {
 
         }
 
+        @GetMapping("/logout")
+        public ResponseEntity<ApiResponse<?>> logout() {
+                try {
+                        String jwt = SecurityUtils.getCurrentUserJWT()
+                                        .orElseThrow(() -> new DataNotFoundException(MessageKeys.ACCOUNT_NOT_LOGIN));
+
+                        userService.logout(jwt);
+                        return ResponseEntity.ok(ApiResponse.builder()
+                                        .success(true)
+                                        .build());
+                } catch (Exception e) {
+                        return ResponseEntity.badRequest().body(ApiResponse.builder()
+                                        .error(e.getMessage())
+                                        .message(MessageKeys.ERROR_MESSAGE)
+                                        .build());
+                }
+        }
 }
