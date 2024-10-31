@@ -7,7 +7,7 @@ export function Register() {
             const user = localStorage.getItem('user');
             if (user && user.length > 0) window.location.href = '/';
         }
-    })
+    }, [])
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -37,23 +37,24 @@ export function Register() {
             role: 0
         }
 
-        var accounts = localStorage.getItem("accounts");
+        const accounts = localStorage.getItem("accounts");
 
         if (accounts) {
-            accounts = JSON.parse(accounts);
-            if (accounts.find((item) => (item.email === email))) {
+            const Accounts = JSON.parse(accounts);
+            if (Accounts.find((item) => (item.email === email))) {
                 setExist(true);
             }
             else {
-                accounts.push(newAccount);
-                localStorage.setItem("accounts", JSON.stringify(accounts));
+                localStorage.setItem(email, JSON.stringify(newAccount));
+                Accounts.push(newAccount);
+                localStorage.setItem("accounts", JSON.stringify(Accounts));
                 setSuccess(true);
                 setExist(false);
             }
         }
         else {
-            accounts = [newAccount];
-            localStorage.setItem("accounts", JSON.stringify(accounts));
+            const Accounts = [newAccount];
+            localStorage.setItem("accounts", JSON.stringify(Accounts));
             setSuccess(true);
             setExist(false);
         }

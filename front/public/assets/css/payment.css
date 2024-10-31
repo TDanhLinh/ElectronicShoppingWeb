@@ -1,9 +1,38 @@
-body {
-    background-image: url('/assets/img/payment_background.png');/* Đường dẫn đến ảnh cục bộ */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+* {
+    caret-color: transparent;
+    box-sizing: border-box;
     font-family: 'Arial', sans-serif;
+    border: 0;
+    padding: 0;
+}
+
+.container {
+    background: url('/assets/img/payment_background.png') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+.back-to-home {
+    height: 50px;
+    width: 225px;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    z-index: 10;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: -10px;
+    color: #AC3B61;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.back-to-home:hover {
+    background-color: #f8f8f8
 }
 
 .payment-page {
@@ -51,7 +80,7 @@ h1, h2 {
 }
 
 .product-details p {
-    margin: 0;
+    margin: 10px 0;
     font-size: 16px;
 }
 
@@ -123,9 +152,4 @@ h1, h2 {
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #f7f7f7;
-}
-
-.logistics-info {
-    font-size: 14px;
-    color: #BAB2B5;
 }

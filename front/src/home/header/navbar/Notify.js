@@ -1,75 +1,127 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export function Notify() {
     
-    const [notifyList, setNotifyList] = useState([
-        {
-            href: '',
-            src: './assets/img/notify1.png',
-            name: 'Tặng ngay combo 5 gói mặt nạ thải độc',
-            description: 'Khuyến mãi siêu hot'
-        },
-        {
-            href: '',
-            src: './assets/img/notify2.png',
-            name: 'Day Shield Perfect Sun - Cho nàng thơ tự tin "tỏa nắng"',
-            description: ''
-        },
-        {
-            href: '',
-            src: './assets/img/notify3.png',
-            name: 'CHĂM SÓC KHÔNG QUÊN CHỐNG NẮNG',
-            description: 'Kem Chống nắng Whoo Gongjinhyang Soo'
-        },
-        {
-            href: '',
-            src: './assets/img/notify4.png',
-            name: 'DA DẦU CÓ CẦN DƯỠNG ẨM',
-            description: 'Whoo Gongjinhyang'
-        },
-        {
-            href: '',
-            src: './assets/img/notify5.png',
-            name: 'KHỞI ĐẦU CỦA LÀN DA KHỎE ĐẸP',
-            description: 'Ohui Prime Advancer'
-        },
-        {
-            href: '',
-            src: './assets/img/notify6.png',
-            name: 'MINI GAME - CHƠI NGAY RINH QUÀ LIỀN TAY',
-            description: 'Mini game'
-        },
-        {
-            href: '',
-            src: './assets/img/notify7.png',
-            name: 'CHƯƠNG TRÌNH KHUYẾN MÃI CHÀO THÁNG 5',
-            description: 'Khuyến mãi chào hè!'
-        },
-    ]);
+    const [notifyList, setNotifyList] = useState([]);
+
+    useEffect(() => {
+        const notify = localStorage.getItem('notifyList');
+        if (notify) {
+            let temp = JSON.parse(notify);
+            for (let index in temp) {
+                if (temp[index].isChecked === true) {
+                    temp[index].viewed = false;
+                } else {
+                    temp[index].viewed = true;
+                }
+            }
+            setNotifyList(temp);
+            localStorage.setItem('notifyList', JSON.stringify(temp));
+        }
+        else {
+            const sample = [
+                {
+                    src: './assets/img/notify1.png',
+                    name: 'Tặng ngay combo 5 gói mặt nạ thải độc',
+                    description: 'Khuyến mãi siêu hot',
+                    isChecked: false,
+                    viewed: true
+                },
+                {
+                    src: './assets/img/notify2.png',
+                    name: 'Day Shield Perfect Sun - Cho nàng thơ tự tin "tỏa nắng"',
+                    description: '',
+                    isChecked: false,
+                    viewed: true
+                },
+                {
+                    src: './assets/img/notify3.png',
+                    name: 'CHĂM SÓC KHÔNG QUÊN CHỐNG NẮNG',
+                    description: 'Kem Chống nắng Whoo Gongjinhyang Soo',
+                    isChecked: false,
+                    viewed: true
+                },
+                {
+                    src: './assets/img/notify4.png',
+                    name: 'DA DẦU CÓ CẦN DƯỠNG ẨM',
+                    description: 'Whoo Gongjinhyang',
+                    isChecked: false
+                },
+                {
+                    src: './assets/img/notify5.png',
+                    name: 'KHỞI ĐẦU CỦA LÀN DA KHỎE ĐẸP',
+                    description: 'Ohui Prime Advancer',
+                    isChecked: false,
+                    viewed: true
+                },
+                {
+                    src: './assets/img/notify6.png',
+                    name: 'MINI GAME - CHƠI NGAY RINH QUÀ LIỀN TAY',
+                    description: 'Mini game',
+                    isChecked: false,
+                    viewed: true
+                },
+            ]
+            setNotifyList(sample);
+            localStorage.setItem('notifyList', JSON.stringify(sample));
+        }
+    }, [])
+
+    const checkedAll = () => {
+        const updatedList = notifyList.map((notify) => ({
+            ...notify,
+            isChecked: true,
+        }));
+        setNotifyList(updatedList);
+        localStorage.setItem('notifyList', JSON.stringify(updatedList));
+    }
+
+    const checked = (index) => {
+        const updatedList = notifyList.map((notify, i) => 
+            i === index ? { ...notify, isChecked: true } : notify
+        );
+        setNotifyList(updatedList);
+        localStorage.setItem('notifyList', JSON.stringify(updatedList));
+    }
     
     return (
-        <div className="header__notify">
-            <header className="header__notify-header">
-                <h3>Thông báo mới nhận</h3>
-            </header>
-            <ul className="header__notify-list">
-                {
-                    notifyList.map((notify, index) => (
-                        <li key={index} className="header__notify-item header__notify-item--viewed">
-                            <a href={notify.href} className="header__notify-link">
-                                <img src={notify.src} alt="" className="header__notify-img"/>
-                                <div className="header__notify-info">
-                                    <strong><span className="header__notify-name">{notify.name}</span></strong>
-                                    <span className="header__notify-description">{notify.description}</span>
+        <li className="header__navbar-item header__navbar-item--notify">
+            <i className="header_navbar-icon far fa-bell"></i>
+            <a href="" className="header__navbar-item-link">Thông báo</a>
+            <div className="header__notify">
+                <header className="header__notify-header">
+                    <h3>Thông báo mới nhận</h3>
+                </header>
+                <ul className="header__notify-list">
+                    {
+                        notifyList.map((notify, index) => (
+                            notify.viewed &&
+                            <li
+                                key={index} 
+                                className="header__notify-item"
+                                style={{backgroundColor: (notify.isChecked) ? "#f8f8f8" : "rgba(254, 84, 48, 0.2)"}}
+                                onClick={() => checked(index)}
+                            >
+                                <div className="header__notify-link">
+                                    <img src={notify.src} alt="" className="header__notify-img"/>
+                                    <div className="header__notify-info">
+                                        <strong><span className="header__notify-name">{notify.name}</span></strong>
+                                        <span className="header__notify-description">{notify.description}</span>
+                                    </div>
                                 </div>
-                            </a>
-                        </li>
-                    ))
-                }
-            </ul>
-            <footer className="header__notify-footer">
-                <a href="" className="header__notify-footer-link">Xem tất cả</a>
-            </footer>
-        </div>
+                            </li>
+                        ))
+                    }
+                </ul>
+                <footer className="header__notify-footer">
+                    <div
+                        className="header__notify-footer-link"
+                        onClick={checkedAll}
+                    >
+                        Đánh dấu đã xem
+                    </div>
+                </footer>
+            </div>
+        </li>
     )
 }

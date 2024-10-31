@@ -6,7 +6,7 @@ export function ForgotPassword() {
             const user = localStorage.getItem('user');
             if (user && user.length > 0) window.location.href = '/';
         }
-    })
+    }, [])
     
     const [email, setEmail] = useState("");
     const [send, setSend] = useState(false);

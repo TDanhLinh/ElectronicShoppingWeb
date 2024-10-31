@@ -1,4 +1,3 @@
-import { Sort_bar } from "./Sort_bar";
 import { Navbar } from "./navbar/Navbar";
 import { Search } from "./search/Search";
 
