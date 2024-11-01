@@ -229,13 +229,14 @@ strong {
     color: #939393;
     min-width: 40px;
     height: var(--height);
+    cursor: pointer;
+}
+
+.pagination-item-link-hover:hover {
+    color: #1d1d1d;
 }
 
 .pagination-item-link--active {
     background-color: var(--primary-color);
     color: var(--white-color);
-}
-
-.pagination-item-link.pagination-item-link--active:hover {
-    filter: brightness(90%);
 }
