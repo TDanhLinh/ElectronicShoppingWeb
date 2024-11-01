@@ -17,7 +17,6 @@ export default function home() {
                 <link rel="stylesheet" href="/assets/css/base.css" />
                 <link rel="stylesheet" href="/assets/css/grid.css" />
                 <link rel="stylesheet" href="/assets/css/main.css" />
-                <link rel="stylesheet" href="/assets/css/responsive.css" />
                 
                 <link rel="icon" href="/favicon.png" />
 

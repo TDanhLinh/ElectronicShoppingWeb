@@ -3,10 +3,10 @@ import { User } from "./User";
 
 export function Navbar() {
     return (
-        <nav className="header__navbar hide-on-mobile-tablet">
+        <nav className="header__navbar">
             <ul className="header__navbar-list">
                 <li className="header__navbar-item header__navbar-item--seperate header__navbar-item--download">
-                    Vào cửa hàng trên ứng dụng F8-Shop
+                    Vào cửa hàng trên ứng dụng Nhóm 30-Shop
                     
                     <div className="header__qr">
                         <img src="./assets/img/QR_code.png" alt="QR Code" className="header__qr-img"/>
@@ -31,11 +31,7 @@ export function Navbar() {
                 </li>
             </ul>
             <ul className="header__navbar-list">
-                <li className="header__navbar-item header__navbar-item--notify">
-                    <i className="header_navbar-icon far fa-bell"></i>
-                    <a href="" className="header__navbar-item-link">Thông báo</a>
-                    <Notify />
-                </li>
+                <Notify />
                 <li className="header__navbar-item">
                     <i className="header_navbar-icon far fa-question-circle"></i>
                     <a href="" className="header__navbar-item-link">Trợ giúp</a>

@@ -7,7 +7,7 @@ export function Login() {
             const user = localStorage.getItem('user');
             if (user && user.length > 0) window.location.href = '/';
         }
-    })
+    }, [])
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -75,13 +75,14 @@ export function Login() {
                     />
                     <div className='register'>
                         <p>To Register New Account →</p>
-                        <button
-                            type="submit"
-                            className='register-btn'
-                            onClick={()=>{window.location.href="/register"}}
-                        >
-                            Click Here
-                        </button>
+                        <Link href='/register'>
+                            <button
+                                type="submit"
+                                className='register-btn'
+                            >
+                                Click Here
+                            </button>
+                        </Link>
                     </div>
                 </form>
             </div>

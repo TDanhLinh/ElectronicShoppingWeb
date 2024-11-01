@@ -8,7 +8,7 @@ export function App() {
             const user = localStorage.getItem('user');
             if (!user || user.length === 0) window.location.href = '/login';
         }
-    })
+    }, [])
     
     return (
         <div className="App">
