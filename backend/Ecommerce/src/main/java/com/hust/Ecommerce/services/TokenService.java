@@ -80,4 +80,13 @@ public class TokenService {
     public void deleteTokenWithToken(Token token) {
         tokenRepository.delete(token);
     }
+
+    public void deleteTokenWithJwt(String jwt) {
+        Optional<Token> deleteToken = tokenRepository.findByToken(jwt);
+        if (deleteToken.isEmpty()) {
+            throw new DataNotFoundException(MessageKeys.TOKEN_NOT_FOUND);
+        }
+        log.debug("delete token: {}", deleteToken.get());
+        tokenRepository.delete(deleteToken.get());
+    }
 }

@@ -33,11 +33,10 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 	</properties>
 	<dependencies>
-	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-	 <dependency>
-      <groupId>org.liquibase</groupId>
-      <artifactId>liquibase-core</artifactId>
-    </dependency>
+
+
+
+	
 	<dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-hibernate6</artifactId>

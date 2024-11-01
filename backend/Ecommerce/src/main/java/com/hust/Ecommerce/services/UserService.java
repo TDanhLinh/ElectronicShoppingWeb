@@ -91,10 +91,11 @@ public class UserService {
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
 
-        Set<Role> roles = new HashSet<>();
-        roleRepository.findById(RoleKeys.USER).ifPresent(roles::add);
-        newUser.setRoles(roles);
-
+        // Set<Role> roles = new HashSet<>();
+        Optional<Role> role = roleRepository.findById(RoleKeys.USER);
+        if (role.isPresent()) {
+            newUser.setRole(role.get());
+        }
         userRepository.save(newUser);
 
         log.debug("Created Information for User: {}", newUser);
@@ -124,7 +125,7 @@ public class UserService {
     }
 
     public Token login(String email, String password) {
-        return createTokenAndSave(email, password, false);
+        return createTokenAndSave(email, password);
     }
 
     public void updateUser(String name, Gender gender, String phoneNumber, String address, String imageUrl,
@@ -162,23 +163,21 @@ public class UserService {
         return userRepository.fillAll(keyword, pageable);
     }
 
-    // public Token refreshToken(RefreshTokenDTO refreshTokenDTO) {
-    // // xac thuc refresh token dung 0
-    // Token token =
-    // tokenService.verifyRefreshToken(refreshTokenDTO.getRefreshToken());
+    public Token refreshToken(String refreshToken) {
+        // xac thuc refresh token dung 0
+        Token token = tokenService.verifyRefreshToken(refreshToken);
 
-    // // lay user
-    // User user = token.getUser();
+        // lay user
+        User user = token.getUser();
 
-    // // xoa token cu
-    // tokenService.deleteTokenWithToken(token);
+        // xoa token cu
+        tokenService.deleteTokenWithToken(token);
 
-    // // tao token moi cung voi refresh token moi
-    // Token newToken = createTokenAndSave(user.getEmail(), user.getPassword(),
-    // true);
+        // tao token moi cung voi refresh token moi
+        Token newToken = createTokenAndSaveForRefresh(user);
 
-    // return newToken;
-    // }
+        return newToken;
+    }
 
     public Optional<User> requestPasswordReset(String email) {
         return userRepository
@@ -227,16 +226,19 @@ public class UserService {
         user.setActivated(true);
         user.setBanned(false);
 
-        if (userDTO.getRoles() != null) {
-            Set<Role> roles = userDTO
-                    .getRoles()
-                    .stream()
-                    .map(roleRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toSet());
+        if (userDTO.getRole() != null) {
+            Optional<Role> role = roleRepository.findById(userDTO.getRole());
+            if (role.isPresent()) {
+                user.setRole(role.get());
+            }
+            // Set<Role> roles = userDTO
+            // .getRole()
+            // .map(roleRepository::findById)
+            // .filter(Optional::isPresent)
+            // .map(Optional::get)
+            // .collect(Collectors.toSet());
 
-            user.setRoles(roles);
+            // user.setRoles(roles);
         }
 
         userRepository.save(user);
@@ -281,8 +283,12 @@ public class UserService {
                 });
     }
 
+    public void logout(String jwt) {
+        tokenService.deleteTokenWithJwt(jwt);
+    }
+
     // kiem tra exist email, authenticated , create accesstoken, refreshtoken, save
-    public Token createTokenAndSave(String email, String password, boolean isRefresh) {
+    public Token createTokenAndSave(String email, String password) {
 
         // exists by user
         Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -305,6 +311,12 @@ public class UserService {
         }
 
         return tokenService.addTokenEndRefreshToken(user.get(), token);
+    }
+
+    public Token createTokenAndSaveForRefresh(User user) {
+        String token = jwtTokenUtil.createJwtFromUser(user);
+        return tokenService.addTokenEndRefreshToken(user, token);
+
     }
 
     @Transactional(readOnly = true)

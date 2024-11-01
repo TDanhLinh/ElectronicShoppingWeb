@@ -8,6 +8,6 @@ public class RoleKeys {
 
     public static final String USER = "USER";
 
-    public static final String SELLER = "SELLER";
+    public static final String STAFF = "STAFF";
 
 }

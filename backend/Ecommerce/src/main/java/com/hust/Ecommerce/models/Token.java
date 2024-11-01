@@ -21,7 +21,7 @@ public class Token {
     @Column(name = "token", nullable = false, unique = true)
     private String token;
 
-    @Column(name = "refresh_token", nullable = false)
+    @Column(name = "refresh_token", nullable = false, unique = true)
     private String refreshToken;
 
     @Column(name = "token_type", nullable = false, length = 50)
