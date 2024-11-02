@@ -18,6 +18,7 @@ export function Search_input() {
             updatedHistoryList.unshift(searchtext);
             setHistoryList(updatedHistoryList);
             localStorage.setItem('historyList', JSON.stringify(updatedHistoryList));
+            localStorage.setItem('searchingFor', searchtext);
         }
     };
 

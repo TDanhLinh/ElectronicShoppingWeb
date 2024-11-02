@@ -352,158 +352,6 @@
     cursor: pointer;
 }
 
-/* Authen modal */ 
-.auth-form {
-    position: absolute;
-    top: 90px;
-    left: 400px;
-    background-color: #fff;
-    width: 500px;
-    border-radius: 5px;;
-    overflow: hidden;
-    visibility: hidden;
-}
-
-.auth__container { 
-    padding: 0 16px;
-}
-
-.auth-form__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 12px;
-    margin-top: 10px;
-}
-
-.auth-form__heading {
-    font-size: 2.2rem;
-    font-weight: 400;
-    color: var(--text-color);
-}
-
-.auth-form__switch-btn {
-    text-decoration: none;
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: var(--primary-color);
-    cursor: pointer;
-}
-
-.auth-form__input {
-    width: 100%;
-    height: 40px;
-    margin-top: 16px;
-    padding: 0 12px;
-    font-size: 1.4rem;
-    border: 1px solid var(--border-color);
-    border-radius: 2px;
-    outline: none;
-}
-
-.auth-form__input:focus {
-    border-color: #777;
-}
-
-.auth-form__aside {
-    margin-top: 18px;
-}
-
-.auth-form__policy-text {
-    font-size: 1.3rem;
-    line-height: 1.8rem;
-    text-align: center;
-    padding: 0 12px;
-}
-
-.auth-form__text-link {
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
-.auth-form__controls {
-    margin-top: 80px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.auth-form__control--back {
-    margin-right: 8px;
-}
-
-.auth-form__socials {
-    background-color: #f5f5f5;
-    padding: 16px 36px;
-    display: flex;
-    justify-content: space-around;
-    margin-top: 24px;
-}
-
-.auth-form__socials-icon {
-    font-size: 1.8rem;
-}
-
-.sign-up {
-    margin-right: 32px;
-}
-
-.btn--with-icon {
-    display: flex;
-    justify-content: space-around;
-    margin-left: 8px;
-}
-
-.auth-form__socials--facebook {
-    color: var(--white-color);
-    background-color: #3A5A98;
-}
-
-.auth-form__socials--SMS {
-    color: var(--white-color);
-    background-color: #21eb1b;
-}
-
-.auth-form__socials--facebook {
-    color: var(--white-color);
-}
-
-.auth-form__socials--google{
-    color: #666;
-    background-color: var(--white-color);
-}
-
-.fab.fa-google { 
-    /* Copy Internet */
-    background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-}
-
-
-.auth-form__help {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.auth-form__help-link {
-    text-decoration: none;
-    font-size: 1.6rem;
-    color: #939393;
-}
-
-.auth-form__help--seperate {
-    display: block;
-    border-left: 1px solid #EAEAEA;
-    height: 22px;
-    margin: 1px 16px 0;
-}
-
-.auth-form__help-forgot {
-    color: var(--primary-color);
-}
-
 /* Header with search */
 .header-with-search {
     height: var(--header-with-search-height);
@@ -962,6 +810,7 @@
     text-decoration: none;
     padding: 8px 8px;
     transition: right linear 0.1s;
+    cursor: pointer;
 }
 
 .category-item__link:hover {
@@ -1018,6 +867,7 @@
     display: flex;
     background-color: var(--white-color);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .home-filter__page-btn:first-child {
@@ -1037,6 +887,10 @@
 
 .home-filter__page-icon--disable .home-filter__page-icon {
     color: #ccc;
+}
+
+.select-input__item {
+    cursor: pointer;
 }
 
 /* Product items */
@@ -1149,15 +1003,6 @@
     margin-left: 1px;
 }
 
-.home-product-item__origin {
-    display: flex;
-    justify-content: space-between;
-    margin: 8px 10px 0 ;
-    color: #cbc6cd;
-    font-weight: 300;
-    font-size: 1.2rem;
-}
-
 .home-product-item__favorite {
     position: absolute;
     top: 10px;
@@ -1192,6 +1037,15 @@
     margin: 0 2px 0 4px;
 }
 
+.home-product-item__origin {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 10px 0 ;
+    color: #cbc6cd;
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+
 .home-product-item__sale-off {
     position: absolute;
     right: 0;
@@ -1203,6 +1057,7 @@
     text-align: center;
     padding-top: 2px;
     border-top-right-radius: 2px;
+    display: inline-grid;
 }
 
 .home-product-item__sale-off::after {

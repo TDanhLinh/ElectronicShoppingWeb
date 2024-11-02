@@ -53,6 +53,7 @@ export function Register() {
             }
         }
         else {
+            localStorage.setItem(email, JSON.stringify(newAccount));
             const Accounts = [newAccount];
             localStorage.setItem("accounts", JSON.stringify(Accounts));
             setSuccess(true);

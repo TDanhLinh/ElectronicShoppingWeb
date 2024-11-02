@@ -1,6 +1,7 @@
 import { App_container } from "./app_container/App_container";
 import { Header } from "./header/Header"
 import { useEffect } from "react";
+import { Footer } from "./footer/Footer";
 
 export function App() {
     useEffect(() => {
@@ -14,6 +15,7 @@ export function App() {
         <div className="App">
             <Header />
             <App_container />
+            <Footer />
         </div>
     );
 }

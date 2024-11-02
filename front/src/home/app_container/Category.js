@@ -1,50 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Category() {
-    const [active, setActive] = useState(0);
-    
-    const [category, setCategory] = useState([
-        {
-            type: 0,
-            name: 'Trang điểm mặt'
-        },
-        {
-            type: 1,
-            name: 'Trang điểm môi'
-        },
-        {
-            type: 2,
-            name: 'Trang điểm mắt'
-        },
-        {
-            type: 3,
-            name: 'Makup collection'
-        },
-        {
-            type: 4,
-            name: 'Dưỡng da'
-        },
-        {
-            type: 5,
-            name: 'Kem dưỡng ẩm'
-        },
-    ])
+    const categories = [
+        'Đồng hồ thông minh',
+        'Iphone',
+        'Samsung',
+        'Máy vi tính',
+        'Macbook',
+    ];
+
+    const [category, setCategory] = useState('');
+
+    useEffect(() => {
+        const currentCategory = localStorage.getItem('searchingFor');
+        if (currentCategory) {
+            setCategory(currentCategory);
+        }
+        else {
+            setCategory(categories[0]);
+            localStorage.setItem('searchingFor', categories[0]);
+        }
+    }, [])
+
+    const clickOnCategory = (item) => {
+        setCategory(item);
+        localStorage.setItem('searchingFor', item);
+    }
     
     return (
         <nav className="category">
             <h3 className="category__heading">Danh mục</h3>
             <ul className="category-list">
                 {
-                    category.map((item, index) => (
-                        <li key={index} className={"category-item"+((item.type === active) ? " category-item--active" : "")}>
+                    categories.map((item, index) => (
+                        <li 
+                            key={index} 
+                            className={"category-item"+((category === item) ? " category-item--active" : "")}
+                        >
                             <div
                                 className="category-item__link"
-                                onClick={()=>setActive(item.type)}
-                                style={{
-                                    cursor: 'pointer',
-                                }}
+                                onClick={()=>clickOnCategory(item)}
                             >
-                                {item.name}
+                                {item}
                             </div>
                         </li>
                     ))
