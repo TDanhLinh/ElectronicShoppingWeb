@@ -2,10 +2,6 @@ package com.hust.Ecommerce.models;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.hibernate.annotations.BatchSize;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hust.Ecommerce.constants.Constants;
@@ -15,36 +11,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
 @Entity
 @Table(name = "users")
-// @org.springframework.data.elasticsearch.annotations.Document(indexName =
-// "user")
-public class User extends AbstractAuditingEntity<Long> implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity<Long> implements Serializable {
 
     @Column(name = "email", length = 100, unique = true, nullable = false)
     private String email;
@@ -113,10 +92,5 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     // @JoinColumn(name = "role_name", referencedColumnName = "name") })
     // @BatchSize(size = 20)
     private Role role;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
 
 }

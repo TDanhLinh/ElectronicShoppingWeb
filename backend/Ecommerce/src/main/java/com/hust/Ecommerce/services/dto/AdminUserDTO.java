@@ -86,9 +86,7 @@ public class AdminUserDTO implements Serializable {
         this.isActivated = user.isActivated();
         this.isBanned = user.isBanned();
         this.imageUrl = user.getImageUrl();
-        this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
-        this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.langKey = user.getLangKey();
 
