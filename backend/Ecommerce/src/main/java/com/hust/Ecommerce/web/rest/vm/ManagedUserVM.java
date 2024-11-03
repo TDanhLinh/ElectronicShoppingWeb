@@ -6,9 +6,8 @@ import com.hust.Ecommerce.services.dto.AdminUserDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 
 @Getter

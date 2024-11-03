@@ -2,16 +2,22 @@ package com.hust.Ecommerce.models;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hust.Ecommerce.constants.Constants;
 import com.hust.Ecommerce.models.enumeration.Gender;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -84,13 +90,51 @@ public class User extends BaseEntity<Long> implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
-    @JsonIgnore
-    @OneToOne
-    // @JoinTable(name = "users_roles", joinColumns = {
-    // @JoinColumn(name = "user_id", referencedColumnName = "id") },
-    // inverseJoinColumns = {
-    // @JoinColumn(name = "role_name", referencedColumnName = "name") })
-    // @BatchSize(size = 20)
+    @ManyToOne
+    @JoinColumn(name = "role_name")
     private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Blog> blogList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Order> orderList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Token> tokenList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Review> reviewList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ShippingInfor> shippingInforList = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((User) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "User [email=" + email + ", password=" + password + ", name=" + name + ", gender=" + gender
+                + ", phoneNumber=" + phoneNumber + ", address=" + address + ", dateOfBirth=" + dateOfBirth
+                + ", imageUrl=" + imageUrl + ", facebookAccountId=" + facebookAccountId + ", googleAccountId="
+                + googleAccountId + ", isBanned=" + isBanned + ", isActivated=" + isActivated + ", activationKey="
+                + activationKey + ", langKey=" + langKey + ", resetKey=" + resetKey + ", resetDate=" + resetDate
+                + ", role=" + role + "]";
+    }
 
 }

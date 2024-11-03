@@ -3,9 +3,12 @@ package com.hust.Ecommerce.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -28,8 +31,6 @@ public class Product extends BaseEntity<Long> {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    private List<String> imageUrls = new ArrayList<>();
-
     @Column(name = "price")
     private Double price;
 
@@ -48,4 +49,42 @@ public class Product extends BaseEntity<Long> {
 
     @Column(name = "model")
     private String model;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true)
+    private List<Image> imageList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Cart> cartList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<OrderItem> orderItemList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Review> reviewList = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Product)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((Product) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Product [name=" + name + ", description=" + description + ", thumbnail=" + thumbnail + ", price="
+                + price + ", status=" + status + ", warrantyDuration=" + warrantyDuration + ", brand=" + brand
+                + ", category=" + category + ", model=" + model + ", imageList=" + imageList + "]";
+    }
+
 }

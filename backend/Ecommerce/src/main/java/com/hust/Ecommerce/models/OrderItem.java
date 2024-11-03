@@ -2,6 +2,7 @@ package com.hust.Ecommerce.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -25,7 +26,32 @@ public class OrderItem extends BaseEntity<Long> {
     @Column(name = "price")
     private Double price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof OrderItem)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((OrderItem) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem [product=" + product + ", quantity=" + quantity + ", price=" + price + ", order=" + order
+                + "]";
+    }
+
 }

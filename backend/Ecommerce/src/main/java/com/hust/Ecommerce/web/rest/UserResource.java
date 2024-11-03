@@ -72,9 +72,8 @@ public class UserResource {
                                 User newUser = userService.createUser(userDTO);
                                 mailService.sendCreationEmail(newUser);
                                 return ResponseEntity.created(new URI("/api/v1/admin/users/" + newUser.getEmail()))
-                                                .body(ApiResponse.<User>builder()
+                                                .body(ApiResponse.builder()
                                                                 .success(true)
-                                                                .payload(newUser)
                                                                 .build());
                         }
                 } catch (Exception e) {
@@ -183,11 +182,18 @@ public class UserResource {
 
         @DeleteMapping("/users/{id}")
         @PreAuthorize("hasAuthority(\"" + RoleKeys.ADMIN + "\")")
-        public ResponseEntity<Void> deleteUser(
+        public ResponseEntity<ApiResponse<?>> deleteUser(
                         @PathVariable("id") /* @Pattern(regexp = Constants.LOGIN_REGEX) */ Long id) {
-                log.debug("REST request to delete User: {}", id);
-                userService.deleteUser(id);
-                return ResponseEntity.noContent()
-                                .build();
+                try {
+                        log.debug("REST request to delete User: {}", id);
+                        userService.deleteUser(id);
+                        return ResponseEntity.ok(ApiResponse.builder().success(true).build());
+                } catch (Exception e) {
+                        return ResponseEntity.badRequest().body(ApiResponse.builder()
+                                        .error(e.getMessage())
+                                        .message(MessageKeys.ERROR_MESSAGE)
+                                        .build());
+                }
+
         }
 }

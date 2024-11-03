@@ -2,13 +2,10 @@ package com.hust.Ecommerce.services.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.hust.Ecommerce.models.Role;
 import com.hust.Ecommerce.models.User;
 import com.hust.Ecommerce.models.enumeration.Gender;
 import com.hust.Ecommerce.util.InstantDateOnlyDeserializer;
@@ -65,14 +62,9 @@ public class AdminUserDTO implements Serializable {
     @JsonProperty("google_account_id")
     private int googleAccountId;
 
-    private String createdBy;
-
     private Instant createdDate;
-
-    private String lastModifiedBy;
-
     private Instant lastModifiedDate;
-
+    @JsonProperty("role")
     private String role;
 
     public AdminUserDTO(User user) {

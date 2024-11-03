@@ -5,15 +5,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "carts")
-public class Cart extends BaseEntity<Long> {
+@Table(name = "reviews")
+public class Review extends BaseEntity<Long> {
+
+    @Column(name = "rate")
+    private Byte rate;
+
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "reply")
+    private String reply;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -22,18 +31,15 @@ public class Cart extends BaseEntity<Long> {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "quantity")
-    private Integer quantity;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Cart)) {
+        if (!(o instanceof Review)) {
             return false;
         }
-        return getId() != null && getId().equals(((Cart) o).getId());
+        return getId() != null && getId().equals(((Review) o).getId());
     }
 
     @Override
@@ -45,7 +51,7 @@ public class Cart extends BaseEntity<Long> {
 
     @Override
     public String toString() {
-        return "Cart [user=" + user + ", product=" + product + ", quantity=" + quantity + "]";
+        return "Review [rate=" + rate + ", content=" + content + ", reply=" + reply + "]";
     }
 
 }

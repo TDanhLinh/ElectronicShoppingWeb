@@ -278,8 +278,13 @@ public class UserService {
         userRepository
                 .findById(id)
                 .ifPresent(user -> {
-                    userRepository.delete(user);
-                    log.debug("Deleted User: {}", user);
+                    if (user.getRole().getName() != "ADMIN") {
+                        userRepository.delete(user);
+                        log.debug("Deleted User: {}", user);
+                    } else {
+                        throw new PermissionDenyException(MessageKeys.APP_PERMISSION_DENY_EXCEPTION);
+                    }
+
                 });
     }
 

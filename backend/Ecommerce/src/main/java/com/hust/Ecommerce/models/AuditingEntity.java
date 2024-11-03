@@ -3,9 +3,7 @@ package com.hust.Ecommerce.models;
 import java.io.Serializable;
 import java.time.Instant;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -17,7 +15,7 @@ import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = { "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate" }, allowGetters = true)
+@JsonIgnoreProperties(value = { "createdDate", "lastModifiedDate" }, allowGetters = true)
 public abstract class AuditingEntity<T> implements Serializable {
 
     public abstract T getId();
