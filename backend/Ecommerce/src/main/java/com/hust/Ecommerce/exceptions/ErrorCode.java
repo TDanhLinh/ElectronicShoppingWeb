@@ -15,10 +15,11 @@ public enum ErrorCode {
     USER_EXISTED(1002, MessageKeys.USER_EXISTED, HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(1003, MessageKeys.USER_ID_REQUIRED, HttpStatus.BAD_REQUEST),
     INVALID_PASSWORD(1004, MessageKeys.PASSWORD_REQUIRED, HttpStatus.BAD_REQUEST),
-    USER_NOT_EXISTED(1005, MessageKeys.USER_EXISTED, HttpStatus.NOT_FOUND),
+    USER_NOT_EXISTED(1005, MessageKeys.USER_NOT_FOUND, HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006, MessageKeys.APP_AUTHORIZATION_403, HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(403, MessageKeys.APP_AUTHORIZATION_403, HttpStatus.FORBIDDEN),
-    INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST);
+    INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    ACCOUNT_NOT_ACTIVED(1009, MessageKeys.ACCOUNT_NOT_ACTIVED, HttpStatus.FORBIDDEN);
 
     private final int code;
     private final String message;

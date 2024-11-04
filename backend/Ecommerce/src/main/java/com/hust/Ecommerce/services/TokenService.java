@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hust.Ecommerce.constants.MessageKeys;
-import com.hust.Ecommerce.exceptions.payload.DataNotFoundException;
+import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
+import com.hust.Ecommerce.exceptions.payload.VerificationException;
 import com.hust.Ecommerce.models.Token;
 import com.hust.Ecommerce.models.User;
 import com.hust.Ecommerce.repositories.TokenRepository;
@@ -67,7 +68,7 @@ public class TokenService {
 
     public Token verifyRefreshToken(String refreshToken) {
         Token token = tokenRepository.findByRefreshToken(refreshToken)
-                .orElseThrow(() -> new DataNotFoundException(MessageKeys.NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.TOKEN_NOT_FOUND));
 
         if (token.getRefreshExpirationTime().compareTo(Instant.now()) < 0) {
             tokenRepository.delete(token);
@@ -84,7 +85,7 @@ public class TokenService {
     public void deleteTokenWithJwt(String jwt) {
         Optional<Token> deleteToken = tokenRepository.findByToken(jwt);
         if (deleteToken.isEmpty()) {
-            throw new DataNotFoundException(MessageKeys.TOKEN_NOT_FOUND);
+            throw new ResourceNotFoundException(MessageKeys.TOKEN_NOT_FOUND);
         }
         log.debug("delete token: {}", deleteToken.get());
         tokenRepository.delete(deleteToken.get());

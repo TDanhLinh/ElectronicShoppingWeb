@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
-import com.hust.Ecommerce.exceptions.payload.DataNotFoundException;
+import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.repositories.TokenRepository;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.nimbusds.jose.util.Base64;
@@ -41,7 +41,7 @@ public class SecurityJwtConfiguration {
             try {
                 log.info("token is {}", token);
                 if (tokenRepository.findByToken(token).isEmpty())
-                    throw new DataNotFoundException("Token khong ton tai trong data base");
+                    throw new ResourceNotFoundException("Token khong ton tai trong data base");
                 return jwtDecoder.decode(token);
             } catch (Exception e) {
                 log.error("exception in decoder {}", e.getMessage());

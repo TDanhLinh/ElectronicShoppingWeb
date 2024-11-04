@@ -1,13 +1,11 @@
-package com.hust.Ecommerce.services.maper;
+// package com.hust.Ecommerce.services.maper;
 
-import org.springframework.stereotype.Service;
+// import org.mapstruct.Mapper;
+// import org.mapstruct.factory.Mappers;
 
-import com.hust.Ecommerce.models.User;
-import com.hust.Ecommerce.services.dto.AdminUserDTO;
+// // @Mapper
+// // public abstract class UserMapper {
+// // public static final UserMapper INSTANCE =
+// Mappers.getMapper(UserMapper.class);
 
-@Service
-public class UserMapper {
-    public AdminUserDTO userToAdminUserDTO(User user) {
-        return new AdminUserDTO(user);
-    }
-}
+// // }

@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -21,12 +23,12 @@ import com.hust.Ecommerce.components.JwtTokenUtil;
 import com.hust.Ecommerce.constants.Constants;
 import com.hust.Ecommerce.constants.MessageKeys;
 import com.hust.Ecommerce.constants.RoleKeys;
-import com.hust.Ecommerce.dtos.requests.RefreshTokenDTO;
-import com.hust.Ecommerce.dtos.responses.LoginResponse;
-import com.hust.Ecommerce.exceptions.payload.DataNotFoundException;
-import com.hust.Ecommerce.exceptions.payload.EmailAlreadyUsedException;
-import com.hust.Ecommerce.exceptions.payload.InvalidPasswordException;
-import com.hust.Ecommerce.exceptions.payload.PermissionDenyException;
+import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
+import com.hust.Ecommerce.dtos.authentication.LoginResponse;
+import com.hust.Ecommerce.dtos.authentication.RefreshTokenDTO;
+import com.hust.Ecommerce.exceptions.AppException;
+import com.hust.Ecommerce.exceptions.ErrorCode;
+import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.models.Role;
 import com.hust.Ecommerce.models.Token;
 import com.hust.Ecommerce.models.User;
@@ -34,7 +36,6 @@ import com.hust.Ecommerce.models.enumeration.Gender;
 import com.hust.Ecommerce.repositories.RoleRepository;
 import com.hust.Ecommerce.repositories.UserRepository;
 import com.hust.Ecommerce.security.SecurityUtils;
-import com.hust.Ecommerce.services.dto.AdminUserDTO;
 import com.hust.Ecommerce.util.RandomUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class UserService {
                 .ifPresent(existingUser -> {
                     boolean removed = removeNonActivatedUser(existingUser);
                     if (!removed) {
-                        throw new EmailAlreadyUsedException(MessageKeys.USER_EXISTED);
+                        throw new AppException(ErrorCode.USER_EXISTED);
                     }
                 });
 
@@ -151,7 +152,7 @@ public class UserService {
                 .ifPresent(user -> {
                     String currentEncryptedPassword = user.getPassword();
                     if (!passwordEncoder.matches(currentPassword, currentEncryptedPassword)) {
-                        throw new InvalidPasswordException(MessageKeys.PASSWORD_NOT_MATCH);
+                        throw new AppException(ErrorCode.INVALID_PASSWORD);
                     }
                     String encryptedPassword = passwordEncoder.encode(newPassword);
                     user.setPassword(encryptedPassword);
@@ -179,7 +180,7 @@ public class UserService {
         return newToken;
     }
 
-    public Optional<User> requestPasswordReset(String email) {
+    public Optional<User> forgetPassword(String email) {
         return userRepository
                 .findByEmail(email)
                 .filter(User::isActivated)
@@ -190,7 +191,7 @@ public class UserService {
                 });
     };
 
-    public Optional<User> completePasswordReset(String newPassword, String key) {
+    public Optional<User> resetPassword(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
         return userRepository
                 .findOneByResetKey(key)
@@ -282,7 +283,7 @@ public class UserService {
                         userRepository.delete(user);
                         log.debug("Deleted User: {}", user);
                     } else {
-                        throw new PermissionDenyException(MessageKeys.APP_PERMISSION_DENY_EXCEPTION);
+                        throw new AccessDeniedException(MessageKeys.APP_PERMISSION_DENY_EXCEPTION);
                     }
 
                 });
@@ -298,21 +299,24 @@ public class UserService {
         // exists by user
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) {
-            throw new DataNotFoundException(
-                    MessageKeys.EMAIL_AND_PASSWORD_FAILED);
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
         }
+        String token;
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email,
+                    password);
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email,
-                password);
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenUtil.createJwt(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            token = jwtTokenUtil.createJwt(authentication);
+        } catch (BadCredentialsException e) {
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
 
         Optional<User> user = getUserWithAuthoritiesByEmail(email);
         if (!user.isPresent()) {
-            throw new DataNotFoundException(MessageKeys.USER_NOT_FOUND);
+            throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
         }
 
         return tokenService.addTokenEndRefreshToken(user.get(), token);

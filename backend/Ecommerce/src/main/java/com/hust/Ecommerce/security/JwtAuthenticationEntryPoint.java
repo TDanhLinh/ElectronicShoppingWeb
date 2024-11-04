@@ -7,7 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hust.Ecommerce.dtos.responses.ApiResponse;
+import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 
 import jakarta.servlet.ServletException;

@@ -35,7 +35,7 @@ spring:
   messages:
     basename: i18n/messages
 api:
-  prefix: /api/v1
+  prefix: /api
 
 domain:
   protocol: http://localhost:${server.port}

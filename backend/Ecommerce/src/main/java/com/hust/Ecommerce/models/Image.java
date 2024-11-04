@@ -17,8 +17,8 @@ import lombok.Setter;
 @Table(name = "images")
 public class Image extends BaseEntity<Long> {
 
-    @Column(name = "img")
-    private String img;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "type")
     private ImageType type;
@@ -47,7 +47,7 @@ public class Image extends BaseEntity<Long> {
 
     @Override
     public String toString() {
-        return "Image [img=" + img + ", type=" + type + ", product=" + product + "]";
+        return "Image [img=" + imageUrl + ", type=" + type + ", product=" + product + "]";
     }
 
 }

@@ -37,7 +37,8 @@ public class SecurityConfiguration {
                                 .cors(AbstractHttpConfigurer::disable) // Enable CORS
                                 .authorizeHttpRequests(request -> request
                                                 .requestMatchers(HttpMethod.GET,
-                                                                String.format("%s/account/activate/**", apiPrefix),
+                                                                String.format("%s/auth/registration/confirm/**",
+                                                                                apiPrefix),
 
                                                                 // sagger-ui
                                                                 "/v2/api-docs",
@@ -53,15 +54,15 @@ public class SecurityConfiguration {
                                                                 "/swagger-ui.html/**")
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.POST,
-                                                                String.format("%s/register", apiPrefix),
-                                                                String.format("%s/login", apiPrefix),
-                                                                String.format("%s/refresh-token", apiPrefix),
-                                                                String.format("%s/account/reset-password/init",
+                                                                String.format("%s/auth/registration", apiPrefix),
+                                                                String.format("%s/auth/login", apiPrefix),
+                                                                String.format("%s/auth/refresh-token", apiPrefix),
+                                                                String.format("%s/auth/forgot-password",
                                                                                 apiPrefix))
 
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.PUT,
-                                                                String.format("%s/account/reset-password/finish/**",
+                                                                String.format("%s/auth/reset-password/**",
                                                                                 apiPrefix))
                                                 .permitAll()
                                                 .anyRequest().authenticated())
