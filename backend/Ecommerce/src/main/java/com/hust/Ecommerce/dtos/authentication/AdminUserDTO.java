@@ -6,8 +6,8 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.hust.Ecommerce.models.User;
-import com.hust.Ecommerce.models.enumeration.Gender;
+import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.enumeration.Gender;
 import com.hust.Ecommerce.util.InstantDateOnlyDeserializer;
 
 import jakarta.validation.constraints.NotNull;
@@ -62,8 +62,8 @@ public class AdminUserDTO implements Serializable {
     @JsonProperty("google_account_id")
     private int googleAccountId;
 
-    private Instant createdDate;
-    private Instant lastModifiedDate;
+    private Instant createdAt;
+    private Instant updatedAt;
     @JsonProperty("role")
     private String role;
 
@@ -78,8 +78,8 @@ public class AdminUserDTO implements Serializable {
         this.isActivated = user.isActivated();
         this.isBanned = user.isBanned();
         this.imageUrl = user.getImageUrl();
-        this.createdDate = user.getCreatedDate();
-        this.lastModifiedDate = user.getLastModifiedDate();
+        this.createdAt = user.getCreatedAt();
+        this.updatedAt = user.getUpdatedAt();
         this.langKey = user.getLangKey();
 
         this.role = user.getRole().getName();

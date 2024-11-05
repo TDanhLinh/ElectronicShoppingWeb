@@ -19,7 +19,8 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, MessageKeys.APP_AUTHORIZATION_403, HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(403, MessageKeys.APP_AUTHORIZATION_403, HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
-    ACCOUNT_NOT_ACTIVED(1009, MessageKeys.ACCOUNT_NOT_ACTIVED, HttpStatus.FORBIDDEN);
+    ACCOUNT_NOT_ACTIVED(1009, MessageKeys.ACCOUNT_NOT_ACTIVED, HttpStatus.FORBIDDEN),
+    EMAIL_PASSWORD_NOT_MATCH(1010, MessageKeys.PASSWORD_NOT_MATCH, HttpStatus.UNAUTHORIZED);
 
     private final int code;
     private final String message;

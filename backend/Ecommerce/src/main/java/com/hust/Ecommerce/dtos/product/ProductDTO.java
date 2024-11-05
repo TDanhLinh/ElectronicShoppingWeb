@@ -42,6 +42,6 @@ public class ProductDTO {
     @JsonProperty("warranty_duration")
     private Long warrantyDuration;
 
-    private Instant createdDate;
-    private Instant lastModifiedDate;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

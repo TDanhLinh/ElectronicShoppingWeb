@@ -26,17 +26,14 @@ import com.hust.Ecommerce.dtos.authentication.LoginResponse;
 import com.hust.Ecommerce.dtos.authentication.LoginVM;
 import com.hust.Ecommerce.dtos.authentication.ManagedUserVM;
 import com.hust.Ecommerce.dtos.authentication.RefreshTokenDTO;
+import com.hust.Ecommerce.entities.Token;
+import com.hust.Ecommerce.entities.User;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
-
-import com.hust.Ecommerce.models.Token;
-import com.hust.Ecommerce.models.User;
-
 import com.hust.Ecommerce.security.SecurityUtils;
-import com.hust.Ecommerce.services.MailService;
-
-import com.hust.Ecommerce.services.UserService;
+import com.hust.Ecommerce.services.authentication.IAuthenticationService;
+import com.hust.Ecommerce.services.mail.MailService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthController {
 
-        private final UserService userService;
+        private final IAuthenticationService authenticationService;
         private final MailService mailService;
 
         @PostMapping("/registration")
@@ -63,7 +60,7 @@ public class AuthController {
                                                         .message(MessageKeys.ERROR_MESSAGE)
                                                         .errors(errorMessages).build());
                 }
-                User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+                User user = authenticationService.registerUser(managedUserVM, managedUserVM.getPassword());
                 mailService.sendActivationEmail(user);
 
                 return ResponseEntity.ok(ApiResponse.builder()
@@ -76,7 +73,7 @@ public class AuthController {
         @GetMapping("/registration/confirm")
         public ResponseEntity<ApiResponse<?>> activateAccount(@RequestParam(value = "key") String key) {
 
-                Optional<User> user = userService.activateRegistration(key);
+                Optional<User> user = authenticationService.activateRegistration(key);
                 if (!user.isPresent()) {
                         throw new AppException(ErrorCode.INVALID_KEY);
                 }
@@ -101,7 +98,7 @@ public class AuthController {
                                                         .build());
                 }
 
-                Token token = userService.login(loginVM.getEmail(), loginVM.getPassword());
+                Token token = authenticationService.login(loginVM.getEmail(), loginVM.getPassword());
 
                 AdminUserDTO userResponse = new AdminUserDTO(token.getUser());
 
@@ -122,7 +119,7 @@ public class AuthController {
         @GetMapping("/infor")
         public ResponseEntity<ApiResponse<?>> getAdminUserInfor() {
 
-                AdminUserDTO userResponse = userService
+                AdminUserDTO userResponse = authenticationService
                                 .getUserWithAuthorities()
                                 .map(AdminUserDTO::new)
                                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -138,7 +135,7 @@ public class AuthController {
         @PostMapping("/refresh-token")
         public ResponseEntity<ApiResponse<?>> refreshToken(@RequestBody RefreshTokenDTO refreshTokenDTO) {
 
-                Token newToken = userService.refreshToken(refreshTokenDTO.getRefreshToken());
+                Token newToken = authenticationService.refreshToken(refreshTokenDTO.getRefreshToken());
                 AdminUserDTO userResponse = new AdminUserDTO(newToken.getUser());
 
                 return ResponseEntity.ok(ApiResponse.builder()
@@ -154,7 +151,7 @@ public class AuthController {
 
         @PostMapping(path = "/forgot-password")
         public void forgotPassword(@RequestBody EmailInput email) {
-                Optional<User> user = userService.forgetPassword(email.getEmail());
+                Optional<User> user = authenticationService.forgetPassword(email.getEmail());
                 if (user.isPresent()) {
                         mailService.sendPasswordResetMail(user.get());
                 } else {
@@ -176,7 +173,7 @@ public class AuthController {
                                                         .message(MessageKeys.ERROR_MESSAGE)
                                                         .errors(errorMessages).build());
                 }
-                Optional<User> user = userService.resetPassword(forgotPasswordDTO.getPassword(),
+                Optional<User> user = authenticationService.resetPassword(forgotPasswordDTO.getPassword(),
                                 key);
 
                 if (!user.isPresent()) {
@@ -193,7 +190,7 @@ public class AuthController {
                 String jwt = SecurityUtils.getCurrentUserJWT()
                                 .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.ACCOUNT_NOT_LOGIN));
 
-                userService.logout(jwt);
+                authenticationService.logout(jwt);
                 return ResponseEntity.ok(ApiResponse.builder()
                                 .success(true)
                                 .build());

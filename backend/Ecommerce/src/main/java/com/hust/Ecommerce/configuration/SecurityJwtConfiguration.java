@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
-import com.hust.Ecommerce.repositories.TokenRepository;
+import com.hust.Ecommerce.repositories.authentication.TokenRepository;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.nimbusds.jose.util.Base64;
 

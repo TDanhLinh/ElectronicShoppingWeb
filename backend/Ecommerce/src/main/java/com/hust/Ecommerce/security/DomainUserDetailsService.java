@@ -10,11 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hust.Ecommerce.entities.User;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
-import com.hust.Ecommerce.models.Role;
-import com.hust.Ecommerce.models.User;
-import com.hust.Ecommerce.repositories.UserRepository;
+import com.hust.Ecommerce.repositories.authentication.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
