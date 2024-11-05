@@ -3,7 +3,7 @@ package com.hust.Ecommerce.util;
 public class ConfixSql {
     public interface User {
         // lấy ra tất cả user với truyền admin
-        String GET_ALL_USER = "SELECT o FROM User o WHERE o.isActivated = true AND (:keyword IS NULL OR :keyword = '' "
+        String GET_ALL_USER = "SELECT o FROM User o WHERE o.status != 0 AND (:keyword IS NULL OR :keyword = '' "
                 +
                 "OR o.name LIKE %:keyword% " +
                 "OR o.address LIKE %:keyword% " +

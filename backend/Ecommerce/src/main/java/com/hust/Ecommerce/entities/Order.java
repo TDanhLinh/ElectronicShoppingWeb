@@ -3,6 +3,8 @@ package com.hust.Ecommerce.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hust.Ecommerce.entities.enumeration.OrderState;
 
 import jakarta.persistence.CascadeType;
@@ -38,35 +40,11 @@ public class Order extends BaseEntity {
     private String paymentMethod;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
+    @JsonManagedReference
     private List<OrderItem> orderItemList = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "shipping_infors_id")
     private ShippingInfor shippingInfor;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Order)) {
-            return false;
-        }
-        return getId() != null && getId().equals(((Order) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        // see
-        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Order [user=" + user + ", state=" + state + ", totalPrice=" + totalPrice + ", paymentState="
-                + paymentState + ", paymentMethod=" + paymentMethod + ", orderItemList=" + orderItemList
-                + ", shippingInfor=" + shippingInfor + "]";
-    }
 
 }

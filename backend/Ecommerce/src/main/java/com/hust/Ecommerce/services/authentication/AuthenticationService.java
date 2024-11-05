@@ -68,8 +68,8 @@ public class AuthenticationService implements IAuthenticationService {
             newUser.setPhoneNumber(userDTO.getPhoneNumber());
         }
         // config image url
-        if (userDTO.getImageUrl() != null) {
-            newUser.setImageUrl(userDTO.getImageUrl());
+        if (userDTO.getAvatar() != null) {
+            newUser.setAvatar(userDTO.getAvatar());
         }
         if (userDTO.getLangKey() != null) {
             newUser.setLangKey(userDTO.getLangKey());
@@ -77,8 +77,7 @@ public class AuthenticationService implements IAuthenticationService {
             newUser.setLangKey(AppConstants.DEFAULT_LANGUAGE);
         }
         // new user is not active
-        newUser.setActivated(false);
-        newUser.setBanned(false);
+        newUser.setStatus(0);
 
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
@@ -100,7 +99,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .findByActivationKey(key)
                 .map(user -> {
                     // activate given user for the registration key.
-                    user.setActivated(true);
+                    user.setStatus(1);
                     user.setActivationKey(null);
                     log.debug("Activated user: {}", user);
                     return user;
@@ -108,7 +107,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     private boolean removeNonActivatedUser(User existingUser) {
-        if (existingUser.isActivated()) {
+        if (existingUser.getStatus() == 1) {
             return false;
         }
         userRepository.delete(existingUser);
@@ -139,7 +138,7 @@ public class AuthenticationService implements IAuthenticationService {
     public Optional<User> forgetPassword(String email) {
         return userRepository
                 .findByEmail(email)
-                .filter(User::isActivated)
+                .filter(user -> user.getStatus() != 0)
                 .map(user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
                     user.setResetDate(Instant.now());

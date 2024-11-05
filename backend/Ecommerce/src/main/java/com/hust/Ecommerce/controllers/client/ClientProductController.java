@@ -1,16 +1,28 @@
 package com.hust.Ecommerce.controllers.client;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hust.Ecommerce.constants.AppConstants;
+import com.hust.Ecommerce.constants.FieldName;
+import com.hust.Ecommerce.constants.ResourceName;
+import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.ListResponse;
 import com.hust.Ecommerce.dtos.client.ClientProductResponse;
-import com.hust.Ecommerce.dtos.review.ReviewResponse.ProductResponse;
+import com.hust.Ecommerce.dtos.inventory.InventoryRequest;
+import com.hust.Ecommerce.dtos.inventory.InventoryResponse;
+import com.hust.Ecommerce.entities.Product;
+import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientProductMapper;
+import com.hust.Ecommerce.mappers.inventory.InventoryMapper;
+import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
 import com.hust.Ecommerce.repositories.product.ProductRepository;
 import com.hust.Ecommerce.repositories.review.ReviewRepository;
 
@@ -22,8 +34,9 @@ import lombok.RequiredArgsConstructor;
 public class ClientProductController {
 
         private final ProductRepository productRepository;
-
+        private final InventoryRepository inventoryRepository;
         private final ClientProductMapper clientProductMapper;
+        private final InventoryMapper inventoryMapper;
         private final ReviewRepository reviewRepository;
 
         // @GetMapping
@@ -59,50 +72,28 @@ public class ClientProductController {
         // }
 
         // @GetMapping("/{slug}")
-        // public ResponseEntity<ClientProductResponse> getProduct(@PathVariable String
-        // slug) {
+        // public ResponseEntity<ApiResponse<?>> getProduct(@PathVariable String slug) {
         // Product product = productRepository.findBySlug(slug)
         // .orElseThrow(() -> new ResourceNotFoundException(ResourceName.PRODUCT,
         // FieldName.SLUG,
         // slug));
 
-        // List<InventoryRequest> productInventories = projectionRepository
-        // .findSimpleProductInventories(List.of(product.getId()));
+        // List<InventoryResponse> productInventories = inventoryMapper
+        // .entityToResponse(inventoryRepository.findByProduct(product));
 
         // int averageRatingScore =
-        // reviewRepository.findAverageRatingScoreByProductId(product.getId());
+        // reviewRepository.findAverageRatingScoreByProductId(product.getId()).intValue();
         // int countReviews = reviewRepository.countByProductId(product.getId());
-
-        // // Related Products
-        // Page<Product> relatedProducts = productRepository.findByParams(
-        // String.format("category.id==%s;id!=%s",
-        // Optional.ofNullable(product.getCategory())
-        // .map(BaseEntity::getId)
-        // .map(Object::toString)
-        // .orElse("0"),
-        // product.getId()),
-        // "random",
-        // null,
-        // false,
-        // false,
-        // PageRequest.of(0, 4));
-
-        // List<Long> relatedProductIds = relatedProducts.map(Product::getId).toList();
-        // List<InventoryRequest> relatedProductInventories = projectionRepository
-        // .findSimpleProductInventories(relatedProductIds);
-
-        // List<ClientListedProductResponse> relatedProductResponses = relatedProducts
-        // .map(p -> clientProductMapper.entityToListedResponse(p,
-        // relatedProductInventories))
-        // .toList();
 
         // // Result
         // ClientProductResponse clientProductResponse = clientProductMapper
-        // .entityToResponse(product, productInventories, averageRatingScore,
-        // countReviews,
-        // relatedProductResponses);
+        // .entityToResponse(product, averageRatingScore,
+        // countReviews);
 
-        // return ResponseEntity.status(HttpStatus.OK).body(clientProductResponse);
+        // return ResponseEntity.ok(ApiResponse.<ClientProductResponse>builder()
+        // .success(true)
+        // .payload(clientProductResponse)
+        // .build());
         // }
 
 }

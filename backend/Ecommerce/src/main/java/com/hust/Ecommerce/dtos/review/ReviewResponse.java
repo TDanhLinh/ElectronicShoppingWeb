@@ -12,7 +12,7 @@ public class ReviewResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private ReviewResponse.UserResponse user;
-    private ReviewResponse.ProductResponse product;
+    private ReviewResponse.ProductReviewResponse product;
     private Integer rate;
     private String content;
     @Nullable
@@ -28,7 +28,7 @@ public class ReviewResponse {
     }
 
     @Data
-    public static class ProductResponse {
+    public static class ProductReviewResponse {
         private Long id;
         private Instant createdAt;
         private Instant updatedAt;

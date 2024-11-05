@@ -1,5 +1,6 @@
 package com.hust.Ecommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hust.Ecommerce.entities.enumeration.Gender;
 
 import jakarta.persistence.Column;
@@ -42,30 +43,5 @@ public class ShippingInfor extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof ShippingInfor)) {
-            return false;
-        }
-        return getId() != null && getId().equals(((ShippingInfor) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        // see
-        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "ShippingInfor [receivedName=" + receivedName + ", gender=" + gender + ", phoneNumber=" + phoneNumber
-                + ", address=" + address + ", province=" + province + ", district=" + district + ", ward=" + ward
-                + ", note=" + note + "]";
-    }
 
 }

@@ -72,7 +72,7 @@ public class ClientUserController {
                                 userDTO.getGender(),
                                 userDTO.getPhoneNumber(),
                                 userDTO.getAddress(),
-                                userDTO.getImageUrl(),
+                                userDTO.getAvatar(),
                                 userDTO.getDateOfBirth());
 
                 return ResponseEntity.ok(ApiResponse.builder()

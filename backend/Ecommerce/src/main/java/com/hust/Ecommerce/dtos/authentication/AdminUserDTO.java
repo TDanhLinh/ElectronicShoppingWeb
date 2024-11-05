@@ -45,12 +45,10 @@ public class AdminUserDTO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private Instant dateOfBirth;
 
-    @JsonProperty("image_url")
-    private String imageUrl;
+    @JsonProperty("avatar")
+    private String avatar;
 
-    private boolean isActivated = false;
-
-    private boolean isBanned = false;
+    private Integer status = 0;
 
     @Size(min = 2, max = 10)
     @JsonProperty("lang_key")
@@ -75,9 +73,8 @@ public class AdminUserDTO implements Serializable {
         this.phoneNumber = user.getPhoneNumber();
         this.dateOfBirth = user.getDateOfBirth();
         this.gender = user.getGender();
-        this.isActivated = user.isActivated();
-        this.isBanned = user.isBanned();
-        this.imageUrl = user.getImageUrl();
+        this.status = user.getStatus();
+        this.avatar = user.getAvatar();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
         this.langKey = user.getLangKey();

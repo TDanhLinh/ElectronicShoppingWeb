@@ -24,27 +24,4 @@ public class Blog extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Blog)) {
-            return false;
-        }
-        return getId() != null && getId().equals(((Blog) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        // see
-        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Blog [title=" + title + ", content=" + content + ", user=" + user + "]";
-    }
-
 }

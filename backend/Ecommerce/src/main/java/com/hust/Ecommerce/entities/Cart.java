@@ -25,27 +25,4 @@ public class Cart extends BaseEntity {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Cart)) {
-            return false;
-        }
-        return getId() != null && getId().equals(((Cart) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        // see
-        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Cart [user=" + user + ", product=" + product + ", quantity=" + quantity + "]";
-    }
-
 }

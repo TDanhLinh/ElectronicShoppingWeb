@@ -26,7 +26,7 @@ public class UserSetting implements IUserSetting {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void updatePersonalSetting(String name, Gender gender, String phoneNumber, String address, String imageUrl,
+    public void updatePersonalSetting(String name, Gender gender, String phoneNumber, String address, String avatar,
             Instant datOfBirth) {
         SecurityUtils.getCurrentUserLogin()
                 .flatMap(userRepository::findByEmail)
@@ -35,7 +35,7 @@ public class UserSetting implements IUserSetting {
                     user.setPhoneNumber(phoneNumber);
                     user.setGender(gender);
                     user.setAddress(address);
-                    user.setImageUrl(imageUrl);
+                    user.setAvatar(avatar);
                     user.setDateOfBirth(datOfBirth);
                     // save update user
                     userRepository.save(user);

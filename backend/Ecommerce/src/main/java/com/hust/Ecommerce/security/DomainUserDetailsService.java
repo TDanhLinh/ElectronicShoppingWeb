@@ -37,7 +37,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String email, User user) {
-        if (!user.isActivated()) {
+        if (user.getStatus() == 0) {
             throw new AppException(ErrorCode.ACCOUNT_NOT_ACTIVED);
         }
 

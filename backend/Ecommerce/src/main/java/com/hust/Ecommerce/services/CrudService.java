@@ -53,6 +53,7 @@ public interface CrudService<ID, I, O> {
             GenericMapper<E, I, O> mapper) {
         Specification<E> sortable = RSQLJPASupport.toSort(sort);
         Specification<E> filterable = RSQLJPASupport.toSpecification(filter);
+        // search Contain
         Specification<E> searchable = SearchUtils.parse(search, searchFields);
         Pageable pageable = all ? Pageable.unpaged() : PageRequest.of(page - 1, size);
         Page<E> entities = repository.findAll(sortable.and(filterable).and(searchable), pageable);

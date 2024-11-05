@@ -56,8 +56,8 @@ public class User extends BaseEntity implements Serializable {
     private Instant dateOfBirth;
 
     @Size(max = 256)
-    @Column(name = "image_url", length = 256)
-    private String imageUrl;
+    @Column(name = "avatar", length = 256)
+    private String avatar;
 
     @Column(name = "facebook_account_id")
     @JsonIgnore
@@ -67,11 +67,8 @@ public class User extends BaseEntity implements Serializable {
     @JsonIgnore
     private int googleAccountId;
 
-    @Column(name = "is_banned")
-    private boolean isBanned;
-
-    @Column(name = "is_activated")
-    private boolean isActivated;
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
 
     @Size(max = 20)
     @Column(name = "activation_key", length = 20)
@@ -79,7 +76,7 @@ public class User extends BaseEntity implements Serializable {
     private String activationKey;
 
     @Size(min = 2, max = 10)
-    @Column(name = "lang_key", length = 10)
+    @Column(name = "lang_key", length = 10, nullable = false)
     private String langKey;
 
     @Size(max = 20)
@@ -95,46 +92,23 @@ public class User extends BaseEntity implements Serializable {
     private Role role;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Blog> blogList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Order> orderList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Token> tokenList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<ShippingInfor> shippingInforList = new ArrayList<>();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof User)) {
-            return false;
-        }
-        return getId() != null && getId().equals(((User) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        // see
-        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "User [email=" + email + ", password=" + password + ", name=" + name + ", gender=" + gender
-                + ", phoneNumber=" + phoneNumber + ", address=" + address + ", dateOfBirth=" + dateOfBirth
-                + ", imageUrl=" + imageUrl + ", facebookAccountId=" + facebookAccountId + ", googleAccountId="
-                + googleAccountId + ", isBanned=" + isBanned + ", isActivated=" + isActivated + ", activationKey="
-                + activationKey + ", langKey=" + langKey + ", resetKey=" + resetKey + ", resetDate=" + resetDate
-                + ", role=" + role + "]";
-    }
 
 }
