@@ -2,6 +2,8 @@ package com.hust.Ecommerce.services.review;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.hust.Ecommerce.constants.FieldName;
 import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.constants.SearchFields;
@@ -13,6 +15,10 @@ import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.review.ReviewMapper;
 import com.hust.Ecommerce.repositories.review.ReviewRepository;
 
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
     private ReviewRepository reviewRepository;

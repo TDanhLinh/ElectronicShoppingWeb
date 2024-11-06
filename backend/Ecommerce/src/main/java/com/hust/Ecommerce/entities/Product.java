@@ -17,6 +17,7 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -71,10 +72,11 @@ public class Product extends BaseEntity {
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode specifications;
 
-    @ManyToMany(mappedBy = "productList", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categoryList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Image> imageList = new ArrayList<>();
 
@@ -82,7 +84,7 @@ public class Product extends BaseEntity {
     @JsonIgnore
     private List<Cart> cartList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<OrderItem> orderItemList = new ArrayList<>();
 
@@ -90,7 +92,7 @@ public class Product extends BaseEntity {
     @JsonManagedReference
     private List<Review> reviewList = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     private Inventory inventory;
 

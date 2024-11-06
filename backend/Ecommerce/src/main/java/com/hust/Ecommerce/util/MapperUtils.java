@@ -46,9 +46,16 @@ public abstract class MapperUtils {
 
     public abstract Category mapToCategory(Long id);
 
-    public abstract List<Category> mapToCategories(List<Long> Ids);
+    // public abstract List<Category> mapToCategoryList(List<Long> categoryIds);
 
     public abstract Brand mapToBrand(Long id);
+
+    public List<Category> mapToCategoryList(List<Long> categoryIds) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return categoryRepository.findAllById(categoryIds);
+    }
 
     public Product mapToProduct(Long id) {
         return productRepository.getById(id);

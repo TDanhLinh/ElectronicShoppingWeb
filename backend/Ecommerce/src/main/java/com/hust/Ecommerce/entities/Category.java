@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -32,7 +33,6 @@ public class Category extends BaseEntity {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "category_product", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+    @ManyToMany(mappedBy = "categoryList", fetch = FetchType.LAZY)
     private List<Product> productList = new ArrayList<>();
 }

@@ -7,8 +7,9 @@ import com.hust.Ecommerce.dtos.product.CategoryRequest;
 import com.hust.Ecommerce.dtos.product.CategoryResponse;
 import com.hust.Ecommerce.entities.Category;
 import com.hust.Ecommerce.mappers.GenericMapper;
+import com.hust.Ecommerce.util.MapperUtils;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = MapperUtils.class)
 public interface CategoryMapper extends GenericMapper<Category, CategoryRequest, CategoryResponse> {
 
 }

@@ -7,4 +7,6 @@ public interface ResourceName {
     String INVENTORY = "Inventory";
     String USER = "User";
     String BRAND = "Brand";
+    String IMAGE = "Image";
+    String BLOG = "Blog";
 }

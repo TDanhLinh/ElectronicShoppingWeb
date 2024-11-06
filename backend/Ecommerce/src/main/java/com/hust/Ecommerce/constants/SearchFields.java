@@ -54,4 +54,13 @@ public interface SearchFields {
                         "price"
 
         );
+        List<String> IMAGE = List.of(
+                        "name",
+                        "type");
+
+        List<String> BLOG = List.of(
+                        "title",
+                        "user.name",
+                        "user.email");
+
 }

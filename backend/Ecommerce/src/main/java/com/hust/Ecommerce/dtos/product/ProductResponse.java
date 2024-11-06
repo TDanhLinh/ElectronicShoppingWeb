@@ -3,6 +3,8 @@ package com.hust.Ecommerce.dtos.product;
 import java.time.Instant;
 import java.util.List;
 
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hust.Ecommerce.dtos.general.ImageResponse;
 
@@ -23,7 +25,7 @@ public class ProductResponse {
     private Double price;
     private List<CategoryResponse> categories;
 
-    private BrandResponse brand;
+    private BrandResponse brandProduct;
 
     private String unit;
 
@@ -32,4 +34,19 @@ public class ProductResponse {
     private Double weight;
 
     private Long warrantyDuration;
+
+    @Nullable
+    private ProductResponse.InventoryProductResponse inventory;
+
+    @Data
+    public static class InventoryProductResponse {
+        private Long id;
+        private Instant createdAt;
+        private Instant updatedAt;
+        private Integer amount;
+        private Integer available;
+        private Integer sold;
+
+    }
+
 }

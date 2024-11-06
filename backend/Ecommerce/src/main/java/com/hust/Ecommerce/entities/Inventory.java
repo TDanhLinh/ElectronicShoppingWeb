@@ -2,7 +2,7 @@ package com.hust.Ecommerce.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -22,6 +22,6 @@ public class Inventory extends BaseEntity {
     @Column(name = "sold")
     private Integer sold;
 
-    @OneToOne(mappedBy = "inventory")
+    @OneToOne(mappedBy = "inventory", fetch = FetchType.LAZY)
     private Product product;
 }

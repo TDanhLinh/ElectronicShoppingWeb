@@ -14,4 +14,5 @@ public class UserRequest {
     private String avatar;
     private String langKey;
     private String role;
+
 }
