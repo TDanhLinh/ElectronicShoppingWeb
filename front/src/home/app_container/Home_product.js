@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Product } from './Product';
 
 export function Home_product() {
 
@@ -143,45 +144,10 @@ export function Home_product() {
             <div className="row sm-gutter">
                 {
                     products.map((item, index) => (
-                        <div key={index} className="col l-2-4 m-4 c-6">
-                            <a href="" className="home-product-item">
-                                <div className="home-product-item__img" style={{backgroundImage: `url(${item.src})`}}></div>
-                                <h4 className="home-product-item__name">{item.name}</h4>
-                                <div className="home-product-item__price">
-                                    <span className="home-product-item__price-old">{item.originalPrice.toLocaleString()}đ</span>
-                                    <span className="home-product-item__price-current">{item.discountedPrice.toLocaleString()}đ</span>
-                                </div>
-                                <div className="home-product-item__action">
-                                    <span className={"home-product-item__like" + ((item.liked) ? " home-product-item__like--liked" : "")}>
-                                        <i className="home-product-item__like-icon-default far fa-heart"></i>
-                                        <i className="home-product-item__like-icon-liked fas fa-heart"></i>
-                                    </span>
-                                    <div className="home-product-item__rating">
-                                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                                        <i className="fas fa-star"></i>
-                                        <span className="home-product-item__sold">{item.sold} đã bán</span>
-                                    </div>
-                                </div>
-                                <div className="home-product-item__origin">
-                                    <span className="home-product-item__brand">{item.brand}</span>
-                                    <span className="home-product-item__origin-name">{item.origin}</span>
-                                </div>
-                                {
-                                    item.liked &&
-                                    <div className="home-product-item__favorite">
-                                        <i className="fas fa-check"></i>
-                                        <span className="">Yêu thích</span>
-                                    </div>
-                                }
-                                <div className="home-product-item__sale-off">
-                                    <span className="home-product-item__sale-off-percent">{100-(item.discountedPrice * 100 / item.originalPrice).toFixed(0)}%</span>
-                                    <span className="home-product-item__sale-off-label">GIẢM</span>
-                                </div>
-                            </a>
-                        </div>
+                        <Product 
+                            key={index}
+                            item={item}
+                        />
                     ))
                 }
             </div>

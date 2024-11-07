@@ -12,14 +12,9 @@ export function Category() {
     const [category, setCategory] = useState('');
 
     useEffect(() => {
-        const currentCategory = localStorage.getItem('searchingFor');
-        if (currentCategory) {
-            setCategory(currentCategory);
-        }
-        else {
-            setCategory(categories[0]);
-            localStorage.setItem('searchingFor', categories[0]);
-        }
+        
+        setCategory(categories[0]);
+        localStorage.setItem('searchingFor', categories[0]);
     }, [])
 
     const clickOnCategory = (item) => {

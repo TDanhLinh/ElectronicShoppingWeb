@@ -36,7 +36,7 @@
 }
 
 .payment-page {
-    max-width: 800px;
+    width: 800px;
     margin: 40px auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.9); /* Đặt màu nền trắng với độ trong suốt */
