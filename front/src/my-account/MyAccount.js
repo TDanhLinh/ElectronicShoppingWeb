@@ -1,9 +1,9 @@
-import { App_container } from "./app_container/App_container";
 import { Header } from "../header/Header"
+import { App_container } from "./app_container/App_container";
 import { useEffect } from "react";
 import { Footer } from "../footer/Footer";
 
-export function App() {
+export function MyAccount() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const user = localStorage.getItem('user');

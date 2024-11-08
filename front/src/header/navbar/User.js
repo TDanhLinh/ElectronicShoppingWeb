@@ -16,10 +16,10 @@ export function User() {
 
             <ul className="header__navbar-user-menu">
                 <li className="header__navbar-user-item">
-                    <Link href="" >Tài khoản của tôi</Link>
+                    <Link href="/my-account" >Tài khoản của tôi</Link>
                 </li>
                 <li className="header__navbar-user-item">
-                    <Link href="/payment">Đơn mua</Link>
+                    <Link href="/payment">Đơn hàng của tôi</Link>
                 </li>
                 <li className="header__navbar-user-item header__navbar-user-item--separate">
                     <Link 
