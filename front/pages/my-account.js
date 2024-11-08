@@ -1,6 +1,6 @@
 import React from "react";
-import { MyAccount } from "../src/my-account/MyAccount";
 import Head from "next/head";
+import { MyAccount } from "../src/my-account/MyAccount"
 
 export default function home() {
     return (
@@ -17,6 +17,7 @@ export default function home() {
                 <link rel="stylesheet" href="/assets/css/base.css" />
                 <link rel="stylesheet" href="/assets/css/grid.css" />
                 <link rel="stylesheet" href="/assets/css/main.css" />
+                <link rel="stylesheet" href="/assets/css/my-account.css" />
                 
                 <link rel="icon" href="/favicon.png" />
 
