@@ -1,6 +1,6 @@
 package com.hust.Ecommerce.services.mail;
 
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.User;
 
 public interface IMailService {
     public void sendActivationEmail(User user);

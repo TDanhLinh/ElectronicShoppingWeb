@@ -16,11 +16,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hust.Ecommerce.entities.BaseEntity;
-import com.hust.Ecommerce.entities.Brand;
-import com.hust.Ecommerce.entities.Category;
-import com.hust.Ecommerce.entities.Product;
-import com.hust.Ecommerce.entities.Role;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.Role;
+import com.hust.Ecommerce.entities.authentication.User;
+import com.hust.Ecommerce.entities.product.Brand;
+import com.hust.Ecommerce.entities.product.Category;
+import com.hust.Ecommerce.entities.product.Product;
 import com.hust.Ecommerce.repositories.authentication.RoleRepository;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
 import com.hust.Ecommerce.repositories.product.CategoryRepository;

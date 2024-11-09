@@ -1,4 +1,4 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.authentication;
 
 import java.io.Serializable;
 

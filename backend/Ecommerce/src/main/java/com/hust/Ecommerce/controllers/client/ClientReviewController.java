@@ -27,7 +27,7 @@ import com.hust.Ecommerce.dtos.ListResponse;
 import com.hust.Ecommerce.dtos.client.ClientReviewRequest;
 import com.hust.Ecommerce.dtos.client.ClientReviewResponse;
 import com.hust.Ecommerce.dtos.client.ClientSimpleReviewResponse;
-import com.hust.Ecommerce.entities.Review;
+import com.hust.Ecommerce.entities.review.Review;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientReviewMapper;
 import com.hust.Ecommerce.repositories.review.ReviewRepository;

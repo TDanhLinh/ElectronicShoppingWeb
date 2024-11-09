@@ -3,8 +3,8 @@ package com.hust.Ecommerce.services.authentication;
 import java.util.Optional;
 
 import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
-import com.hust.Ecommerce.entities.Token;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.Token;
+import com.hust.Ecommerce.entities.authentication.User;
 
 public interface IAuthenticationService {
     public User registerUser(AdminUserDTO userDTO, String password);

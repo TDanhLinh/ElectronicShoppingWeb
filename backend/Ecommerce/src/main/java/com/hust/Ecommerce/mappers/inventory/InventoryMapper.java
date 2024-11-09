@@ -6,9 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.inventory.InventoryRequest;
 import com.hust.Ecommerce.dtos.inventory.InventoryResponse;
-
-import com.hust.Ecommerce.entities.Inventory;
-
+import com.hust.Ecommerce.entities.inventory.Inventory;
 import com.hust.Ecommerce.mappers.GenericMapper;
 import com.hust.Ecommerce.util.MapperUtils;
 

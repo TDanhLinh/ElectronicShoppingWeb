@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.hust.Ecommerce.entities.Review;
+import com.hust.Ecommerce.entities.review.Review;
 
 import io.github.perplexhub.rsql.RSQLJPASupport;
 

@@ -4,7 +4,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import com.hust.Ecommerce.dtos.client.ClientCategoryResponse;
-import com.hust.Ecommerce.entities.Category;
+import com.hust.Ecommerce.entities.product.Category;
 
 @Component
 public class ClientCategoryMapper {

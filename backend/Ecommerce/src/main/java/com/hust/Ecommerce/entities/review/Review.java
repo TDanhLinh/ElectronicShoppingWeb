@@ -1,6 +1,9 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.review;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hust.Ecommerce.entities.BaseEntity;
+import com.hust.Ecommerce.entities.authentication.User;
+import com.hust.Ecommerce.entities.product.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

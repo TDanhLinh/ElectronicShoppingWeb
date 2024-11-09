@@ -1,4 +1,7 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.inventory;
+
+import com.hust.Ecommerce.entities.BaseEntity;
+import com.hust.Ecommerce.entities.product.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

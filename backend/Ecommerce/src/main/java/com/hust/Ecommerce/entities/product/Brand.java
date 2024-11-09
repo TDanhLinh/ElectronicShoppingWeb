@@ -1,9 +1,10 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.product;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hust.Ecommerce.entities.BaseEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

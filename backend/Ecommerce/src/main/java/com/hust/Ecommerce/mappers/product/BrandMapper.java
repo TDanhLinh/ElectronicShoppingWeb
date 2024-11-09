@@ -5,7 +5,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.product.BrandRequest;
 import com.hust.Ecommerce.dtos.product.BrandResponse;
-import com.hust.Ecommerce.entities.Brand;
+import com.hust.Ecommerce.entities.product.Brand;
 import com.hust.Ecommerce.mappers.GenericMapper;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)

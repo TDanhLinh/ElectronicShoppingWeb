@@ -9,7 +9,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.authentication.UserRequest;
 import com.hust.Ecommerce.dtos.authentication.UserResponse;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.mappers.GenericMapper;
 import com.hust.Ecommerce.util.MapperUtils;
 

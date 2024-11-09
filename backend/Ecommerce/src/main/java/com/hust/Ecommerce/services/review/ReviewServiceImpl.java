@@ -10,7 +10,7 @@ import com.hust.Ecommerce.constants.SearchFields;
 import com.hust.Ecommerce.dtos.ListResponse;
 import com.hust.Ecommerce.dtos.review.ReviewRequest;
 import com.hust.Ecommerce.dtos.review.ReviewResponse;
-import com.hust.Ecommerce.entities.Review;
+import com.hust.Ecommerce.entities.review.Review;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.review.ReviewMapper;
 import com.hust.Ecommerce.repositories.review.ReviewRepository;

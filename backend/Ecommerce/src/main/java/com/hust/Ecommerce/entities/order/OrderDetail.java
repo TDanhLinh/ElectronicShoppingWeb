@@ -1,6 +1,8 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.order;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hust.Ecommerce.entities.BaseEntity;
+import com.hust.Ecommerce.entities.product.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,16 +17,19 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "order_items")
-public class OrderItem extends BaseEntity {
+public class OrderDetail extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    @Column(name = "number_of_products", nullable = false)
+    private Integer numberOfProducts;
 
-    // price = product price * quantity
+    @Column(name = "total_money", nullable = false)
+    private Double totalMoney;
+
+    // price = product price
     @Column(name = "price")
     private Double price;
 

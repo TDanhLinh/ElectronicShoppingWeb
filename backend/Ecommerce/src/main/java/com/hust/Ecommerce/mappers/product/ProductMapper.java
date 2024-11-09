@@ -8,7 +8,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.product.ProductRequest;
 import com.hust.Ecommerce.dtos.product.ProductResponse;
-import com.hust.Ecommerce.entities.Product;
+import com.hust.Ecommerce.entities.product.Product;
 import com.hust.Ecommerce.mappers.GenericMapper;
 import com.hust.Ecommerce.mappers.general.ImageMapper;
 import com.hust.Ecommerce.mappers.inventory.InventoryMapper;

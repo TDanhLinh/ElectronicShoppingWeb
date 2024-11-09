@@ -16,6 +16,6 @@ public class UserResponse {
     private String status;
     private String address;
     private String avatar;
-    private String langKey;
+    private String language;
     private Role_UserRequest role;
 }

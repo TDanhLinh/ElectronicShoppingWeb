@@ -7,7 +7,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.review.ReviewRequest;
 import com.hust.Ecommerce.dtos.review.ReviewResponse;
-import com.hust.Ecommerce.entities.Review;
+import com.hust.Ecommerce.entities.review.Review;
 import com.hust.Ecommerce.mappers.GenericMapper;
 import com.hust.Ecommerce.util.MapperUtils;
 

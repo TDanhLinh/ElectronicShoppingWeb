@@ -3,7 +3,7 @@ package com.hust.Ecommerce.services.client.account;
 import java.time.Instant;
 import java.util.Optional;
 
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.enumeration.Gender;
 
 public interface IUserSetting {

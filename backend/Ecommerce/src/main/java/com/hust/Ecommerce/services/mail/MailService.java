@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.User;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -84,7 +84,7 @@ public class MailService implements IMailService {
             log.debug("Email doesn't exist for user '{}'", user.getEmail());
             return;
         }
-        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Locale locale = Locale.forLanguageTag(user.getLanguage());
         Context context = new Context(locale);
         context.setVariable(USER, user);
         context.setVariable(BASE_URL, baseUrl);

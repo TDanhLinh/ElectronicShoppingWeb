@@ -15,7 +15,7 @@ import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.CollectionWrapper;
 import com.hust.Ecommerce.dtos.client.ClientCategoryResponse;
-import com.hust.Ecommerce.entities.Category;
+import com.hust.Ecommerce.entities.product.Category;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientCategoryMapper;
 import com.hust.Ecommerce.repositories.product.CategoryRepository;

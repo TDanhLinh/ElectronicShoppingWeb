@@ -1,4 +1,4 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.product;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,6 +9,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.hust.Ecommerce.entities.BaseEntity;
+import com.hust.Ecommerce.entities.cart.Cart;
+import com.hust.Ecommerce.entities.general.Image;
+import com.hust.Ecommerce.entities.inventory.Inventory;
+import com.hust.Ecommerce.entities.order.OrderDetail;
+import com.hust.Ecommerce.entities.review.Review;
 import com.hust.Ecommerce.util.JsonNodeConverter;
 
 import jakarta.persistence.CascadeType;
@@ -86,7 +92,7 @@ public class Product extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<OrderItem> orderItemList = new ArrayList<>();
+    private List<OrderDetail> orderDetailList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference

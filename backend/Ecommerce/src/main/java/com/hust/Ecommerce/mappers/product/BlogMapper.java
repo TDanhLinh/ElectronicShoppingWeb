@@ -6,7 +6,7 @@ import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.product.BlogRequest;
 import com.hust.Ecommerce.dtos.product.BlogResponse;
-import com.hust.Ecommerce.entities.Blog;
+import com.hust.Ecommerce.entities.product.Blog;
 import com.hust.Ecommerce.mappers.GenericMapper;
 import com.hust.Ecommerce.util.MapperUtils;
 

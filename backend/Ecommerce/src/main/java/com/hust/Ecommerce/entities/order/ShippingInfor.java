@@ -1,6 +1,7 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.order;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hust.Ecommerce.entities.BaseEntity;
+import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.enumeration.Gender;
 
 import jakarta.persistence.Column;
@@ -36,9 +37,6 @@ public class ShippingInfor extends BaseEntity {
 
     @Column(name = "ward_code")
     private String ward;
-
-    @Column(name = "note")
-    private String note;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

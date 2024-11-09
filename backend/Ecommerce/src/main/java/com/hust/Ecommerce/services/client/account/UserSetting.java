@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.enumeration.Gender;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;

@@ -6,7 +6,7 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.enumeration.Gender;
 import com.hust.Ecommerce.util.InstantDateOnlyDeserializer;
 
@@ -48,11 +48,11 @@ public class AdminUserDTO implements Serializable {
     @JsonProperty("avatar")
     private String avatar;
 
-    private Integer status = 0;
+    private String status = "USER";
 
     @Size(min = 2, max = 10)
-    @JsonProperty("lang_key")
-    private String langKey;
+    @JsonProperty("language")
+    private String language;
 
     @JsonProperty("facebook_account_id")
     private int facebookAccountId;
@@ -73,12 +73,11 @@ public class AdminUserDTO implements Serializable {
         this.phoneNumber = user.getPhoneNumber();
         this.dateOfBirth = user.getDateOfBirth();
         this.gender = user.getGender();
-        this.status = user.getStatus();
+        this.status = user.getStatus().toString();
         this.avatar = user.getAvatar();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
-        this.langKey = user.getLangKey();
-
+        this.language = user.getLanguage();
         this.role = user.getRole().getName();
     }
 

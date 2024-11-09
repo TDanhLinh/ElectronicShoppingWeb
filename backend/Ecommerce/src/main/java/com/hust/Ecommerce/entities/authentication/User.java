@@ -1,4 +1,4 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.authentication;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -7,7 +7,13 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hust.Ecommerce.constants.AppConstants;
+import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.enumeration.Gender;
+import com.hust.Ecommerce.entities.enumeration.UserStatus;
+import com.hust.Ecommerce.entities.order.Order;
+import com.hust.Ecommerce.entities.order.ShippingInfor;
+import com.hust.Ecommerce.entities.product.Blog;
+import com.hust.Ecommerce.entities.review.Review;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,7 +35,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity {
 
     @Column(name = "email", length = 100, unique = true, nullable = false)
     private String email;
@@ -67,8 +73,9 @@ public class User extends BaseEntity implements Serializable {
     @JsonIgnore
     private int googleAccountId;
 
-    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
-    private Integer status;
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @Size(max = 20)
     @Column(name = "activation_key", length = 20)
@@ -76,8 +83,8 @@ public class User extends BaseEntity implements Serializable {
     private String activationKey;
 
     @Size(min = 2, max = 10)
-    @Column(name = "lang_key", length = 10, nullable = false)
-    private String langKey;
+    @Column(name = "language", length = 10, nullable = false)
+    private String language;
 
     @Size(max = 20)
     @Column(name = "reset_key", length = 20)

@@ -3,8 +3,8 @@ package com.hust.Ecommerce.repositories.authentication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hust.Ecommerce.entities.Token;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.Token;
+import com.hust.Ecommerce.entities.authentication.User;
 
 import java.util.Optional;
 import java.util.List;

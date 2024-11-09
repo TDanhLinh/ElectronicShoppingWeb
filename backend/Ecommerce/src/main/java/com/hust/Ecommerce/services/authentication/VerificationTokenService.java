@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hust.Ecommerce.constants.MessageKeys;
-import com.hust.Ecommerce.entities.Token;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.Token;
+import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.repositories.authentication.TokenRepository;
 import com.hust.Ecommerce.util.RandomUtil;

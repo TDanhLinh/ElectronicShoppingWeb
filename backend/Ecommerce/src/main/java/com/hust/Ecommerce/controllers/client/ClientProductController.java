@@ -18,7 +18,7 @@ import com.hust.Ecommerce.dtos.ListResponse;
 import com.hust.Ecommerce.dtos.client.ClientProductResponse;
 import com.hust.Ecommerce.dtos.inventory.InventoryRequest;
 import com.hust.Ecommerce.dtos.inventory.InventoryResponse;
-import com.hust.Ecommerce.entities.Product;
+import com.hust.Ecommerce.entities.product.Product;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientProductMapper;
 import com.hust.Ecommerce.mappers.inventory.InventoryMapper;

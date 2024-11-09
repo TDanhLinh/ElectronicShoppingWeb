@@ -24,7 +24,7 @@ import com.hust.Ecommerce.dtos.ApiResponse;
 
 import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
 import com.hust.Ecommerce.dtos.authentication.PasswordChangeDTO;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;

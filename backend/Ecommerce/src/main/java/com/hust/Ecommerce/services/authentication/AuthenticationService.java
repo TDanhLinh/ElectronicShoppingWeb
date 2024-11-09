@@ -18,9 +18,10 @@ import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.constants.MessageKeys;
 import com.hust.Ecommerce.constants.RoleKeys;
 import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
-import com.hust.Ecommerce.entities.Role;
-import com.hust.Ecommerce.entities.Token;
-import com.hust.Ecommerce.entities.User;
+import com.hust.Ecommerce.entities.authentication.Role;
+import com.hust.Ecommerce.entities.authentication.Token;
+import com.hust.Ecommerce.entities.authentication.User;
+import com.hust.Ecommerce.entities.enumeration.UserStatus;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
@@ -71,13 +72,13 @@ public class AuthenticationService implements IAuthenticationService {
         if (userDTO.getAvatar() != null) {
             newUser.setAvatar(userDTO.getAvatar());
         }
-        if (userDTO.getLangKey() != null) {
-            newUser.setLangKey(userDTO.getLangKey());
+        if (userDTO.getLanguage() != null) {
+            newUser.setLanguage(userDTO.getLanguage());
         } else {
-            newUser.setLangKey(AppConstants.DEFAULT_LANGUAGE);
+            newUser.setLanguage(AppConstants.DEFAULT_LANGUAGE);
         }
         // new user is not active
-        newUser.setStatus(0);
+        newUser.setStatus(UserStatus.BANNED);
 
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
@@ -99,7 +100,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .findByActivationKey(key)
                 .map(user -> {
                     // activate given user for the registration key.
-                    user.setStatus(1);
+                    user.setStatus(UserStatus.ACTIVED);
                     user.setActivationKey(null);
                     log.debug("Activated user: {}", user);
                     return user;
@@ -107,7 +108,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     private boolean removeNonActivatedUser(User existingUser) {
-        if (existingUser.getStatus() == 1) {
+        if (existingUser.getStatus() != UserStatus.NON_ACTIVED) {
             return false;
         }
         userRepository.delete(existingUser);
@@ -138,7 +139,7 @@ public class AuthenticationService implements IAuthenticationService {
     public Optional<User> forgetPassword(String email) {
         return userRepository
                 .findByEmail(email)
-                .filter(user -> user.getStatus() != 0)
+                .filter(user -> user.getStatus() != UserStatus.NON_ACTIVED)
                 .map(user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
                     user.setResetDate(Instant.now());

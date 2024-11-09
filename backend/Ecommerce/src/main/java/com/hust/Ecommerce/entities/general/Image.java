@@ -1,10 +1,14 @@
-package com.hust.Ecommerce.entities;
+package com.hust.Ecommerce.entities.general;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.enumeration.ImageType;
+import com.hust.Ecommerce.entities.product.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -23,6 +27,7 @@ public class Image extends BaseEntity {
     private String imageUrl;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private ImageType type;
 
     @ManyToOne
