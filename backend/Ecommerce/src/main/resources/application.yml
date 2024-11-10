@@ -11,6 +11,8 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/ecommerce?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${MYSQL_ROOT_USERNAME:root}
     password: ${MYSQL_ROOT_PASSWORD:root}
+
+  #hibernate jpa
   jpa:
     show-sql: true
     hibernate:
@@ -20,6 +22,14 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
+  #upload
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB # Maximum file size
+      max-request-size: 10MB # Maximum request size
+
+  #mail
   mail:
     host: smtp.gmail.com
     port: 587
@@ -31,16 +41,22 @@ spring:
           auth: true
           starttls:
             enable: true
-
+  #source
   messages:
     basename: i18n/messages
+
 api:
   prefix: /api
+#cloudinary
+cloudinary:
+  cloud_name: dgjrkjkch
+  api_key: 117489847957392
+  api_secret: wGy6bXdWsLEByD3NNiSSEMhSFlg
 
 domain:
   protocol: http://localhost:${server.port}
   front_end_protocol: http://localhost:3000
-
+#jwt
 jwt:
   expiration-token: 2592000 # 30 days = 30 * 24 * 60 * 60
   expiration-refresh-token: 5184000 # 60 days = 60 * 24 * 60 * 60

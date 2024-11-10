@@ -10,8 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.hust.Ecommerce.security.JwtAuthenticationEntryPoint;
@@ -68,12 +67,12 @@ public class SecurityConfiguration {
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .exceptionHandling(
-                                                exceptions -> exceptions
-                                                                .authenticationEntryPoint(
-                                                                                new BearerTokenAuthenticationEntryPoint())
-                                                                .accessDeniedHandler(
-                                                                                new BearerTokenAccessDeniedHandler()))
+                                // .exceptionHandling(
+                                // exceptions -> exceptions
+                                // .authenticationEntryPoint(
+                                // new BearerTokenAuthenticationEntryPoint())
+                                // .accessDeniedHandler(
+                                // new BearerTokenAccessDeniedHandler()))
                                 .oauth2ResourceServer(oauth2 -> oauth2
                                                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                                                 .jwt());

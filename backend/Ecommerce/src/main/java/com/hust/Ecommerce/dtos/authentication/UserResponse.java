@@ -17,5 +17,5 @@ public class UserResponse {
     private String address;
     private String avatar;
     private String language;
-    private Role_UserRequest role;
+    private RoleDTO role;
 }
