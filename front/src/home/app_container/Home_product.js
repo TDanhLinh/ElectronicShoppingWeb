@@ -23,7 +23,6 @@ export function Home_product() {
                     brand: 'Whoo',
                     origin: 'Hàn Quốc',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
                 {
                     id: 2,
@@ -36,7 +35,6 @@ export function Home_product() {
                     brand: 'MB Bank',
                     origin: 'Việt Nam',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: false,
                 },
                 {
                     id: 3,
@@ -49,7 +47,6 @@ export function Home_product() {
                     brand: 'ooo',
                     origin: 'Trung Quốc',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
                 {
                     id: 4,
@@ -62,7 +59,6 @@ export function Home_product() {
                     brand: 'pp',
                     origin: 'Lào',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
                 {
                     id: 5,
@@ -75,7 +71,6 @@ export function Home_product() {
                     brand: 'pp',
                     origin: 'Lào',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
                 {
                     id: 6,
@@ -88,7 +83,6 @@ export function Home_product() {
                     brand: 'pp',
                     origin: 'Lào',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: false,
                 },
                 {
                     id: 7,
@@ -101,7 +95,6 @@ export function Home_product() {
                     brand: 'pp',
                     origin: 'Lào',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
                 {
                     id: 8,
@@ -114,7 +107,6 @@ export function Home_product() {
                     brand: 'pp',
                     origin: 'Lào',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
                 {
                     id: 9,
@@ -127,7 +119,6 @@ export function Home_product() {
                     brand: 'pp',
                     origin: 'Lào',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
                 {
                     id: 10,
@@ -140,7 +131,6 @@ export function Home_product() {
                     brand: 'pp',
                     origin: 'Lào',
                     description: 'Lorem Ipsum est un texte d’espace réservé couramment utilisé dans les industries graphique, imprimée et éditoriale pour prévisualiser les mises en page et les maquettes visuelles.',
-                    liked: true,
                 },
             ];
 

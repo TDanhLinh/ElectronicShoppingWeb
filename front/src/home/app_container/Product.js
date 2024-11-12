@@ -29,31 +29,18 @@ export function Product({item}) {
                     <span className="home-product-item__price-old">{item.originalPrice.toLocaleString()}đ</span>
                     <span className="home-product-item__price-current">{item.discountedPrice.toLocaleString()}đ</span>
                 </div>
-                <div className="home-product-item__action">
-                    <span className={"home-product-item__like" + ((item.liked) ? " home-product-item__like--liked" : "")}>
-                        <i className="home-product-item__like-icon-default far fa-heart"></i>
-                        <i className="home-product-item__like-icon-liked fas fa-heart"></i>
-                    </span>
-                    <div className="home-product-item__rating">
-                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                        <i className="home-product-item__rating--gold fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <span className="home-product-item__sold">{item.sold} đã bán</span>
-                    </div>
+                <div className="home-product-item__rating">
+                    <i className="home-product-item__rating--gold fas fa-star" />
+                    <i className="home-product-item__rating--gold fas fa-star" />
+                    <i className="home-product-item__rating--gold fas fa-star" />
+                    <i className="home-product-item__rating--gold fas fa-star" />
+                    <i className="fas fa-star"></i>
                 </div>
+                <div className="home-product-item__sold">{item.sold} đã bán</div>
                 <div className="home-product-item__origin">
                     <span className="home-product-item__brand">{item.brand}</span>
                     <span className="home-product-item__origin-name">{item.origin}</span>
                 </div>
-                {
-                    item.liked &&
-                    <div className="home-product-item__favorite">
-                        <i className="fas fa-check"></i>
-                        <span className="">Yêu thích</span>
-                    </div>
-                }
                 <div className="home-product-item__sale-off">
                     <span className="home-product-item__sale-off-percent">{100-(item.discountedPrice * 100 / item.originalPrice).toFixed(0)}%</span>
                     <span className="home-product-item__sale-off-label">GIẢM</span>
@@ -98,7 +85,7 @@ export function Product({item}) {
                                         </div>
                                         <div className='home-product-item__content-rate-amount'>(12)</div>
                                         <div className='separation'></div>
-                                        <div className="home-product-item__sold">Đã bán {item.sold}</div>
+                                        <div className="home-product-item__content-sold">Đã bán {item.sold}</div>
                                     </div>
                                     <div className="home-product-item__content-origin-name">Made in {item.origin}</div>
                                     <div className='home-product-item__content-price'>

@@ -959,78 +959,26 @@
     margin-left: 10px;
 }
 
-.home-product-item__action {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin: 6px 10px 0;
-}
-
-.home-product-item__like {
-    font-size: 1.3rem;
-    color: #ccc;
-}
-
-.home-product-item__like-icon-liked {
-    display: none;
-    color: #F63D30;
-}
-
-.home-product-item__like--liked .home-product-item__like-icon-liked {
-    display: inline-block;
-}
-
-.home-product-item__like--liked .home-product-item__like-icon-default {
-    display: none;
-}
-
 .home-product-item__rating {
-    font-size: 0.8rem;
+    display: flex;
+    flex-direction: row;
     color: #ccc;
+    margin: 6px 10px 0;
+    gap: 4px;
 }
 
 .home-product-item__rating--gold {
     color: var(--star-gold-color);
 }
 
+.fa-star {
+    font-size: 14px;
+}
+
 .home-product-item__sold {
-    font-size: 1.2rem;
-    color: var(--text-color);
-    margin-left: 1px;
-}
-
-.home-product-item__favorite {
-    position: absolute;
-    top: 10px;
-    left: -4px;
-    padding: 0 6px 0 0;
-    color: var(--primary-color);
-    background-color: currentColor;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-.home-product-item__favorite::after {
-    position: absolute;
-    content: "";
-    bottom: -3px;
-    left: 0;
-    border-top: 3px solid currentColor;
-    border-left: 3px solid transparent;
-    filter: brightness(60%);
-}
-
-.home-product-item__favorite span {
-    color: var(--white-color);
-    font-size: 1.2rem;
-    font-weight: 500;
-    line-height: 1.6rem;
-}
-
-.home-product-item__favorite i {
-    color: var(--white-color);
-    font-size: 0.9rem;
-    margin: 0 2px 0 4px;
+    font-size: 12px;
+    color: rgb(120, 120, 120);
+    margin: 6px 10px 0;
 }
 
 .home-product-item__origin {
@@ -1229,6 +1177,11 @@
     line-height: 24px;
 }
 
+.home-product-item__content-sold {
+    font-size: 14px;
+    color: rgb(120, 120, 120);
+}
+
 .home-product-item__content-price {
     display: flex;
     -webkit-box-align: center;
@@ -1243,12 +1196,6 @@
 
 .home-product-item__content-rating--grey {
     color: #dbdbdb;
-}
-
-.home-product-item__sold {
-    font-size: 14px;
-    line-height: 24px;
-    color: rgb(120, 120, 120);
 }
 
 .home-product-item__content-origin-name {
