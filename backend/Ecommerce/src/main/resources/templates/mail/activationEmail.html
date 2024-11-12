@@ -17,7 +17,7 @@
     </p>
     <p>
       <a
-        th:with="url=(@{|${baseUrl}${prefix}/account/activate?key=${user.activationKey}|})"
+        th:with="url=(@{|${baseUrl}${prefix}/auth/registration/confirm?key=${user.activationKey}|})"
         th:href="${url}"
         th:text="${url}"
         >Activation link</a

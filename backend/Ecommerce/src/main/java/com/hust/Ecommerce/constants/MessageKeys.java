@@ -47,7 +47,7 @@ public class MessageKeys {
     public static final String USER_ID_LOCKED = "user.is.lock";
     public static final String USER_ID_UNLOCKED = "user.is.unlock";
     public static final String REFRESH_TOKEN_SUCCESS = "refresh.token.success";
-
+    public static final String ACCOUNT_NOT_ACTIVED = "account.not.actived";
     // token
     public static final String ERROR_REFRESH_TOKEN = "user.refresh_token.failed";
     public static final String TOKEN_NOT_FOUND = "user.token.not_found";

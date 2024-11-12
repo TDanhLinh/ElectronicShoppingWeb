@@ -10,10 +10,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
-import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
+
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.hust.Ecommerce.security.JwtAuthenticationEntryPoint;
 
@@ -38,7 +36,8 @@ public class SecurityConfiguration {
                                 .cors(AbstractHttpConfigurer::disable) // Enable CORS
                                 .authorizeHttpRequests(request -> request
                                                 .requestMatchers(HttpMethod.GET,
-                                                                String.format("%s/account/activate/**", apiPrefix),
+                                                                String.format("%s/auth/registration/confirm/**",
+                                                                                apiPrefix),
 
                                                                 // sagger-ui
                                                                 "/v2/api-docs",
@@ -54,26 +53,26 @@ public class SecurityConfiguration {
                                                                 "/swagger-ui.html/**")
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.POST,
-                                                                String.format("%s/register", apiPrefix),
-                                                                String.format("%s/login", apiPrefix),
-                                                                String.format("%s/refresh-token", apiPrefix),
-                                                                String.format("%s/account/reset-password/init",
+                                                                String.format("%s/auth/registration", apiPrefix),
+                                                                String.format("%s/auth/login", apiPrefix),
+                                                                String.format("%s/auth/refresh-token", apiPrefix),
+                                                                String.format("%s/auth/forgot-password",
                                                                                 apiPrefix))
 
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.PUT,
-                                                                String.format("%s/account/reset-password/finish/**",
+                                                                String.format("%s/auth/reset-password/**",
                                                                                 apiPrefix))
                                                 .permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .exceptionHandling(
-                                                exceptions -> exceptions
-                                                                .authenticationEntryPoint(
-                                                                                new BearerTokenAuthenticationEntryPoint())
-                                                                .accessDeniedHandler(
-                                                                                new BearerTokenAccessDeniedHandler()))
+                                // .exceptionHandling(
+                                // exceptions -> exceptions
+                                // .authenticationEntryPoint(
+                                // new BearerTokenAuthenticationEntryPoint())
+                                // .accessDeniedHandler(
+                                // new BearerTokenAccessDeniedHandler()))
                                 .oauth2ResourceServer(oauth2 -> oauth2
                                                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                                                 .jwt());
