@@ -1,14 +1,15 @@
-package com.hust.Ecommerce.repositories.inventory;
+// package com.hust.Ecommerce.repositories.inventory;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+// import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.hust.Ecommerce.entities.inventory.Inventory;
-import com.hust.Ecommerce.entities.product.Product;
+// import com.hust.Ecommerce.entities.inventory.Count;
+// import com.hust.Ecommerce.entities.product.Product;
 
-import java.util.List;
+// import java.util.List;
 
-public interface InventoryRepository extends JpaRepository<Inventory, Long>, JpaSpecificationExecutor<Inventory> {
+// public interface InventoryRepository extends JpaRepository<Count, Long>,
+// JpaSpecificationExecutor<Count> {
 
-    List<Inventory> findByProduct(Product product);
-}
+// List<Count> findByProduct(Product product);
+// }

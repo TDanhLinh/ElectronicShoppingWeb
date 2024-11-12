@@ -2,8 +2,6 @@ package com.hust.Ecommerce.dtos.product;
 
 import java.util.List;
 
-import org.springframework.lang.Nullable;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hust.Ecommerce.dtos.general.ImageRequest;
 
@@ -18,7 +16,6 @@ public class ProductRequest {
     private List<ImageRequest> images;
     private Integer status;
 
-    private Double price;
     private List<Long> categoryIds;
 
     private Long brandId;
@@ -31,16 +28,5 @@ public class ProductRequest {
 
     private Long warrantyDuration;
 
-    // tao inventory ngay khi tao san pham
-    @Nullable
-    private ProductRequest.InventoryProductRequest inventory;
-
-    @Data
-    public static class InventoryProductRequest {
-        private Integer amount;
-        private Integer available;
-        private Integer sold = 0;
-
-    }
-
+    private List<VariantRequest> variants;
 }

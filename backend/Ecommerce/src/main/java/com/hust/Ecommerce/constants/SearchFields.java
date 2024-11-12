@@ -63,4 +63,9 @@ public interface SearchFields {
                         "user.name",
                         "user.email");
 
+        List<String> VARIANT = List.of(
+                        "product.name",
+                        "product.code",
+                        "sku");
+
 }

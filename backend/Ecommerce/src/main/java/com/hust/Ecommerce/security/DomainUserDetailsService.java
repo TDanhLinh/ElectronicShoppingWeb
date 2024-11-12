@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.enumeration.UserStatus;
+import com.hust.Ecommerce.entities.authentication.UserStatus;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;

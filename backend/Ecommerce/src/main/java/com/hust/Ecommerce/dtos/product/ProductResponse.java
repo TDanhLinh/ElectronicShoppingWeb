@@ -35,18 +35,18 @@ public class ProductResponse {
 
     private Long warrantyDuration;
 
-    @Nullable
-    private ProductResponse.InventoryProductResponse inventory;
+    private List<ProductResponse.VariantResponse> variants;
 
     @Data
-    public static class InventoryProductResponse {
+    public static class VariantResponse {
         private Long id;
         private Instant createdAt;
         private Instant updatedAt;
-        private Integer amount;
-        private Integer available;
-        private Integer sold;
-
+        private String sku;
+        private Double cost;
+        private Double price;
+        @Nullable
+        private JsonNode properties;
+        private Integer status;
     }
-
 }

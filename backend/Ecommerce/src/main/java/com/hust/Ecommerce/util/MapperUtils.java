@@ -21,10 +21,12 @@ import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.product.Brand;
 import com.hust.Ecommerce.entities.product.Category;
 import com.hust.Ecommerce.entities.product.Product;
+import com.hust.Ecommerce.entities.product.Variant;
 import com.hust.Ecommerce.repositories.authentication.RoleRepository;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
 import com.hust.Ecommerce.repositories.product.CategoryRepository;
 import com.hust.Ecommerce.repositories.product.ProductRepository;
+import com.hust.Ecommerce.repositories.product.VariantRepository;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class MapperUtils {
@@ -38,6 +40,8 @@ public abstract class MapperUtils {
     private RoleRepository roleRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private VariantRepository variantRepository;
 
     @Named("hashPassword")
     public String hashPassword(String password) {
@@ -69,18 +73,22 @@ public abstract class MapperUtils {
         return roleRepository.getById(name);
     }
 
+    public Variant mapToVariant(Long id) {
+        return variantRepository.getById(id);
+    }
+
     @AfterMapping
     @Named("attachProduct")
     public Product attachProduct(@MappingTarget Product product) {
-        product.getImageList().forEach(image -> image.setProduct(product));
+        product.getImages().forEach(image -> image.setProduct(product));
 
-        product.getCategoryList().forEach(category -> {
-            if (!category.getProductList().contains(product)) {
-                category.getProductList().add(product); // Thêm product vào danh sách của category
+        product.getCategories().forEach(category -> {
+            if (!category.getProducts().contains(product)) {
+                category.getProducts().add(product); // Thêm product vào danh sách của category
             }
         });
-
-        product.setCategoryList(attachList(product.getCategoryList(), categoryRepository));
+        product.getVariants().forEach(variant -> variant.setProduct(product));
+        product.setCategories(attachList(product.getCategories(), categoryRepository));
         return product;
     }
 

@@ -1,14 +1,14 @@
 package com.hust.Ecommerce.entities.order;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.enumeration.OrderState;
+import com.hust.Ecommerce.entities.payment.PaymentMethodType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,7 +18,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,18 +44,40 @@ public class Order extends BaseEntity {
     @Column(name = "note", length = 100)
     private String note;
 
-    @Column(name = "payment_state")
-    private String paymentState;
+    @Column(name = "tax", nullable = false, columnDefinition = "DECIMAL(15,5)")
+    private BigDecimal tax;
 
-    @Column(name = "payment_method")
-    private String paymentMethod;
+    @Column(name = "shipping_cost", nullable = false, columnDefinition = "DECIMAL(15,5)")
+    private BigDecimal shippingCost;
+
+    @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
+    private BigDecimal totalPay;
+
+    @Column(name = "payment_method_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentMethodType paymentMethodType;
+
+    // 2 trạng thái: (1) Chưa thanh toán, (2) Đã thanh toán
+    @Column(name = "payment_status", nullable = false, columnDefinition = "TINYINT")
+    private Integer paymentStatus;
+
+    @Column(name = "vnpay_order_id")
+    private String vnPayOrderId;
+
+    @Column(name = "vnpay_order_status")
+    private String vnPayOrderStatus;
+
+    // shipping infor
+    @Column(name = "to_name", nullable = false)
+    private String toName;
+
+    @Column(name = "to_phone", nullable = false)
+    private String toPhone;
+
+    @Column(name = "to_address", nullable = false)
+    private String toAddress;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
-    @JsonManagedReference
-    private List<OrderDetail> orderDetailList = new ArrayList<>();
-
-    @OneToOne
-    @JoinColumn(name = "shipping_infors_id")
-    private ShippingInfor shippingInfor;
+    private List<OrderVariant> orderVariants = new ArrayList<>();
 
 }

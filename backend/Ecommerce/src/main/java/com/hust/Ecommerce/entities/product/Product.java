@@ -12,8 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.cart.Cart;
 import com.hust.Ecommerce.entities.general.Image;
-import com.hust.Ecommerce.entities.inventory.Inventory;
-import com.hust.Ecommerce.entities.order.OrderDetail;
+import com.hust.Ecommerce.entities.order.OrderVariant;
 import com.hust.Ecommerce.entities.review.Review;
 import com.hust.Ecommerce.util.JsonNodeConverter;
 
@@ -52,9 +51,6 @@ public class Product extends BaseEntity {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @Column(name = "price")
-    private Double price;
-
     @Column(name = "status")
     private String status;
 
@@ -80,26 +76,21 @@ public class Product extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categoryList = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<Image> imageList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Cart> cartList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<OrderDetail> orderDetailList = new ArrayList<>();
+    private List<Image> images = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<Review> reviewList = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "inventory_id", referencedColumnName = "id")
-    private Inventory inventory;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Variant> variants = new ArrayList<>();
+    // @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    // @JoinColumn(name = "inventory_id", referencedColumnName = "id")
+    // private Count inventory;
 
 }

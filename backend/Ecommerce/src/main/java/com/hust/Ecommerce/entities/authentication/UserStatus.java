@@ -1,4 +1,4 @@
-package com.hust.Ecommerce.entities.enumeration;
+package com.hust.Ecommerce.entities.authentication;
 
 public enum UserStatus {
     NON_ACTIVED,

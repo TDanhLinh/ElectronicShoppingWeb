@@ -1,4 +1,4 @@
-package com.hust.Ecommerce.entities.enumeration;
+package com.hust.Ecommerce.entities.general;
 
 public enum ImageType {
     PRODUCT_IMAGE,

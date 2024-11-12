@@ -6,8 +6,8 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.hust.Ecommerce.entities.authentication.GenderEnum;
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.enumeration.Gender;
 import com.hust.Ecommerce.util.InstantDateOnlyDeserializer;
 
 import jakarta.validation.constraints.NotNull;
@@ -33,7 +33,7 @@ public class AdminUserDTO implements Serializable {
     @NotNull(message = "field name is not accept null")
     private String name;
 
-    private Gender gender;
+    private GenderEnum gender;
 
     @JsonProperty("phone_number")
     private String phoneNumber;

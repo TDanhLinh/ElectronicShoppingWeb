@@ -7,8 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hust.Ecommerce.entities.authentication.GenderEnum;
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.enumeration.Gender;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
@@ -26,7 +26,7 @@ public class UserSetting implements IUserSetting {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void updatePersonalSetting(String name, Gender gender, String phoneNumber, String address, String avatar,
+    public void updatePersonalSetting(String name, GenderEnum gender, String phoneNumber, String address, String avatar,
             Instant datOfBirth) {
         SecurityUtils.getCurrentUserLogin()
                 .flatMap(userRepository::findByEmail)

@@ -9,4 +9,5 @@ public interface ResourceName {
     String BRAND = "Brand";
     String IMAGE = "Image";
     String BLOG = "Blog";
+    String VARIANT = "Variant";
 }

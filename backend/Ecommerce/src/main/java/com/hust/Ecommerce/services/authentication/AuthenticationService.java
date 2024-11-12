@@ -21,7 +21,7 @@ import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
 import com.hust.Ecommerce.entities.authentication.Role;
 import com.hust.Ecommerce.entities.authentication.Token;
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.enumeration.UserStatus;
+import com.hust.Ecommerce.entities.authentication.UserStatus;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;

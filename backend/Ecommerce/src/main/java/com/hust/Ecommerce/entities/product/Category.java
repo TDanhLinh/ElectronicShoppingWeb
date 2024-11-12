@@ -35,6 +35,6 @@ public class Category extends BaseEntity {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @ManyToMany(mappedBy = "categoryList", fetch = FetchType.LAZY)
-    private List<Product> productList = new ArrayList<>();
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
 }

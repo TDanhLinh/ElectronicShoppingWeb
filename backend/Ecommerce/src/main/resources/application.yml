@@ -47,15 +47,28 @@ spring:
 
 api:
   prefix: /api
+
 #cloudinary
 cloudinary:
   cloud_name: dgjrkjkch
   api_key: 117489847957392
   api_secret: wGy6bXdWsLEByD3NNiSSEMhSFlg
 
+#payment
+payment:
+  vnPay:
+    url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    tmnCode: B0G7MQOH
+    secretKey: MUQDZO18PYW9GLBHMISDS442I9SARIHT
+    returnUrl: http://localhost:${server.port}/api/payment/vn-pay/call-back
+    version: 2.1.0
+    command: pay
+    orderType: other
+
 domain:
   protocol: http://localhost:${server.port}
   front_end_protocol: http://localhost:3000
+
 #jwt
 jwt:
   expiration-token: 2592000 # 30 days = 30 * 24 * 60 * 60

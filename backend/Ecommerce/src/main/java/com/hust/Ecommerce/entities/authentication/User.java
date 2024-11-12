@@ -1,6 +1,5 @@
 package com.hust.Ecommerce.entities.authentication;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +7,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.entities.BaseEntity;
-import com.hust.Ecommerce.entities.enumeration.Gender;
-import com.hust.Ecommerce.entities.enumeration.UserStatus;
 import com.hust.Ecommerce.entities.order.Order;
-import com.hust.Ecommerce.entities.order.ShippingInfor;
+
 import com.hust.Ecommerce.entities.product.Blog;
 import com.hust.Ecommerce.entities.review.Review;
 
@@ -49,7 +46,7 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    private Gender gender;
+    private GenderEnum gender;
 
     @Pattern(regexp = AppConstants.PHONE_NUMBER)
     @Column(name = "phone_number", unique = true, length = 15)
@@ -100,22 +97,18 @@ public class User extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Blog> blogList = new ArrayList<>();
+    private List<Blog> blogs = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Order> orderList = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Token> tokenList = new ArrayList<>();
+    private List<Token> tokens = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Review> reviewList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<ShippingInfor> shippingInforList = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
 }
