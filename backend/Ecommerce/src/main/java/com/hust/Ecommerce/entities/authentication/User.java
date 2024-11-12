@@ -70,9 +70,9 @@ public class User extends BaseEntity {
     @JsonIgnore
     private int googleAccountId;
 
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    // trang thai user (0): NOT_ACTIVATED, (1): ACTIVATED, (2): BANNED
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
 
     @Size(max = 20)
     @Column(name = "activation_key", length = 20)

@@ -51,8 +51,9 @@ public class Product extends BaseEntity {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @Column(name = "status")
-    private String status;
+    // trang thai san pham (0): chua nhap ve (1): san sang de ban (2): khong con ban
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
 
     @Column(name = "warranty_duration")
     private Long warrantyDuration;

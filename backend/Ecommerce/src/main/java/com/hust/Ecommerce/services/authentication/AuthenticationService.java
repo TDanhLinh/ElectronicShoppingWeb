@@ -21,7 +21,6 @@ import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
 import com.hust.Ecommerce.entities.authentication.Role;
 import com.hust.Ecommerce.entities.authentication.Token;
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.authentication.UserStatus;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
@@ -78,7 +77,7 @@ public class AuthenticationService implements IAuthenticationService {
             newUser.setLanguage(AppConstants.DEFAULT_LANGUAGE);
         }
         // new user is not active
-        newUser.setStatus(UserStatus.BANNED);
+        newUser.setStatus(0);
 
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
@@ -100,7 +99,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .findByActivationKey(key)
                 .map(user -> {
                     // activate given user for the registration key.
-                    user.setStatus(UserStatus.ACTIVED);
+                    user.setStatus(1);
                     user.setActivationKey(null);
                     log.debug("Activated user: {}", user);
                     return user;
@@ -108,7 +107,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     private boolean removeNonActivatedUser(User existingUser) {
-        if (existingUser.getStatus() != UserStatus.NON_ACTIVED) {
+        if (existingUser.getStatus() != 0) {
             return false;
         }
         userRepository.delete(existingUser);
@@ -139,7 +138,7 @@ public class AuthenticationService implements IAuthenticationService {
     public Optional<User> forgetPassword(String email) {
         return userRepository
                 .findByEmail(email)
-                .filter(user -> user.getStatus() != UserStatus.NON_ACTIVED)
+                .filter(user -> user.getStatus() != 0)
                 .map(user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
                     user.setResetDate(Instant.now());

@@ -2,7 +2,6 @@ package com.hust.Ecommerce.security;
 
 import java.util.List;
 
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.authentication.UserStatus;
 import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
@@ -38,7 +36,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String email, User user) {
-        if (user.getStatus() == UserStatus.NON_ACTIVED) {
+        if (user.getStatus() == 0) {
             throw new AppException(ErrorCode.ACCOUNT_NOT_ACTIVED);
         }
 

@@ -49,6 +49,7 @@ public class Variant extends BaseEntity {
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode images;
 
+    // trang thai san pham (0): chua san sang (1): san sang
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 

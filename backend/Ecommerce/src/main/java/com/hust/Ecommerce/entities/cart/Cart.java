@@ -30,10 +30,10 @@ public class Cart extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<CartVariant> carts = new ArrayList<>();
+    private List<CartVariant> cartVariants = new ArrayList<>();
 
     // 2 trạng thái: (1) Normal, (2) Complete
-    @Column(name = "status", nullable = false)
-    private CartStatus status;
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
 
 }
