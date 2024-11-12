@@ -7,20 +7,21 @@ import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import com.hust.Ecommerce.constants.FieldName;
 import com.hust.Ecommerce.constants.MessageKeys;
-
+import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.dtos.ApiResponse;
-
+import com.hust.Ecommerce.dtos.client.ClientCartResponse;
 import com.hust.Ecommerce.dtos.client.ClientCartVariantKeyRequest;
 import com.hust.Ecommerce.entities.authentication.User;
-
+import com.hust.Ecommerce.entities.cart.Cart;
 import com.hust.Ecommerce.entities.cart.CartVariantKey;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientCartMapper;
@@ -57,38 +58,38 @@ public class ClientCartController {
         return ResponseEntity.ok(ApiResponse.<ObjectNode>builder().success(true).payload(response).build());
     }
 
-    // @PostMapping
-    // public ResponseEntity<ClientCartResponse> saveCart(@RequestBody
-    // ClientCartRequest request) {
-    // final Cart cartBeforeSave;
+    @PostMapping
+    public ResponseEntity<ApiResponse<?>> saveCart(@RequestBody ClientCartRequest request) {
+        final Cart cartBeforeSave;
 
-    // // TODO: Đôi khi cartId null nhưng thực tế user vẫn đang có cart trong DB
-    // if (request.getCartId() == null) {
-    // cartBeforeSave = clientCartMapper.requestToEntity(request);
-    // } else {
-    // cartBeforeSave = cartRepository.findById(request.getCartId())
-    // .map(existingEntity -> clientCartMapper.partialUpdate(existingEntity,
-    // request))
-    // .orElseThrow(() -> new ResourceNotFoundException(ResourceName.CART,
-    // FieldName.ID, request.getCartId()));
-    // }
+        // TODO: Đôi khi cartId null nhưng thực tế user vẫn đang có cart trong DB
+        if (request.getCartId() == null) {
+            cartBeforeSave = clientCartMapper.requestToEntity(request);
+        } else {
+            cartBeforeSave = cartRepository.findById(request.getCartId())
+                    .map(existingEntity -> clientCartMapper.partialUpdate(existingEntity,
+                            request))
+                    .orElseThrow(() -> new ResourceNotFoundException(ResourceName.CART,
+                            FieldName.ID, request.getCartId()));
+        }
 
-    // // Validate Variant Inventory
-    // for (CartVariant cartVariant : cartBeforeSave.getCartVariants()) {
-    // int inventory = InventoryUtils
-    // .calculateInventoryIndices(docketVariantRepository.findByVariantId(cartVariant.getCartVariantKey().getVariantId()))
-    // .get("canBeSold");
-    // if (cartVariant.getQuantity() > inventory) {
-    // throw new RuntimeException("Variant quantity cannot greater than variant
-    // inventory");
-    // }
-    // }
+        // // Validate Variant Inventory
+        // for (CartVariant cartVariant : cartBeforeSave.getCartVariants()) {
+        // int inventory = InventoryUtils
+        // .calculateInventoryIndices(
+        // docketVariantRepository.findByVariantId(cartVariant.getCartVariantKey().getVariantId()))
+        // .get("canBeSold");
+        // if (cartVariant.getQuantity() > inventory) {
+        // throw new RuntimeException("Variant quantity cannot greater than variant
+        // inventory");
+        // }
+        // }
 
-    // Cart cart = cartRepository.save(cartBeforeSave);
-    // ClientCartResponse clientCartResponse =
-    // clientCartMapper.entityToResponse(cart);
-    // return ResponseEntity.status(HttpStatus.OK).body(clientCartResponse);
-    // }
+        Cart cart = cartRepository.save(cartBeforeSave);
+        ClientCartResponse clientCartResponse = clientCartMapper.entityToResponse(cart);
+        return ResponseEntity
+                .ok(ApiResponse.<ClientCartResponse>builder().success(true).payload(clientCartResponse).build());
+    }
 
     @DeleteMapping
     public ResponseEntity<ApiResponse<?>> deleteCartItems(@RequestBody List<ClientCartVariantKeyRequest> idRequests) {

@@ -84,9 +84,9 @@ public class AuthenticationService implements IAuthenticationService {
 
         // Set<Role> roles = new HashSet<>();
         Optional<Role> role = roleRepository.findById(RoleKeys.USER);
-        if (role.isPresent()) {
-            newUser.setRole(role.get());
-        }
+        if (role.isEmpty())
+            throw new ResourceNotFoundException(MessageKeys.ROLE_NOT_FOUND);
+        newUser.setRole(role.get());
         userRepository.save(newUser);
 
         log.debug("Created Information for User: {}", newUser);

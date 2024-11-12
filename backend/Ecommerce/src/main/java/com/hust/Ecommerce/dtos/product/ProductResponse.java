@@ -44,7 +44,6 @@ public class ProductResponse {
         private Instant updatedAt;
         private String sku;
         private Double cost;
-        private Double price;
         @Nullable
         private JsonNode properties;
         private Integer status;
