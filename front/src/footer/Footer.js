@@ -1,0 +1,93 @@
+import Link from 'next/link';
+
+export function Footer() {
+    return (
+        <footer className="footer">
+            <div className="grid wide">
+                <div className="row footer__content">
+                    <div className="col l-2-4 m-4 c-8">
+                        <h3 className="footer__heading">Chăm sóc khách hàng</h3>
+                        <ul className="footer-list">
+                            <li className="footer-item">
+                                <Link href="">Trung tâm trợ giúp</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="">Hướng dẫn mua hàng</Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col l-2-4 m-4 c-4">
+                        <h3 className="footer__heading">Giới thiệu</h3>
+                        <ul className="footer-list">
+                            <li className="footer-item">
+                                <Link href="">Giới thiệu</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="">Tuyển dụng</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="">Điều khoản</Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col l-2-4 m-4 c-8">
+                        <h3 className="footer__heading">Theo dõi chúng tôi</h3>
+                        <ul className="footer-list">
+                            <li className="footer-item">
+                                <Link href="https://www.facebook.com/">
+                                    <i className="fab fa-facebook"></i>
+                                    Facebook                         
+                                </Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="https://www.instagram.com/">
+                                    <i className="fab fa-instagram"></i>
+                                    Instagram
+                                </Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="https://www.linkedin.com/">
+                                    <i className="fab fa-linkedin"></i>
+                                    LinkedIn
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col l-2-4 m-4 c-4">
+                        <h3 className="footer__heading">Chưa nghĩ ra</h3>
+                        <ul className="footer-list">
+                            <li className="footer-item">
+                                <Link href="">Nội dung 1</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="">Nội dung 2</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="">Nội dung 3</Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col l-2-4 m-8 c-12">
+                        <h3 className="footer__heading footer__download-mobile">Vào cửa hàng trên ứng dụng</h3>
+                        <div className="footer__download">
+                            <img src="./assets/img/QR_code.png" alt="Download QR" className="footer__download-qr"/>
+                            <div className="footer__download-app">
+                                <Link href="https://www.Googleplay.com" className="footer__download-app-link">
+                                    <img src="./assets/img/GooglePlay.png" alt="Google play" className="footer__download-icon"/>
+                                </Link>
+                                <Link href="" className="footer__download-app-link">
+                                    <img src="./assets/img/Appstore.png" alt="Appstore" className="footer__download-icon"/>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="footer__copyright">
+                <div className="grid wide">
+                    <p className="footer__text">© 2024 Website được làm bởi nhóm 30 - Website được tạo ra vì mục đích học tập, không vì mục đích thương mại</p>
+                </div>
+            </div>
+        </footer>
+    )
+}

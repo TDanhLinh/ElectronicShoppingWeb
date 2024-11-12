@@ -11,8 +11,7 @@ export function Register() {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
+    const [name, setName] = useState("");
     const [exist, setExist] = useState(false);
     const [address, setAddress] = useState("");
     const [success, setSuccess] = useState(false);
@@ -30,8 +29,7 @@ export function Register() {
         const newAccount = {
             email: email,
             password: password,
-            firstname: firstname,
-            lastname: lastname,
+            name: name,
             address: address,
             dob: dob,
             role: 0
@@ -85,26 +83,15 @@ export function Register() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <div className='name'>
-                        <input
-                            type="text"
-                            className="input-box"
-                            id="firstname"
-                            value={firstname}
-                            placeholder='First name'
-                            onChange={(e) => setFirstname(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="text"
-                            className="input-box"
-                            id="lastname"
-                            value={lastname}
-                            placeholder='Last name'
-                            onChange={(e) => setLastname(e.target.value)}
-                            required
-                        />
-                    </div>
+                    <input
+                        type="text"
+                        className="input-box"
+                        id="name"
+                        value={name}
+                        placeholder='Your name'
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
                     <div className='address-dob'>
                         <input
                             type="text"

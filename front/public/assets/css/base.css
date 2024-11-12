@@ -17,6 +17,34 @@
     caret-color: transparent;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu xám cho overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.separation {
+    width: 1px;
+    height: 12px;
+    background-color: rgb(199, 199, 199);
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.separation-row {
+    width: 100%;
+    height: 1px;
+    background-color: rgb(229, 229, 229);
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
 
 html {
     font-size: 62.5%; /* 1rem = 10px*/

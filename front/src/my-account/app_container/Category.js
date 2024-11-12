@@ -1,27 +1,4 @@
-import { useState, useEffect } from "react";
-
-export function Category() {
-    const categories = [
-        'Đồng hồ thông minh',
-        'Iphone',
-        'Samsung',
-        'Máy vi tính',
-        'Macbook',
-    ];
-
-    const [category, setCategory] = useState('');
-
-    useEffect(() => {
-        
-        setCategory(categories[0]);
-        localStorage.setItem('searchingFor', categories[0]);
-    }, [])
-
-    const clickOnCategory = (item) => {
-        setCategory(item);
-        localStorage.setItem('searchingFor', item);
-    }
-    
+export function Category({category, setCategory, categories}) {
     return (
         <nav className="category">
             <h3 className="category__heading">Danh mục</h3>
@@ -34,7 +11,7 @@ export function Category() {
                         >
                             <div
                                 className="category-item__link"
-                                onClick={()=>clickOnCategory(item)}
+                                onClick={()=>setCategory(item)}
                             >
                                 {item}
                             </div>
