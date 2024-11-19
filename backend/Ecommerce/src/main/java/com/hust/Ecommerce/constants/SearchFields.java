@@ -68,4 +68,12 @@ public interface SearchFields {
                         "product.code",
                         "sku");
 
+        List<String> MESSAGE = List.of(
+                        "createdAt",
+                        "room.id");
+
+        List<String> ROOM = List.of(
+                        "id",
+                        "name",
+                        "user.id");
 }

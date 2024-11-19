@@ -41,6 +41,7 @@ public class MessageKeys {
     public static final String NUMBER_OF_PRODUCT_REQUIRED = "number_of_product.required";
     public static final String CATEGORIES_NAME_REQUIRED = "categories_name.required";
 
+    public static final String CART_NOT_FOUND = "cart.not_found";
     public static final String PRODUCT_NOT_FOUND = "product.valid.not_found";
     public static final String CATEGORY_NOT_FOUND = "category.valid.not_found";
     public static final String ROLE_NOT_FOUND = "role.valid.not_found";

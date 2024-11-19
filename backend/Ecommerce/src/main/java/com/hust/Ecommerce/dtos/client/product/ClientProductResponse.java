@@ -1,7 +1,8 @@
-package com.hust.Ecommerce.dtos.client;
+package com.hust.Ecommerce.dtos.client.product;
 
 import java.util.List;
 
+import com.hust.Ecommerce.dtos.client.ClientCategoryResponse;
 import com.hust.Ecommerce.dtos.general.ImageResponse;
 
 import lombok.Data;

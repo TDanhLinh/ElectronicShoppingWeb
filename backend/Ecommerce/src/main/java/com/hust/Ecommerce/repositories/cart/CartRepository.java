@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.hust.Ecommerce.entities.cart.Cart;
 import com.hust.Ecommerce.entities.authentication.User;
+import com.hust.Ecommerce.entities.cart.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long>, JpaSpecificationExecutor<Cart> {
     @Query("SELECT c FROM Cart c JOIN c.user u WHERE u.name = :name AND c.status = 1")

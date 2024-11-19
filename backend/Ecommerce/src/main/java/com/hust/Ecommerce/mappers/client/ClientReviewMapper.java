@@ -2,9 +2,9 @@ package com.hust.Ecommerce.mappers.client;
 
 import org.springframework.stereotype.Component;
 
-import com.hust.Ecommerce.dtos.client.ClientReviewRequest;
-import com.hust.Ecommerce.dtos.client.ClientReviewResponse;
-import com.hust.Ecommerce.dtos.client.ClientSimpleReviewResponse;
+import com.hust.Ecommerce.dtos.client.review.ClientReviewRequest;
+import com.hust.Ecommerce.dtos.client.review.ClientReviewResponse;
+import com.hust.Ecommerce.dtos.client.review.ClientSimpleReviewResponse;
 import com.hust.Ecommerce.entities.review.Review;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
 import com.hust.Ecommerce.repositories.product.ProductRepository;

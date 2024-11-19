@@ -64,6 +64,7 @@ payment:
     version: 2.1.0
     command: pay
     orderType: other
+    timeout: 15 #in minute
 
 domain:
   protocol: http://localhost:${server.port}

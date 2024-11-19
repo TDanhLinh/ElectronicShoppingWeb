@@ -35,6 +35,7 @@ public class SecurityConfiguration {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .cors(AbstractHttpConfigurer::disable) // Enable CORS
                                 .authorizeHttpRequests(request -> request
+                                                .requestMatchers("/ws/**").permitAll()
                                                 .requestMatchers(HttpMethod.GET,
                                                                 String.format("%s/auth/registration/confirm/**",
                                                                                 apiPrefix),

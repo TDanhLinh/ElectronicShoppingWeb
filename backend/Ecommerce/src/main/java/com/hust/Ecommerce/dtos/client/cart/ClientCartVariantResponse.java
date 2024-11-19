@@ -1,4 +1,4 @@
-package com.hust.Ecommerce.dtos.client;
+package com.hust.Ecommerce.dtos.client.cart;
 
 import org.springframework.lang.Nullable;
 

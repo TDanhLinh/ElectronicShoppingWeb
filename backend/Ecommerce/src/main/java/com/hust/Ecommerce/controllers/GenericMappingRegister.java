@@ -15,6 +15,8 @@ import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.constants.SearchFields;
 import com.hust.Ecommerce.dtos.authentication.UserRequest;
 import com.hust.Ecommerce.dtos.authentication.UserResponse;
+import com.hust.Ecommerce.dtos.chat.RoomRequest;
+import com.hust.Ecommerce.dtos.chat.RoomResponse;
 import com.hust.Ecommerce.dtos.general.ImageRequest;
 import com.hust.Ecommerce.dtos.general.ImageResponse;
 
@@ -31,6 +33,7 @@ import com.hust.Ecommerce.dtos.product.VariantResponse;
 import com.hust.Ecommerce.dtos.review.ReviewRequest;
 import com.hust.Ecommerce.dtos.review.ReviewResponse;
 import com.hust.Ecommerce.entities.authentication.User;
+import com.hust.Ecommerce.entities.chat.Room;
 import com.hust.Ecommerce.entities.general.Image;
 import com.hust.Ecommerce.entities.product.Blog;
 import com.hust.Ecommerce.entities.product.Brand;
@@ -38,6 +41,7 @@ import com.hust.Ecommerce.entities.product.Category;
 import com.hust.Ecommerce.entities.product.Product;
 import com.hust.Ecommerce.entities.product.Variant;
 import com.hust.Ecommerce.mappers.authentication.UserMapper;
+import com.hust.Ecommerce.mappers.chat.RoomMapper;
 import com.hust.Ecommerce.mappers.general.ImageMapper;
 import com.hust.Ecommerce.mappers.product.BlogMapper;
 import com.hust.Ecommerce.mappers.product.BrandMapper;
@@ -45,6 +49,7 @@ import com.hust.Ecommerce.mappers.product.CategoryMapper;
 import com.hust.Ecommerce.mappers.product.ProductMapper;
 import com.hust.Ecommerce.mappers.product.VariantMapper;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
+import com.hust.Ecommerce.repositories.chat.RoomRepository;
 import com.hust.Ecommerce.repositories.general.ImageRepository;
 import com.hust.Ecommerce.repositories.product.BlogRepository;
 import com.hust.Ecommerce.repositories.product.BrandRepository;
@@ -143,6 +148,7 @@ public class GenericMappingRegister {
         private GenericController<BlogRequest, BlogResponse> blogController;
         // private GenericController<InventoryRequest, InventoryResponse>
         private GenericController<VariantRequest, VariantResponse> variantController;
+        private GenericController<RoomRequest, RoomResponse> roomController;
         // inventoryController;
         // services
         private GenericService<User, UserRequest, UserResponse> userService;
@@ -153,6 +159,7 @@ public class GenericMappingRegister {
         private GenericService<Blog, BlogRequest, BlogResponse> blogService;
         // private GenericService<Count, InventoryRequest, InventoryResponse>
         private GenericService<Variant, VariantRequest, VariantResponse> variantService;
+        private GenericService<Room, RoomRequest, RoomResponse> roomService;
         // inventoryService;
 
         @PostConstruct
@@ -209,6 +216,12 @@ public class GenericMappingRegister {
                                 context.getBean(VariantMapper.class),
                                 SearchFields.VARIANT,
                                 ResourceName.VARIANT), VariantRequest.class);
+
+                register("/rooms", roomController, roomService.init(
+                                context.getBean(RoomRepository.class),
+                                context.getBean(RoomMapper.class),
+                                SearchFields.ROOM,
+                                ResourceName.ROOM), RoomRequest.class);
         }
 
 }

@@ -11,4 +11,6 @@ public interface ResourceName {
     String BLOG = "Blog";
     String VARIANT = "Variant";
     String CART = "Cart";
+    String MESSAGE = "Message";
+    String ROOM = "Room";
 }
