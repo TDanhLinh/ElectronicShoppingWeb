@@ -68,7 +68,7 @@ public class Order extends BaseEntity {
     @Column(name = "vnpay_order_status")
     private String vnPayOrderStatus;
 
-    // shipping infor
+    // shipping info
     @Column(name = "to_name", nullable = false)
     private String toName;
 

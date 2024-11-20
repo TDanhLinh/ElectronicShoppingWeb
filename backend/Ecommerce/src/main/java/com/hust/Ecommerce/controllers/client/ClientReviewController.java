@@ -12,16 +12,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hust.Ecommerce.constants.AppConstants;
-import com.hust.Ecommerce.constants.FieldName;
 import com.hust.Ecommerce.constants.MessageKeys;
-import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.ListResponse;
 import com.hust.Ecommerce.dtos.client.review.ClientReviewRequest;

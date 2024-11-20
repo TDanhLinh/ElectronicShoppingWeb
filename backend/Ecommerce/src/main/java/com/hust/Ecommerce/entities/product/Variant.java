@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.cart.CartVariant;
+import com.hust.Ecommerce.entities.inventory.Inventory;
+import com.hust.Ecommerce.entities.order.OrderVariant;
 import com.hust.Ecommerce.util.JsonNodeConverter;
 
 import jakarta.persistence.CascadeType;
@@ -17,6 +19,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,12 +56,12 @@ public class Variant extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    // @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
-    // private Set<CountVariant> countVariants = new HashSet<>();
-
-    // @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
-    // private Set<OrderVariant> orderVariants = new HashSet<>();
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private List<OrderVariant> orderVariants = new ArrayList<>();
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private List<CartVariant> cartVariants = new ArrayList<>();
+
+    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Inventory inventory;
 }

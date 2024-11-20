@@ -25,6 +25,7 @@ public class Message extends BaseEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
+    // (1) : complaints ; (2) : response
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
