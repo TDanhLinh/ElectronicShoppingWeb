@@ -10,15 +10,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.hust.Ecommerce.controllers.client.ClientCartRequest;
-import com.hust.Ecommerce.controllers.client.ClientCartVariantRequest;
-import com.hust.Ecommerce.controllers.client.UpdateQuantityType;
-import com.hust.Ecommerce.dtos.client.ClientCartResponse;
-import com.hust.Ecommerce.dtos.client.ClientCartVariantResponse;
+import com.hust.Ecommerce.dtos.client.cart.ClientCartRequest;
+import com.hust.Ecommerce.dtos.client.cart.ClientCartResponse;
+import com.hust.Ecommerce.dtos.client.cart.ClientCartVariantRequest;
+import com.hust.Ecommerce.dtos.client.cart.ClientCartVariantResponse;
+import com.hust.Ecommerce.dtos.client.cart.UpdateQuantityType;
 import com.hust.Ecommerce.entities.cart.Cart;
 import com.hust.Ecommerce.entities.cart.CartVariant;
 import com.hust.Ecommerce.entities.cart.CartVariantKey;
-import com.hust.Ecommerce.entities.general.Image;
 import com.hust.Ecommerce.entities.product.Product;
 import com.hust.Ecommerce.entities.product.Variant;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;

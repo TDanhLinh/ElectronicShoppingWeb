@@ -116,8 +116,8 @@ public class AuthController {
 
         }
 
-        @GetMapping("/infor")
-        public ResponseEntity<ApiResponse<?>> getAdminUserInfor() {
+        @GetMapping("/info")
+        public ResponseEntity<ApiResponse<?>> getAdminUserInfo() {
 
                 AdminUserDTO userResponse = authenticationService
                                 .getUserWithAuthorities()

@@ -22,6 +22,12 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
+  #redis
+  data:
+    redis:
+      host: localhost
+      port: 6380
+
   #upload
   servlet:
     multipart:
@@ -64,6 +70,7 @@ payment:
     version: 2.1.0
     command: pay
     orderType: other
+    timeout: 15 #in minute
 
 domain:
   protocol: http://localhost:${server.port}

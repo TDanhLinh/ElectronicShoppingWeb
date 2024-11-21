@@ -58,4 +58,14 @@ public class RandomUtil {
     public static String generateResetKey() {
         return generateRandomAlphanumericString();
     }
+
+    /**
+     * Generate an order code.
+     *
+     * @return the generated order code.
+     */
+    public static String generateOrderCode() {
+        String randomPart = RandomStringUtils.random(10, 0, 0, true, true, null, SECURE_RANDOM);
+        return "ORDER-" + randomPart.toUpperCase();
+    }
 }

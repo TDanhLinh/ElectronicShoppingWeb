@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.authentication.Role;
 import com.hust.Ecommerce.entities.authentication.User;
+import com.hust.Ecommerce.entities.chat.Room;
 import com.hust.Ecommerce.entities.product.Brand;
 import com.hust.Ecommerce.entities.product.Category;
 import com.hust.Ecommerce.entities.product.Product;
@@ -53,6 +54,8 @@ public abstract class MapperUtils {
     // public abstract List<Category> mapToCategoryList(List<Long> categoryIds);
 
     public abstract Brand mapToBrand(Long id);
+
+    public abstract Room mapToRoom(Long id);
 
     public List<Category> mapToCategoryList(List<Long> categoryIds) {
         if (categoryIds == null || categoryIds.isEmpty()) {

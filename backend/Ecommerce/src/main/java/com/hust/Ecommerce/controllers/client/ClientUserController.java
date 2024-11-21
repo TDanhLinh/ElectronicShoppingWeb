@@ -41,8 +41,8 @@ import lombok.RequiredArgsConstructor;
 public class ClientUserController {
         private final IUserSetting userSetting;
 
-        @GetMapping("/infor")
-        public ResponseEntity<ApiResponse<?>> getUserInfor() {
+        @GetMapping("/info")
+        public ResponseEntity<ApiResponse<?>> getUserInfo() {
 
                 AdminUserDTO userResponse = userSetting
                                 .getUserWithAuthorities()

@@ -90,8 +90,5 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Variant> variants = new ArrayList<>();
-    // @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    // @JoinColumn(name = "inventory_id", referencedColumnName = "id")
-    // private Count inventory;
 
 }

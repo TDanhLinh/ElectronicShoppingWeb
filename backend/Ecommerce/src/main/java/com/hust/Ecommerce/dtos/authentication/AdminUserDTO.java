@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.hust.Ecommerce.entities.authentication.GenderEnum;
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.util.InstantDateOnlyDeserializer;
+import com.hust.Ecommerce.util.DateUtil;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -41,7 +41,7 @@ public class AdminUserDTO implements Serializable {
     private String address;
 
     @JsonProperty("date_of_birth")
-    @JsonDeserialize(using = InstantDateOnlyDeserializer.class)
+    @JsonDeserialize(using = DateUtil.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     private Instant dateOfBirth;
 

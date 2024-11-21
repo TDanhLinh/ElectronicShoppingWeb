@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.entities.BaseEntity;
+import com.hust.Ecommerce.entities.chat.Message;
 import com.hust.Ecommerce.entities.order.Order;
 
 import com.hust.Ecommerce.entities.product.Blog;
@@ -110,5 +112,9 @@ public class User extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Message> messages = new ArrayList<>();
 
 }

@@ -31,15 +31,16 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "state")
-    @Enumerated(EnumType.STRING)
-    private OrderState state;
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
 
-    @Column(name = "order_date")
-    private Instant orderDate;
+    // trang thai order (1) : pending, (2): confirmed, (3): shipping, (4):
+    // delivered, (5): cancelled, (6): finished
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
 
-    @Column(name = "total_money")
-    private Double totalMoney;
+    @Column(name = "total_amount", nullable = false, columnDefinition = "DECIMAL(15,5)")
+    private BigDecimal totalAmount;
 
     @Column(name = "note", length = 100)
     private String note;
@@ -57,7 +58,7 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentMethodType paymentMethodType;
 
-    // 2 trạng thái: (1) Chưa thanh toán, (2) Đã thanh toán
+    // 2 trạng thái: (0) Chưa thanh toán, (1) Đã thanh toán
     @Column(name = "payment_status", nullable = false, columnDefinition = "TINYINT")
     private Integer paymentStatus;
 
@@ -67,7 +68,7 @@ public class Order extends BaseEntity {
     @Column(name = "vnpay_order_status")
     private String vnPayOrderStatus;
 
-    // shipping infor
+    // shipping info
     @Column(name = "to_name", nullable = false)
     private String toName;
 
