@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
+import com.hust.Ecommerce.entities.authentication.User;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,5 +56,30 @@ public class JwtTokenUtil {
             return null;
         }
         
+    }
+
+    public String createJwtFromUser(User user){
+        try {
+            String authorities = user.getRole().getName();
+
+            Instant now = Instant.now();
+            Instant validity;
+
+            validity = now.plus(this.tokenValidityInSeconds, ChronoUnit.SECONDS);
+
+        // @formatter:off
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+            .issuedAt(now)
+            .expiresAt(validity)
+            .subject(user.getEmail())
+            .claim(AUTHORITIES_KEY, authorities)
+            .build();
+
+        JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 }

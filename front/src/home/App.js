@@ -1,7 +1,7 @@
 import { App_container } from "./app_container/App_container";
-import { Header } from "./header/Header"
+import { Header } from "../header/Header"
 import { useEffect } from "react";
-import { Footer } from "./footer/Footer";
+import { Footer } from "../footer/Footer";
 
 export function App() {
     useEffect(() => {

@@ -11,11 +11,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 public class SecurityUtils {
     public static final MacAlgorithm JWT_ALGORITHM = MacAlgorithm.HS512;
 
-    public static final String AUTHORITIES_KEY = "Role ";
+    public static final String AUTHORITIES_KEY = "Role";
 
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -35,11 +36,23 @@ public class SecurityUtils {
         return null;
     }
 
+    private static String extractCredentials(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        } else if (authentication.getCredentials() instanceof String token) {
+            return token; // Return the token if credentials are a String
+        } else if (authentication instanceof JwtAuthenticationToken jwtAuthToken) {
+            return jwtAuthToken.getToken().getTokenValue(); // Extract token from JwtAuthenticationToken
+        } else if (authentication.getPrincipal() instanceof Jwt jwt) {
+            return jwt.getTokenValue(); // Extract token value directly from Jwt principal
+        }
+        return null;
+    }
+
     public static Optional<String> getCurrentUserJWT() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -> authentication.getCredentials() instanceof String)
-                .map(authentication -> (String) authentication.getCredentials());
+        return Optional.ofNullable(extractCredentials(securityContext.getAuthentication()));
+
     }
 
     public static boolean isAuthenticated() {

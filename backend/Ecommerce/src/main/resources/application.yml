@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8080
 
 spring:
   application:
@@ -11,6 +11,8 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/ecommerce?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${MYSQL_ROOT_USERNAME:root}
     password: ${MYSQL_ROOT_PASSWORD:root}
+
+  #hibernate jpa
   jpa:
     show-sql: true
     hibernate:
@@ -20,19 +22,70 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
+  #redis
+  data:
+    redis:
+      host: localhost
+      port: 6380
+
+  #upload
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB # Maximum file size
+      max-request-size: 10MB # Maximum request size
+
+  #mail
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
-    password:
+    username: takidev0705@gmail.com
+    password: wgkq giha fycu gnud
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  #source
+  messages:
+    basename: i18n/messages
 
 api:
-  prefix: /api/v1
+  prefix: /api
+
+#cloudinary
+cloudinary:
+  cloud_name: dgjrkjkch
+  api_key: 117489847957392
+  api_secret: wGy6bXdWsLEByD3NNiSSEMhSFlg
+
+#payment
+payment:
+  vnPay:
+    url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    tmnCode: B0G7MQOH
+    secretKey: MUQDZO18PYW9GLBHMISDS442I9SARIHT
+    returnUrl: http://localhost:${server.port}/api/payment/vn-pay/call-back
+    version: 2.1.0
+    command: pay
+    orderType: other
+    timeout: 15 #in minute
 
 domain:
   protocol: http://localhost:${server.port}
+  front_end_protocol: http://localhost:3000
 
+#jwt
 jwt:
   expiration-token: 2592000 # 30 days = 30 * 24 * 60 * 60
   expiration-refresh-token: 5184000 # 60 days = 60 * 24 * 60 * 60
   base64-secret: ZjMzMDNkMzMzMzBhNDE5NDZkN2FjNTkxMjE5M2IzMmI1ZThkMDFkNzQzNTNmZDZhYTc0Zjk4Mzg1MmViYTkyYTdmYzI3NDk3NDBhZDU2MzRjNGExYmQyZTg4OGZjMzk1Yzc0M2YwODI5MDJlMWM1Y2EyN2Q3MzY2NmJiODNlNzI=
+# swagger-ui custom path
+# springdoc:
+#   swagger-ui:
+#     path: /swagger-ui.html
+#     tryItOutEnabled: true
+#     filter: true
+#     api-docs:
+#       path: /api-docs

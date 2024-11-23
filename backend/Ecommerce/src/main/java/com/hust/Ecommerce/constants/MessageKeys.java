@@ -11,6 +11,7 @@ public class MessageKeys {
 
     // register
     public static final String PASSWORD_NOT_MATCH = "user.register.password_not_match";
+    public static final String PASSWORD_NOT_VALID = "user.register.password_not_valid";
     public static final String REGISTER_ACCOUNT_SUCCESS = "user.register.account_successlly";
     public static final String ACTIVE_ACCOUNT_SUCCESS = "user.active.account_successlly";
     public static final String REGISTER_SUCCESS = "user.register.register_successlly";
@@ -40,15 +41,17 @@ public class MessageKeys {
     public static final String NUMBER_OF_PRODUCT_REQUIRED = "number_of_product.required";
     public static final String CATEGORIES_NAME_REQUIRED = "categories_name.required";
 
+    public static final String CART_NOT_FOUND = "cart.not_found";
     public static final String PRODUCT_NOT_FOUND = "product.valid.not_found";
     public static final String CATEGORY_NOT_FOUND = "category.valid.not_found";
     public static final String ROLE_NOT_FOUND = "role.valid.not_found";
     public static final String USER_ID_LOCKED = "user.is.lock";
     public static final String USER_ID_UNLOCKED = "user.is.unlock";
     public static final String REFRESH_TOKEN_SUCCESS = "refresh.token.success";
-
+    public static final String ACCOUNT_NOT_ACTIVED = "account.not.actived";
     // token
     public static final String ERROR_REFRESH_TOKEN = "user.refresh_token.failed";
+    public static final String TOKEN_NOT_FOUND = "user.token.not_found";
     public static final String FILES_REQUIRED = "file.required";
     public static final String FILES_IMAGES_SUCCESS = "file.images.success";
     public static final String FILES_IMAGES_FAILED = "file.images.failed";
