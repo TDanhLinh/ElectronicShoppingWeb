@@ -20,7 +20,7 @@ export function Footer() {
                         <h3 className="footer__heading">Giới thiệu</h3>
                         <ul className="footer-list">
                             <li className="footer-item">
-                                <Link href="">Giới thiệu</Link>
+                                <Link href="/about">Giới thiệu</Link>
                             </li>
                             <li className="footer-item">
                                 <Link href="">Tuyển dụng</Link>
