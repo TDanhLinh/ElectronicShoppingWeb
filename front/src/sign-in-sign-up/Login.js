@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export function Login() {
+    // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const user = localStorage.getItem('user');
+            const user = localStorage.getItem('user'); // user là email người dùng
             if (user && user.length > 0) window.location.href = '/';
         }
     }, [])
@@ -12,11 +13,13 @@ export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
-    const [fail, setFail] = useState(false);
+    const [fail, setFail] = useState(false); // kiểm tra đăng nhập có thành không không
 
     const submit = (e) => {
         e.preventDefault();
 
+        // kiểm tra xem thông tin đăng nhập có đúng không
+        // khi ghép nối, thay localStorage bằng axios
         var accounts = localStorage.getItem("accounts");
 
         if (accounts) {

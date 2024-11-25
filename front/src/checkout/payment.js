@@ -1,8 +1,8 @@
-// src/checkout/Payment.js
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export function Payment() {
+    // Nếu chưa đăng nhập, chuyển sang trang đăng nhập
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const user = localStorage.getItem('user');
@@ -12,7 +12,7 @@ export function Payment() {
     
     const [cartItems, setCartItems] = useState([]);
 
-    // Thêm các sản phẩm mẫu vào giỏ hàng khi trang được tải lần đầu
+    // Lấy thông tin giỏ hàng từ database, đang thiếu axios
     useEffect(() => {
         const storedCartItems = localStorage.getItem("cartItems");
         if (storedCartItems) {
@@ -20,7 +20,7 @@ export function Payment() {
         }
     }, []);
 
-    // Hàm cập nhật localStorage khi giỏ hàng thay đổi
+    // Cập nhật khi giỏ hàng thay đổi, thiếu axios
     const updateLocalStorage = (items) => {
         localStorage.setItem("cartItems", JSON.stringify(items));
     };

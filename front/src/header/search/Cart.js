@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react"
 import Link from "next/link";
 
-export function Cart() {
-    const [cart, setCart] = useState([])
-
+export function Cart({cart, setCart}) {
     useEffect(() => {
+        // lấy thông tin về sản phẩm trong giỏ hàng, chưa có axios
         const tempCart = localStorage.getItem('cartItems');
         if (tempCart) {
             setCart(JSON.parse(tempCart));
@@ -41,7 +40,6 @@ export function Cart() {
             ]
 
             setCart(sampleItems);
-            localStorage.setItem('cartItems', JSON.stringify(sampleItems));
         }
     }, [])
 
@@ -74,7 +72,7 @@ export function Cart() {
                             <h4 className="header__cart-heading">Sản phẩm đã thêm </h4>
                             <ul className="header__cart-list-item">
                                 {
-                                    cart.map((item, index) => (
+                                    cart.slice(0, 3).map((item, index) => (
                                         <li key={index} className="header__cart-item">
                                             <img src={item.src} alt="" className="header__cart-img"/>
                                             <div className="header__cart-item-info">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 
-export function Home_filter({page, setPage, maxPage}) {
+// Chọn ra filter để sắp xếp sản phẩm
+export function Home_filter({page, setPage, maxPage, setFilter}) {
     
     const [state, setState] = useState(0);
 
@@ -12,16 +13,15 @@ export function Home_filter({page, setPage, maxPage}) {
         'Giá: cao đến thấp',
     ]
 
-    const setFilter = (index) => {
+    const changeFilter = (index) => {
         setState(index);
         localStorage.setItem('filter', filters[index]);
+        setFilter(filters[index])
     }
 
     useEffect(() => {
-        const currentFilter = localStorage.getItem('filter');
-        if (currentFilter) {
-            setState(filters.findIndex(item => item === currentFilter));
-        }
+        setState(0);
+        setFilter(filters[0])
     }, [])
 
     const pageOnChange = (numPage) => {
@@ -39,7 +39,7 @@ export function Home_filter({page, setPage, maxPage}) {
                     <button 
                         key={index}
                         className={"btn home-filter__btn"+((filters[state] === item) ? " btn--primary" : "")}
-                        onClick={()=>setFilter(index)}
+                        onClick={()=>changeFilter(index)}
                     >
                         {item}
                     </button>
@@ -56,7 +56,7 @@ export function Home_filter({page, setPage, maxPage}) {
                             <li key = {index} className="select-input__item">
                                 <div 
                                     className="select-input__link"
-                                    onClick={()=>setFilter(index + 3)}
+                                    onClick={()=>changeFilter(index + 3)}
                                 >
                                     {item}
                                 </div>

@@ -5,18 +5,11 @@ export function Notify() {
     const [notifyList, setNotifyList] = useState([]);
 
     useEffect(() => {
+        // lấy ra danh sách thông báo từ database, hiện tại chưa có axios
         const notify = localStorage.getItem('notifyList');
         if (notify) {
             let temp = JSON.parse(notify);
-            for (let index in temp) {
-                if (temp[index].isChecked === true) {
-                    temp[index].viewed = false;
-                } else {
-                    temp[index].viewed = true;
-                }
-            }
             setNotifyList(temp);
-            localStorage.setItem('notifyList', JSON.stringify(temp));
         }
         else {
             const sample = [
@@ -24,42 +17,37 @@ export function Notify() {
                     src: './assets/img/notify1.png',
                     name: 'Tặng ngay combo 5 gói mặt nạ thải độc',
                     description: 'Khuyến mãi siêu hot',
-                    isChecked: false,
-                    viewed: true
+                    isChecked: false, // nếu ấn vào thông báo thì isChecked = true, xóa thông báo khỏi database
                 },
                 {
                     src: './assets/img/notify2.png',
                     name: 'Day Shield Perfect Sun - Cho nàng thơ tự tin "tỏa nắng"',
                     description: '',
                     isChecked: false,
-                    viewed: true
                 },
                 {
                     src: './assets/img/notify3.png',
                     name: 'CHĂM SÓC KHÔNG QUÊN CHỐNG NẮNG',
                     description: 'Kem Chống nắng Whoo Gongjinhyang Soo',
                     isChecked: false,
-                    viewed: true
                 },
                 {
                     src: './assets/img/notify4.png',
                     name: 'DA DẦU CÓ CẦN DƯỠNG ẨM',
                     description: 'Whoo Gongjinhyang',
-                    isChecked: false
+                    isChecked: false,
                 },
                 {
                     src: './assets/img/notify5.png',
                     name: 'KHỞI ĐẦU CỦA LÀN DA KHỎE ĐẸP',
                     description: 'Ohui Prime Advancer',
                     isChecked: false,
-                    viewed: true
                 },
                 {
                     src: './assets/img/notify6.png',
                     name: 'MINI GAME - CHƠI NGAY RINH QUÀ LIỀN TAY',
                     description: 'Mini game',
                     isChecked: false,
-                    viewed: true
                 },
             ]
             setNotifyList(sample);
@@ -67,7 +55,7 @@ export function Notify() {
         }
     }, [])
 
-    const checkedAll = () => {
+    const checkAll = () => {
         const updatedList = notifyList.map((notify) => ({
             ...notify,
             isChecked: true,
@@ -76,7 +64,7 @@ export function Notify() {
         localStorage.setItem('notifyList', JSON.stringify(updatedList));
     }
 
-    const checked = (index) => {
+    const check = (index) => {
         const updatedList = notifyList.map((notify, i) => 
             i === index ? { ...notify, isChecked: true } : notify
         );
@@ -95,12 +83,11 @@ export function Notify() {
                 <ul className="header__notify-list">
                     {
                         notifyList.map((notify, index) => (
-                            notify.viewed &&
                             <li
                                 key={index} 
                                 className="header__notify-item"
                                 style={{backgroundColor: (notify.isChecked) ? "#f8f8f8" : "rgba(254, 84, 48, 0.2)"}}
-                                onClick={() => checked(index)}
+                                onClick={() => check(index)}
                             >
                                 <div className="header__notify-link">
                                     <img src={notify.src} alt="" className="header__notify-img"/>
@@ -116,7 +103,7 @@ export function Notify() {
                 <footer className="header__notify-footer">
                     <div
                         className="header__notify-footer-link"
-                        onClick={checkedAll}
+                        onClick={checkAll}
                     >
                         Đánh dấu đã xem
                     </div>

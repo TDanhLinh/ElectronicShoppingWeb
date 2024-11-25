@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 
-export function Search_input() {
+// search input để lấy thông tin tìm kiếm của người dùng
+export function Search_input({setSearchText}) {
     const [historyList, setHistoryList] = useState([]);
-    const [searchtext, setSearchtext] = useState('');
-    const [focus, setFocus] = useState(false)
-
+    const [focus, setFocus] = useState(false);
+    const [text, setText] = useState('');
     useEffect(() => {
+        // lấy lịch sử tìm kiểm từ database, thiếu axios
         const history = localStorage.getItem('historyList');
         if (history) {
             setHistoryList(JSON.parse(history));
@@ -13,12 +14,15 @@ export function Search_input() {
     }, []);
 
     const search = () => {
-        if (searchtext !== '') {
-            const updatedHistoryList = historyList.filter(item => item !== searchtext);
-            updatedHistoryList.unshift(searchtext);
+        if (text !== '') {
+            setSearchText(text.toLowerCase());
+
+            const updatedHistoryList = historyList.filter(item => item !== text);
+            updatedHistoryList.unshift(text);
             setHistoryList(updatedHistoryList);
+            
+            // cập nhật lịch sử tìm kiếm lên database, chưa có axios
             localStorage.setItem('historyList', JSON.stringify(updatedHistoryList));
-            localStorage.setItem('searchingFor', searchtext);
         }
     };
 
@@ -29,10 +33,11 @@ export function Search_input() {
                     type="text" 
                     className="header__search-input" 
                     placeholder="Nhập để tìm kiếm sản phẩm"
-                    value={searchtext}
-                    onChange={(e) => setSearchtext(e.target.value)}
-                    onFocus={() => setFocus(true)}
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onClick={() => {setFocus(true);console.log("focus")}}
                     onBlur={() => setTimeout(() => setFocus(false), 200)}
+                    onKeyUp={(e) => {if (e.key === 'Enter') {search(); setFocus(false);}}}
                 />
                 {
                     focus &&
@@ -44,7 +49,7 @@ export function Search_input() {
                                     <li 
                                         key={index} 
                                         className="header__search-history-item"
-                                        onClick={() => {setSearchtext(history)}}
+                                        onClick={() => {setText(history); search(); setFocus(false)}}
                                     >
                                         <div className='header__search-history-item-text'>{history}</div>
                                     </li>

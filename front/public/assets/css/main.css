@@ -5,7 +5,7 @@
 /* header layout */
 .header {
     height: var(--header-height);
-    background-image: linear-gradient(0, #f73a27, #fe5430);
+    background-color: rgb(255, 98, 1);
     position: fixed;
     top: 0;
     right: 0;
@@ -113,10 +113,6 @@
     display: block;
 }
 
-.header__navbar-item--download:hover .header__qr{
-    display: block;
-}
-
 .header__navbar-item, 
 .header__navbar-item-link,
 .header__navbar-icon-link {
@@ -144,11 +140,6 @@
     color: rgba(255, 255,255, 0.7);
 }
 
-.header__navbar-item--strong {
-    font-weight: 500;
-}
-
-
 .header__navbar-item--seperate:after {
     content: "";
     display: block;
@@ -158,6 +149,10 @@
     right: -9px;
     top: 40%;
     transform: translateY(-50%);
+}
+
+.header__navbar-item--strong {
+    font-weight: 500;
 }
 
 .header__navbar-icon-link {
@@ -177,56 +172,6 @@
 
 .header__navbar-title--noPointer {
     user-select: none;
-}
-
-/* QR_Code and download */
-.header__qr {
-    background-color: var(--white-color);
-    width: 180px;
-    padding: 8px;
-    position: absolute;
-    left: 0;
-    top: 130%;
-    border-radius: 2px;
-    display: none;
-    animation: fadeIn ease-in 0.3s;
-    z-index: 1;
-    border: 1px solid var(--border-color);
-}
-
-.header__qr::before {
-    width: 100%;
-    height: 18px;
-    left: 0;
-    top: -13px;
-    position: absolute;
-    content: "";
-    display: block;
-}
-
-.header__qr-img {
-    width: 100%;
-}
-
-.header__download {
-    display: flex;
-}
-
-.header__download-app {
-    display: flex;
-    justify-content: space-between;
-}
-
-.header__download-img:nth-child(1) {
-    margin-left: 11px;
-}
-
-.header__download-img:nth-child(2) {
-    margin-right: 11px;
-}
-
-.header__download-img {
-    height: 15px;
 }
 
 /* Header notification */
@@ -635,6 +580,7 @@
     color: var(--text-color);
     padding: 0 16px;
     border-radius: 2px;
+    caret-color: black;
 }
 
 
@@ -1325,29 +1271,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.footer__download-qr {
-    width: 120px;
-    object-fit: contain;
-    margin-right: 18px;
-    border: 1px solid var(--border-color);
-}
-
-.footer__download-app {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.footer__download-icon {
-    height: 30px;
-    margin-bottom: 5px;
-}
-
-.footer__download-app-link {
-    color: transparent;
-    text-decoration: none;
 }
 
 .footer__copyright {
