@@ -9,10 +9,10 @@ export function Footer() {
                         <h3 className="footer__heading">Chăm sóc khách hàng</h3>
                         <ul className="footer-list">
                             <li className="footer-item">
-                                <Link href="">Trung tâm trợ giúp</Link>
+                                <Link href="/under-dev">Trung tâm trợ giúp</Link>
                             </li>
                             <li className="footer-item">
-                                <Link href="">Hướng dẫn mua hàng</Link>
+                                <Link href="/under-dev">Hướng dẫn mua hàng</Link>
                             </li>
                         </ul>
                     </div>
@@ -20,13 +20,13 @@ export function Footer() {
                         <h3 className="footer__heading">Giới thiệu</h3>
                         <ul className="footer-list">
                             <li className="footer-item">
-                                <Link href="">Giới thiệu</Link>
+                                <Link href="/under-dev">Giới thiệu</Link>
                             </li>
                             <li className="footer-item">
-                                <Link href="">Tuyển dụng</Link>
+                                <Link href="/under-dev">Tuyển dụng</Link>
                             </li>
                             <li className="footer-item">
-                                <Link href="">Điều khoản</Link>
+                                <Link href="/under-dev">Điều khoản</Link>
                             </li>
                         </ul>
                     </div>
@@ -57,29 +57,29 @@ export function Footer() {
                         <h3 className="footer__heading">Chưa nghĩ ra</h3>
                         <ul className="footer-list">
                             <li className="footer-item">
-                                <Link href="">Nội dung 1</Link>
+                                <Link href="/under-dev">Nội dung 1</Link>
                             </li>
                             <li className="footer-item">
-                                <Link href="">Nội dung 2</Link>
+                                <Link href="/under-dev">Nội dung 2</Link>
                             </li>
                             <li className="footer-item">
-                                <Link href="">Nội dung 3</Link>
+                                <Link href="/under-dev">Nội dung 3</Link>
                             </li>
                         </ul>
                     </div>
                     <div className="col l-2-4 m-8 c-12">
-                        <h3 className="footer__heading footer__download-mobile">Vào cửa hàng trên ứng dụng</h3>
-                        <div className="footer__download">
-                            <img src="./assets/img/QR_code.png" alt="Download QR" className="footer__download-qr"/>
-                            <div className="footer__download-app">
-                                <Link href="https://www.Googleplay.com" className="footer__download-app-link">
-                                    <img src="./assets/img/GooglePlay.png" alt="Google play" className="footer__download-icon"/>
-                                </Link>
-                                <Link href="" className="footer__download-app-link">
-                                    <img src="./assets/img/Appstore.png" alt="Appstore" className="footer__download-icon"/>
-                                </Link>
-                            </div>
-                        </div>
+                        <h3 className="footer__heading">Chưa nghĩ ra</h3>
+                        <ul className="footer-list">
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 1</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 2</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 3</Link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
