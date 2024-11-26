@@ -17,6 +17,8 @@ import com.hust.Ecommerce.dtos.authentication.UserRequest;
 import com.hust.Ecommerce.dtos.authentication.UserResponse;
 import com.hust.Ecommerce.dtos.chat.RoomRequest;
 import com.hust.Ecommerce.dtos.chat.RoomResponse;
+import com.hust.Ecommerce.dtos.client.order.OrderRequest;
+import com.hust.Ecommerce.dtos.client.order.OrderResponse;
 import com.hust.Ecommerce.dtos.general.ImageRequest;
 import com.hust.Ecommerce.dtos.general.ImageResponse;
 import com.hust.Ecommerce.dtos.inventory.InventoryRequest;
@@ -37,6 +39,7 @@ import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.chat.Room;
 import com.hust.Ecommerce.entities.general.Image;
 import com.hust.Ecommerce.entities.inventory.Inventory;
+import com.hust.Ecommerce.entities.order.Order;
 import com.hust.Ecommerce.entities.product.Blog;
 import com.hust.Ecommerce.entities.product.Brand;
 import com.hust.Ecommerce.entities.product.Category;
@@ -46,6 +49,7 @@ import com.hust.Ecommerce.mappers.authentication.UserMapper;
 import com.hust.Ecommerce.mappers.chat.RoomMapper;
 import com.hust.Ecommerce.mappers.general.ImageMapper;
 import com.hust.Ecommerce.mappers.inventory.InventoryMapper;
+import com.hust.Ecommerce.mappers.order.OrderMapper;
 import com.hust.Ecommerce.mappers.product.BlogMapper;
 import com.hust.Ecommerce.mappers.product.BrandMapper;
 import com.hust.Ecommerce.mappers.product.CategoryMapper;
@@ -55,6 +59,7 @@ import com.hust.Ecommerce.repositories.authentication.UserRepository;
 import com.hust.Ecommerce.repositories.chat.RoomRepository;
 import com.hust.Ecommerce.repositories.general.ImageRepository;
 import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
+import com.hust.Ecommerce.repositories.order.OrderRepository;
 import com.hust.Ecommerce.repositories.product.BlogRepository;
 import com.hust.Ecommerce.repositories.product.BrandRepository;
 import com.hust.Ecommerce.repositories.product.CategoryRepository;
@@ -153,7 +158,7 @@ public class GenericMappingRegister {
         private GenericController<InventoryRequest, InventoryResponse> inventoryController;
         private GenericController<VariantRequest, VariantResponse> variantController;
         private GenericController<RoomRequest, RoomResponse> roomController;
-
+        private GenericController<OrderRequest, OrderResponse> orderController;
         // services
         private GenericService<User, UserRequest, UserResponse> userService;
         private GenericService<Category, CategoryRequest, CategoryResponse> categoryService;
@@ -164,6 +169,7 @@ public class GenericMappingRegister {
         private GenericService<Inventory, InventoryRequest, InventoryResponse> inventoryService;
         private GenericService<Variant, VariantRequest, VariantResponse> variantService;
         private GenericService<Room, RoomRequest, RoomResponse> roomService;
+        private GenericService<Order, OrderRequest, OrderResponse> orderService;
 
         @PostConstruct
         public void registerControllers() throws NoSuchMethodException {
@@ -225,6 +231,12 @@ public class GenericMappingRegister {
                                 context.getBean(RoomMapper.class),
                                 SearchFields.ROOM,
                                 ResourceName.ROOM), RoomRequest.class);
+
+                register("/orders", orderController, orderService.init(
+                                context.getBean(OrderRepository.class),
+                                context.getBean(OrderMapper.class),
+                                SearchFields.ORDER,
+                                ResourceName.ORDER), OrderRequest.class);
         }
 
 }

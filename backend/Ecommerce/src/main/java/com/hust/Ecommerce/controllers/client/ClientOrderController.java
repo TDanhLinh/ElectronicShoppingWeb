@@ -1,6 +1,7 @@
 package com.hust.Ecommerce.controllers.client;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -41,44 +42,60 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClientOrderController {
 
-    private OrderRepository orderRepository;
-    private IAuthenticationService authenticationService;
-    private ClientOrderMapper clientOrderMapper;
-    private OrderService orderService;
+        private OrderRepository orderRepository;
+        private IAuthenticationService authenticationService;
+        private ClientOrderMapper clientOrderMapper;
+        private OrderService orderService;
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<?>> getAllOrders(
-            @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
-            @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
-            @RequestParam(name = "filter", required = false) @Nullable String filter) {
-        Optional<User> optionalUser = authenticationService.getUserWithAuthorities();
+        @GetMapping
+        public ResponseEntity<ApiResponse<?>> getAllOrders(
+                        @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+                        @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
+                        @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
+                        @RequestParam(name = "filter", required = false) @Nullable String filter) {
+                Optional<User> optionalUser = authenticationService.getUserWithAuthorities();
 
-        if (optionalUser.isEmpty())
-            throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-        User user = optionalUser.get();
+                if (optionalUser.isEmpty())
+                        throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
+                User user = optionalUser.get();
 
-        Page<Order> orders = orderRepository.findAllByEmail(user.getEmail(), sort, filter,
-                PageRequest.of(page - 1, size));
-        List<ClientSimpleOrderResponse> clientReviewResponses = orders.map(clientOrderMapper::entityToResponse)
-                .toList();
-        return ResponseEntity.ok(ApiResponse.<ListResponse<ClientSimpleOrderResponse>>builder().success(true)
-                .payload(ListResponse.of(clientReviewResponses, orders)).build());
-    }
+                Page<Order> orders = orderRepository.findAllByEmail(user.getEmail(), sort, filter,
+                                PageRequest.of(page - 1, size));
+                List<ClientSimpleOrderResponse> clientReviewResponses = orders.map(clientOrderMapper::entityToResponse)
+                                .toList();
+                return ResponseEntity.ok(ApiResponse.<ListResponse<ClientSimpleOrderResponse>>builder().success(true)
+                                .payload(ListResponse.of(clientReviewResponses, orders)).build());
+        }
 
-    @GetMapping("/{code}")
-    public ResponseEntity<ApiResponse<?>> getOrder(@PathVariable String code) {
-        ClientOrderDetailResponse clientOrderDetailResponse = orderRepository.findByCode(code)
-                .map(clientOrderMapper::entityToDetailResponse)
-                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.ORDER_CODE, code));
-        return ResponseEntity.ok(ApiResponse.<ClientOrderDetailResponse>builder().success(true)
-                .payload(clientOrderDetailResponse).build());
-    }
+        @GetMapping("/{code}")
+        public ResponseEntity<ApiResponse<?>> getOrder(@PathVariable String code) {
+                ClientOrderDetailResponse clientOrderDetailResponse = orderRepository.findByCode(code)
+                                .map(clientOrderMapper::entityToDetailResponse)
+                                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER,
+                                                FieldName.ORDER_CODE, code));
+                return ResponseEntity.ok(ApiResponse.<ClientOrderDetailResponse>builder().success(true)
+                                .payload(clientOrderDetailResponse).build());
+        }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<?>> createClientOrder(
-            @RequestBody ClientSimpleOrderRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.<ClientConfirmedOrderResponse>builder()
-                .success(true).payload(orderService.createClientOrder(request)).build());
-    }
+        @PostMapping
+        public ResponseEntity<ApiResponse<?>> createClientOrder(
+                        @RequestBody ClientSimpleOrderRequest request) {
+                return ResponseEntity.status(HttpStatus.CREATED)
+                                .body(ApiResponse.<ClientConfirmedOrderResponse>builder()
+                                                .success(true).payload(orderService.createClientOrder(request))
+                                                .build());
+        }
+
+        // call-back frontend gui len xac nhan thanh toan don hang thanh cong hay that
+        // bai
+        @GetMapping("/confirm")
+        public void paymentConfirm(@RequestParam Map<String, String> queryParams) {
+                String vnp_ResponseCode = queryParams.get("vnp_ResponseCode");
+
+                if (vnp_ResponseCode.equals("00")) {
+                        // xu ly khi thanh toan thanh cong
+                } else {
+                        // xu ly khi that bai thanh toan
+                }
+        }
 }

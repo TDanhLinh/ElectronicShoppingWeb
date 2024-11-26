@@ -76,4 +76,12 @@ public interface SearchFields {
                         "id",
                         "name",
                         "user.id");
+
+        List<String> ORDER = List.of(
+                        "code",
+                        "toName",
+                        "toPhone",
+                        "toAddress",
+                        "user.email",
+                        "user.name");
 }
