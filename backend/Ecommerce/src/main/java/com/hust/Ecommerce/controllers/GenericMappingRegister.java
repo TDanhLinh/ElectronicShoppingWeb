@@ -19,7 +19,8 @@ import com.hust.Ecommerce.dtos.chat.RoomRequest;
 import com.hust.Ecommerce.dtos.chat.RoomResponse;
 import com.hust.Ecommerce.dtos.general.ImageRequest;
 import com.hust.Ecommerce.dtos.general.ImageResponse;
-
+import com.hust.Ecommerce.dtos.inventory.InventoryRequest;
+import com.hust.Ecommerce.dtos.inventory.InventoryResponse;
 import com.hust.Ecommerce.dtos.product.BlogRequest;
 import com.hust.Ecommerce.dtos.product.BlogResponse;
 import com.hust.Ecommerce.dtos.product.BrandRequest;
@@ -35,6 +36,7 @@ import com.hust.Ecommerce.dtos.review.ReviewResponse;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.chat.Room;
 import com.hust.Ecommerce.entities.general.Image;
+import com.hust.Ecommerce.entities.inventory.Inventory;
 import com.hust.Ecommerce.entities.product.Blog;
 import com.hust.Ecommerce.entities.product.Brand;
 import com.hust.Ecommerce.entities.product.Category;
@@ -43,6 +45,7 @@ import com.hust.Ecommerce.entities.product.Variant;
 import com.hust.Ecommerce.mappers.authentication.UserMapper;
 import com.hust.Ecommerce.mappers.chat.RoomMapper;
 import com.hust.Ecommerce.mappers.general.ImageMapper;
+import com.hust.Ecommerce.mappers.inventory.InventoryMapper;
 import com.hust.Ecommerce.mappers.product.BlogMapper;
 import com.hust.Ecommerce.mappers.product.BrandMapper;
 import com.hust.Ecommerce.mappers.product.CategoryMapper;
@@ -51,6 +54,7 @@ import com.hust.Ecommerce.mappers.product.VariantMapper;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
 import com.hust.Ecommerce.repositories.chat.RoomRepository;
 import com.hust.Ecommerce.repositories.general.ImageRepository;
+import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
 import com.hust.Ecommerce.repositories.product.BlogRepository;
 import com.hust.Ecommerce.repositories.product.BrandRepository;
 import com.hust.Ecommerce.repositories.product.CategoryRepository;
@@ -146,10 +150,10 @@ public class GenericMappingRegister {
         private GenericController<ImageRequest, ImageResponse> imageController;
         private GenericController<ReviewRequest, ReviewResponse> reviewController;
         private GenericController<BlogRequest, BlogResponse> blogController;
-        // private GenericController<InventoryRequest, InventoryResponse>
+        private GenericController<InventoryRequest, InventoryResponse> inventoryController;
         private GenericController<VariantRequest, VariantResponse> variantController;
         private GenericController<RoomRequest, RoomResponse> roomController;
-        // inventoryController;
+
         // services
         private GenericService<User, UserRequest, UserResponse> userService;
         private GenericService<Category, CategoryRequest, CategoryResponse> categoryService;
@@ -157,10 +161,9 @@ public class GenericMappingRegister {
         private GenericService<Brand, BrandRequest, BrandResponse> brandService;
         private GenericService<Image, ImageRequest, ImageResponse> imageService;
         private GenericService<Blog, BlogRequest, BlogResponse> blogService;
-        // private GenericService<Count, InventoryRequest, InventoryResponse>
+        private GenericService<Inventory, InventoryRequest, InventoryResponse> inventoryService;
         private GenericService<Variant, VariantRequest, VariantResponse> variantService;
         private GenericService<Room, RoomRequest, RoomResponse> roomService;
-        // inventoryService;
 
         @PostConstruct
         public void registerControllers() throws NoSuchMethodException {
@@ -188,12 +191,12 @@ public class GenericMappingRegister {
                                 SearchFields.PRODUCT,
                                 ResourceName.PRODUCT), ProductRequest.class);
 
-                // tao inventory cho san pham
-                // register("/inventories", inventoryController, inventoryService.init(
-                // context.getBean(InventoryRepository.class),
-                // context.getBean(InventoryMapper.class),
-                // SearchFields.INVENTORY,
-                // ResourceName.INVENTORY), InventoryRequest.class);
+                // tao inventory cho tung bien the
+                register("/inventories", inventoryController, inventoryService.init(
+                                context.getBean(InventoryRepository.class),
+                                context.getBean(InventoryMapper.class),
+                                SearchFields.INVENTORY,
+                                ResourceName.INVENTORY), InventoryRequest.class);
 
                 // tao anh doc lap
                 register("/images", imageController, imageService.init(

@@ -9,6 +9,7 @@ public class ClientSimpleOrderRequest {
     private PaymentMethodType paymentMethodType;
     private ShippingInfo shippingInfo;
     private String ipAdress;
+    private String note;
 
     @Data
     public static class ShippingInfo {

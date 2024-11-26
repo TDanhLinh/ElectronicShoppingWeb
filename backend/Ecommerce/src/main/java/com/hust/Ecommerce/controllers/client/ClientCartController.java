@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,7 +90,8 @@ public class ClientCartController {
         Cart cart = cartRepository.save(cartBeforeSave);
         ClientCartResponse clientCartResponse = clientCartMapper.entityToResponse(cart);
         return ResponseEntity
-                .ok(ApiResponse.<ClientCartResponse>builder().success(true).payload(clientCartResponse).build());
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.<ClientCartResponse>builder().success(true).payload(clientCartResponse).build());
     }
 
     @DeleteMapping

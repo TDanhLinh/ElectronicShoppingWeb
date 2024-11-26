@@ -5,21 +5,20 @@ import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hust.Ecommerce.constants.AppConstants;
-import com.hust.Ecommerce.constants.FieldName;
+
 import com.hust.Ecommerce.constants.MessageKeys;
-import com.hust.Ecommerce.constants.ResourceName;
+
 import com.hust.Ecommerce.dtos.client.order.ClientConfirmedOrderResponse;
 import com.hust.Ecommerce.dtos.client.order.ClientSimpleOrderRequest;
 import com.hust.Ecommerce.dtos.payment.PaymentRequest;
 import com.hust.Ecommerce.dtos.payment.PaymentResponse;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.cart.Cart;
+import com.hust.Ecommerce.entities.cart.CartVariant;
 import com.hust.Ecommerce.entities.order.Order;
 import com.hust.Ecommerce.entities.order.OrderVariant;
 import com.hust.Ecommerce.entities.payment.PaymentMethodType;
@@ -64,22 +63,22 @@ public class OrderServiceImpl implements OrderService {
         order.setToName(request.getShippingInfo().getName());
         order.setToPhone(request.getShippingInfo().getPhone());
         order.setToAddress(request.getShippingInfo().getAddress());
+        order.setNote(request.getNote());
         order.setUser(user);
 
-        // order.setOrderVariants(cart.getCartVariants().stream()
-        // .map(cartVariant -> {
-        // //xu ly promotion neu co
-        // double currentPrice = cartVariant.getVariant().getPrice();
-
-        // return new OrderVariant()
-        // .setOrder(order)
-        // .setVariant(cartVariant.getVariant())
-        // .setPrice(BigDecimal.valueOf(currentPrice))
-        // .setQuantity(cartVariant.getQuantity())
-        // .setAmount(BigDecimal.valueOf(currentPrice)
-        // .multiply(BigDecimal.valueOf(cartVariant.getQuantity())));
-        // })
-        // .collect(Collectors.toList()));
+        order.setOrderVariants(cart.getCartVariants().stream()
+                .map((CartVariant cartVariant) -> {
+                    // xu ly promotion neu co
+                    Double currentPrice = cartVariant.getVariant().getPrice();
+                    return new OrderVariant()
+                            .setOrder(order)
+                            .setVariant(cartVariant.getVariant())
+                            .setPrice(BigDecimal.valueOf(currentPrice))
+                            .setQuantity(cartVariant.getQuantity())
+                            .setAmount(BigDecimal.valueOf(currentPrice)
+                                    .multiply(BigDecimal.valueOf(cartVariant.getQuantity())));
+                })
+                .collect(Collectors.toList()));
 
         // Calculate price values
         // TODO: Vấn đề khuyến mãi
@@ -114,11 +113,11 @@ public class OrderServiceImpl implements OrderService {
         } else if (request.getPaymentMethodType() == PaymentMethodType.VNPAY) {
             try {
 
-                // (3.2.2) Tạo một yêu cầu giao dịch PayPal
+                // (3.2.2) Tạo một yêu cầu giao dịch vnpay
                 PaymentRequest vnpRequest = new PaymentRequest();
 
-                vnpRequest.setAmount(order.getTotalPay().longValue());
-
+                // vnpRequest.setAmount(order.getTotalPay().longValue());
+                vnpRequest.setAmount(500000L);
                 vnpRequest.setTxnRef(order.getCode());
                 vnpRequest.setIpAddress(request.getIpAdress());
                 vnpRequest.setUserId(user.getId());
@@ -127,8 +126,8 @@ public class OrderServiceImpl implements OrderService {
 
                 // (3.2.3) Lưu order
                 order.setVnPayOrderId(vnpResponse.getId());
-                order.setVnPayOrderStatus("ok");
 
+                log.debug("tao order {}", order);
                 orderRepository.save(order);
 
                 // (3.2.4) Trả về đường dẫn checkout cho user
@@ -140,9 +139,10 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Cannot identify payment method");
         }
 
+        // thanh toan thanh cong moi vo hieu hoa cart
         // (4) Vô hiệu cart
-        cart.setStatus(2); // Status 2: Vô hiệu lực
-        cartRepository.save(cart);
+        // cart.setStatus(2); // Status 2: Vô hiệu lực
+        // cartRepository.save(cart);
 
         return response;
     }

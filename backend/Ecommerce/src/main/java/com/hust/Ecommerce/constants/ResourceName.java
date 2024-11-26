@@ -13,4 +13,5 @@ public interface ResourceName {
     String CART = "Cart";
     String MESSAGE = "Message";
     String ROOM = "Room";
+    String ORDER = "Order";
 }
