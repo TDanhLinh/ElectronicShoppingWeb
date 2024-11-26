@@ -22,6 +22,7 @@ import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.cart.Cart;
 import com.hust.Ecommerce.entities.cart.CartVariant;
 import com.hust.Ecommerce.entities.cashbook.PaymentMethodType;
+import com.hust.Ecommerce.entities.cashbook.PaymentStatus;
 import com.hust.Ecommerce.entities.order.Order;
 import com.hust.Ecommerce.entities.order.OrderVariant;
 
@@ -184,7 +185,7 @@ public class OrderServiceImpl implements OrderService {
 
                 // (3.2.3) Lưu order
                 order.setVnPayOrderId(vnpResponse.getId());
-
+                order.setVnPayOrderStatus(PaymentStatus.Pending);
                 log.debug("tao order {}", order);
                 orderRepository.save(order);
 

@@ -1,14 +1,13 @@
 package com.hust.Ecommerce.entities.order;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.cashbook.PaymentMethodType;
+import com.hust.Ecommerce.entities.cashbook.PaymentStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -64,6 +63,10 @@ public class Order extends BaseEntity {
 
     @Column(name = "vnpay_order_id")
     private String vnPayOrderId;
+
+    @Column(name = "vnpay_order_status")
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus vnPayOrderStatus;
 
     // shipping info
     @Column(name = "to_name", nullable = false)

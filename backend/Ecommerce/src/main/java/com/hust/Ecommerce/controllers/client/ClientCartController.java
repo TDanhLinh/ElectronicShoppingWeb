@@ -63,6 +63,8 @@ public class ClientCartController {
         return ResponseEntity.ok(ApiResponse.<ObjectNode>builder().success(true).payload(response).build());
     }
 
+    // create new cart khong can cartId, nhung can userId
+    // update cart khong can userId, nhung can cartId
     @PostMapping
     public ResponseEntity<ApiResponse<?>> saveCart(@RequestBody ClientCartRequest request) {
         final Cart cartBeforeSave;
@@ -80,7 +82,8 @@ public class ClientCartController {
 
         // kiem tra xem trong inventory > quantity cart hay khong
         for (CartVariant cartVariant : cartBeforeSave.getCartVariants()) {
-            int inventory = inventoryRepository.findAvailableByVariantId(cartVariant.getVariant().getId());
+            // phai cap nhat inventory cho variant moi cho phep add into cart
+            Integer inventory = inventoryRepository.findAvailableByVariantId(cartVariant.getVariant().getId());
 
             if (cartVariant.getQuantity() > inventory) {
                 throw new RuntimeException(MessageKeys.UPDATE_CART_FAILED);

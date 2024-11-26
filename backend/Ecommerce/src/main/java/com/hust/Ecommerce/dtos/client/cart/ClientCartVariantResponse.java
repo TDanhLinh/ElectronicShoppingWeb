@@ -18,7 +18,6 @@ public class ClientCartVariantResponse {
         private Double variantPrice;
         @Nullable
         private JsonNode variantProperties;
-        private Integer variantInventory;
 
         @Data
         public static class ClientProductResponse {
