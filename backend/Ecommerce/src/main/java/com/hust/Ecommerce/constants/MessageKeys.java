@@ -67,6 +67,8 @@ public class MessageKeys {
     public static final String RESET_PASSWORD_SUCCESS = "reset.password.success";
     public static final String RESET_PASSWORD_FAILED = "reset.password.failed";
 
+    public static final String UPDATE_CART_SUCCESS = "cart.update.successfully";
+    public static final String UPDATE_CART_FAILED = "cart.update.failed";
     public static final String CREATE_ORDER_SUCCESS = "order.create.successfully";
     public static final String CREATE_ORDER_FAILED = "order.create.failed";
     public static final String CREATE_ORDER_DETAILS_FAILED = "order_details.create.failed";

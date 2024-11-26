@@ -28,7 +28,6 @@ public class ClientProductResponse {
     @Accessors(chain = true)
     public static class SimpleProductInventory {
         private Long productId;
-        private Integer amount;
         private Integer available;
         private Integer sold;
     }

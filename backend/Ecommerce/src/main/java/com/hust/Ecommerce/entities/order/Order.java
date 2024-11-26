@@ -8,7 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.authentication.User;
-import com.hust.Ecommerce.entities.payment.PaymentMethodType;
+import com.hust.Ecommerce.entities.cashbook.PaymentMethodType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

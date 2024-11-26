@@ -24,11 +24,13 @@ import com.hust.Ecommerce.dtos.client.cart.ClientCartResponse;
 import com.hust.Ecommerce.dtos.client.cart.ClientCartVariantKeyRequest;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.cart.Cart;
+import com.hust.Ecommerce.entities.cart.CartVariant;
 import com.hust.Ecommerce.entities.cart.CartVariantKey;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientCartMapper;
 import com.hust.Ecommerce.repositories.cart.CartRepository;
 import com.hust.Ecommerce.repositories.cart.CartVariantRepository;
+import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
 import com.hust.Ecommerce.services.authentication.IAuthenticationService;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +44,7 @@ public class ClientCartController {
     private CartVariantRepository cartVariantRepository;
     private ClientCartMapper clientCartMapper;
     private IAuthenticationService authenticationService;
+    private InventoryRepository inventoryRepository;
 
     // lay cac cartVariant hien tai cua user ma co status = 1
     @GetMapping
@@ -75,17 +78,14 @@ public class ClientCartController {
                             FieldName.ID, request.getCartId()));
         }
 
-        // // Validate Variant Inventory
-        // for (CartVariant cartVariant : cartBeforeSave.getCartVariants()) {
-        // int inventory = InventoryUtils
-        // .calculateInventoryIndices(
-        // docketVariantRepository.findByVariantId(cartVariant.getCartVariantKey().getVariantId()))
-        // .get("canBeSold");
-        // if (cartVariant.getQuantity() > inventory) {
-        // throw new RuntimeException("Variant quantity cannot greater than variant
-        // inventory");
-        // }
-        // }
+        // kiem tra xem trong inventory > quantity cart hay khong
+        for (CartVariant cartVariant : cartBeforeSave.getCartVariants()) {
+            int inventory = inventoryRepository.findAvailableByVariantId(cartVariant.getVariant().getId());
+
+            if (cartVariant.getQuantity() > inventory) {
+                throw new RuntimeException(MessageKeys.UPDATE_CART_FAILED);
+            }
+        }
 
         Cart cart = cartRepository.save(cartBeforeSave);
         ClientCartResponse clientCartResponse = clientCartMapper.entityToResponse(cart);

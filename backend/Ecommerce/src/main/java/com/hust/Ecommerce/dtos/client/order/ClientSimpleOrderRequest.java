@@ -1,6 +1,6 @@
 package com.hust.Ecommerce.dtos.client.order;
 
-import com.hust.Ecommerce.entities.payment.PaymentMethodType;
+import com.hust.Ecommerce.entities.cashbook.PaymentMethodType;
 
 import lombok.Data;
 

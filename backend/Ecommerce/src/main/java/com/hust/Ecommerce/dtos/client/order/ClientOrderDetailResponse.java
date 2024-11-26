@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-import com.hust.Ecommerce.entities.payment.PaymentMethodType;
-
 import lombok.Data;
 
 @Data
@@ -21,7 +19,7 @@ public class ClientOrderDetailResponse {
     private BigDecimal orderTax;
     private BigDecimal orderShippingCost;
     private BigDecimal orderTotalPay;
-    private PaymentMethodType orderPaymentMethodType;
+    private com.hust.Ecommerce.entities.cashbook.PaymentMethodType orderPaymentMethodType;
     private Integer orderPaymentStatus;
     private List<ClientOrderVariantResponse> orderItems;
 

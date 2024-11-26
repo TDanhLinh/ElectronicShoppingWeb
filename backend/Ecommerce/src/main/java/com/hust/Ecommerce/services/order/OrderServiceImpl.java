@@ -19,9 +19,10 @@ import com.hust.Ecommerce.dtos.payment.PaymentResponse;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.cart.Cart;
 import com.hust.Ecommerce.entities.cart.CartVariant;
+import com.hust.Ecommerce.entities.cashbook.PaymentMethodType;
 import com.hust.Ecommerce.entities.order.Order;
 import com.hust.Ecommerce.entities.order.OrderVariant;
-import com.hust.Ecommerce.entities.payment.PaymentMethodType;
+
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.repositories.cart.CartRepository;
 import com.hust.Ecommerce.repositories.order.OrderRepository;
