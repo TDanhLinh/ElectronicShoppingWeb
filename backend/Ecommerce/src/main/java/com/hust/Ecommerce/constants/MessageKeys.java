@@ -19,6 +19,7 @@ public class MessageKeys {
     public static final String TOKEN_EXPIRATION_TIME = "token.expiration.time";
     public static final String NOT_FOUND = "not_found";
     public static final String USER_EXISTED = "user.existed";
+    public static final String ROOM_EXISTED = "room.existed";
     public static final String COMMENT_NOT_FOUND = "comment.not_found";
     public static final String UPDATE_COMMENT_SUCCESS = "comment.update.success";
     public static final String COMMENT_INSERT_SUCCESS = "comment.insert.success";
