@@ -67,6 +67,7 @@ import com.hust.Ecommerce.repositories.product.ProductRepository;
 import com.hust.Ecommerce.repositories.product.VariantRepository;
 import com.hust.Ecommerce.services.CrudService;
 import com.hust.Ecommerce.services.GenericService;
+import com.hust.Ecommerce.services.order.OrderService;
 import com.hust.Ecommerce.services.review.ReviewService;
 
 import jakarta.annotation.PostConstruct;
@@ -169,7 +170,6 @@ public class GenericMappingRegister {
         private GenericService<Inventory, InventoryRequest, InventoryResponse> inventoryService;
         private GenericService<Variant, VariantRequest, VariantResponse> variantService;
         private GenericService<Room, RoomRequest, RoomResponse> roomService;
-        private GenericService<Order, OrderRequest, OrderResponse> orderService;
 
         @PostConstruct
         public void registerControllers() throws NoSuchMethodException {
@@ -211,7 +211,7 @@ public class GenericMappingRegister {
                                 SearchFields.IMAGE,
                                 ResourceName.IMAGE), ImageRequest.class);
 
-                // crud review basic, not costomized
+                // crud review basic, not customized
                 register("/reviews", reviewController, context.getBean(ReviewService.class), ReviewRequest.class);
 
                 register("/blogs", blogController, blogService.init(
@@ -232,11 +232,8 @@ public class GenericMappingRegister {
                                 SearchFields.ROOM,
                                 ResourceName.ROOM), RoomRequest.class);
 
-                register("/orders", orderController, orderService.init(
-                                context.getBean(OrderRepository.class),
-                                context.getBean(OrderMapper.class),
-                                SearchFields.ORDER,
-                                ResourceName.ORDER), OrderRequest.class);
+                // crud order , customized
+                register("/orders", orderController, context.getBean(OrderService.class), OrderRequest.class);
         }
 
 }

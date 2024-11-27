@@ -4,6 +4,7 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.product.ProductRequest;
@@ -24,7 +25,7 @@ public interface ProductMapper extends GenericMapper<Product, ProductRequest, Pr
     Product requestToEntity(ProductRequest request);
 
     @Override
-    @BeanMapping(qualifiedByName = "attachProduct")
+    @BeanMapping(qualifiedByName = "attachProduct", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "categoryIds", target = "categories")
     @Mapping(source = "brandId", target = "brand")
     Product partialUpdate(@MappingTarget Product entity, ProductRequest request);

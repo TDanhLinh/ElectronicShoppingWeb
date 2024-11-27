@@ -8,9 +8,12 @@ spring:
     #config mysql8
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+    #local host
     # url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/ecommerce?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     # username: ${MYSQL_ROOT_USERNAME:root}
     # password: ${MYSQL_ROOT_PASSWORD:root}
+
     #connect clever cloud
     url: jdbc:mysql://ba8kscdmvjs5s9yh14cp-mysql.services.clever-cloud.com:3306/ba8kscdmvjs5s9yh14cp?useSSL=false&serverTimezone=UTC
     username: ucmrrgq4zdiuyzbm
@@ -70,7 +73,7 @@ payment:
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
     tmnCode: B0G7MQOH
     secretKey: MUQDZO18PYW9GLBHMISDS442I9SARIHT
-    returnUrl: http://localhost:${server.port}/api/payment/vn-pay/call-back
+    returnUrl: http://localhost:${server.port}/api//client-api/orders/confirm
     version: 2.1.0
     command: pay
     orderType: other

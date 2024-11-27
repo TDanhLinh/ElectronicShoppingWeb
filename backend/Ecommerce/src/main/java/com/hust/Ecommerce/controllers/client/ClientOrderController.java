@@ -28,9 +28,13 @@ import com.hust.Ecommerce.dtos.client.order.ClientOrderDetailResponse;
 import com.hust.Ecommerce.dtos.client.order.ClientSimpleOrderRequest;
 import com.hust.Ecommerce.dtos.client.order.ClientSimpleOrderResponse;
 import com.hust.Ecommerce.entities.authentication.User;
+import com.hust.Ecommerce.entities.cashbook.PaymentStatus;
+import com.hust.Ecommerce.entities.inventory.Inventory;
 import com.hust.Ecommerce.entities.order.Order;
+import com.hust.Ecommerce.entities.product.Variant;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientOrderMapper;
+import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
 import com.hust.Ecommerce.repositories.order.OrderRepository;
 import com.hust.Ecommerce.services.authentication.IAuthenticationService;
 import com.hust.Ecommerce.services.order.OrderService;
@@ -43,6 +47,7 @@ import lombok.AllArgsConstructor;
 public class ClientOrderController {
 
         private OrderRepository orderRepository;
+        private InventoryRepository inventoryRepository;
         private IAuthenticationService authenticationService;
         private ClientOrderMapper clientOrderMapper;
         private OrderService orderService;
@@ -86,16 +91,61 @@ public class ClientOrderController {
                                                 .build());
         }
 
-        // call-back frontend gui len xac nhan thanh toan don hang thanh cong hay that
-        // bai
+        // frontend gui len xac nhan thanh toan don hang thanh cong hay that bai
+
         @GetMapping("/confirm")
         public void paymentConfirm(@RequestParam Map<String, String> queryParams) {
+
+                // ket qua cua giao dich
                 String vnp_ResponseCode = queryParams.get("vnp_ResponseCode");
 
+                // id cua transaction; cung nhu la code cua order
+                String vnp_TxnRef = queryParams.get("vnp_TxnRef");
+
+                Optional<Order> orderOptional = orderRepository.findByCode(vnp_TxnRef);
+
+                if (orderOptional.isEmpty())
+                        throw new ResourceNotFoundException(ResourceName.ORDER, FieldName.CODE, vnp_TxnRef);
+
+                Order order = orderOptional.get();
+
                 if (vnp_ResponseCode.equals("00")) {
+
                         // xu ly khi thanh toan thanh cong
+                        // neu trang thai don hang hien tai khong phai pending thi khong lam gi
+                        if (order.getStatus() != 1)
+                                return;
+                        // chueyn trang thai order sang confirm va xac nhan da thanh toan don hang
+                        order.setStatus(2);
+                        order.setPaymentStatus(1);
+                        order.setVnPayOrderStatus(PaymentStatus.Paid);
+
+                        // cap nhat inventory
+                        order.getOrderVariants().stream().forEach(orderVariant -> {
+                                Variant variant = orderVariant.getVariant();
+                                Inventory inventory = variant.getInventory();
+                                if (inventory == null)
+                                        throw new ResourceNotFoundException("inventory khong ton tai");
+
+                                if (inventory.getAvailable() < orderVariant.getQuantity())
+                                        throw new RuntimeException("inventory khong du");
+                                Integer newInventory = inventory.getAvailable() - orderVariant.getQuantity();
+                                inventory.setAvailable(newInventory);
+                                inventoryRepository.save(inventory);
+                        });
+                        // cap nhat order
+                        orderRepository.save(order);
                 } else {
                         // xu ly khi that bai thanh toan
+                        // neu trang thai don hang hien tai khong phai pending thi khong lam gi
+                        if (order.getStatus() != 1)
+                                return;
+                        // chuyen trang thai order sang cancel
+                        order.setStatus(5);
+                        order.setVnPayOrderStatus(PaymentStatus.Failed);
+
+                        // cap nhat order
+                        orderRepository.save(order);
                 }
         }
 }
