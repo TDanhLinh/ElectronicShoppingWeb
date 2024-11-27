@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import Link from "next/link";
 
-export function Cart({cart, setCart}) {
+export function Cart() {
+    const [cart, setCart] = useState([])
+    
     useEffect(() => {
         // lấy thông tin về sản phẩm trong giỏ hàng, chưa có axios
         const tempCart = localStorage.getItem('cartItems');
@@ -42,7 +44,7 @@ export function Cart({cart, setCart}) {
             setCart(sampleItems);
         }
     }, [])
-
+    
     const removeItem = (id) => {
         const updateCart = cart.filter(item => item.id !== id);
         setCart(updateCart);

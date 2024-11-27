@@ -21,7 +21,6 @@ export function Pagination({page, setPage, maxPage}) {
     const pageOnChange = (numPage) => {
         if (numPage !== '...' && numPage > 0 && numPage <= maxPage) {
             setPage(numPage);
-            localStorage.setItem('page', numPage.toString());
         }
     }
 

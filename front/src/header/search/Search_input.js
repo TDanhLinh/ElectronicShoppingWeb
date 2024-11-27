@@ -35,7 +35,7 @@ export function Search_input({setSearchText}) {
                     placeholder="Nhập để tìm kiếm sản phẩm"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    onClick={() => {setFocus(true);console.log("focus")}}
+                    onClick={() => setFocus(true)}
                     onBlur={() => setTimeout(() => setFocus(false), 200)}
                     onKeyUp={(e) => {if (e.key === 'Enter') {search(); setFocus(false);}}}
                 />

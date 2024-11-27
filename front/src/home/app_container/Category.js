@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // Lưu các danh mục, danh mục sẽ tương đương với phần tìm kiếm ở header
-export function Category({setSearchText}) {
+export function Category({searchText, setSearchText}) {
     const categories = [
         'Đồng hồ thông minh',
         'Iphone',
@@ -10,15 +10,7 @@ export function Category({setSearchText}) {
         'Macbook',
     ];
 
-    const [category, setCategory] = useState('');
-
-    useEffect(() => {
-        setCategory(categories[0]);
-        setSearchText(categories[0]);
-    }, [])
-
     const clickOnCategory = (item) => {
-        setCategory(item);
         setSearchText(item.toLowerCase());
     }
     
@@ -30,7 +22,7 @@ export function Category({setSearchText}) {
                     categories.map((item, index) => (
                         <li 
                             key={index} 
-                            className={"category-item"+((category === item) ? " category-item--active" : "")}
+                            className={"category-item"+((searchText.toLowerCase() === item.toLowerCase()) ? " category-item--active" : "")}
                         >
                             <div
                                 className="category-item__link"
