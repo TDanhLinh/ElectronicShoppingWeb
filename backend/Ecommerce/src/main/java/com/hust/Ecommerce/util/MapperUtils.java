@@ -19,6 +19,8 @@ import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.authentication.Role;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.chat.Room;
+import com.hust.Ecommerce.entities.order.Order;
+import com.hust.Ecommerce.entities.order.OrderVariantKey;
 import com.hust.Ecommerce.entities.product.Brand;
 import com.hust.Ecommerce.entities.product.Category;
 import com.hust.Ecommerce.entities.product.Product;
@@ -100,6 +102,16 @@ public abstract class MapperUtils {
     // public User attachUser(@MappingTarget User user) {
     // return user.setRoles(attachSet(user.getRole(), roleRepository));
     // }
+
+    @AfterMapping
+    @Named("attachOrder")
+    public Order attachOrder(@MappingTarget Order order) {
+        order.getOrderVariants().forEach(orderVariant -> {
+            orderVariant.setOrderVariantKey(new OrderVariantKey(order.getId(), orderVariant.getVariant().getId()));
+            orderVariant.setOrder(order);
+        });
+        return order;
+    }
 
     private <E extends BaseEntity> List<E> attachList(List<E> entities, JpaRepository<E, Long> repository) {
         List<E> detachedSet = Optional.ofNullable(entities).orElseGet(ArrayList::new);

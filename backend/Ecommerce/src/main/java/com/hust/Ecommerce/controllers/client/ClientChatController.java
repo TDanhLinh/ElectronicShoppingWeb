@@ -1,5 +1,6 @@
 package com.hust.Ecommerce.controllers.client;
 
+import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import com.hust.Ecommerce.dtos.chat.RoomResponse;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.chat.Message;
 import com.hust.Ecommerce.entities.chat.Room;
+import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.chat.MessageMapper;
 import com.hust.Ecommerce.mappers.chat.RoomMapper;
@@ -78,6 +80,8 @@ public class ClientChatController {
             throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
 
         User user = optionalUser.get();
+        if (user.getRoom() != null)
+            throw new RuntimeException(MessageKeys.ROOM_EXISTED);
 
         Room room = new Room();
         room.setName(user.getName());

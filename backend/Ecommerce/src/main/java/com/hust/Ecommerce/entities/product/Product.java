@@ -1,18 +1,14 @@
 package com.hust.Ecommerce.entities.product;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hust.Ecommerce.entities.BaseEntity;
-import com.hust.Ecommerce.entities.cart.Cart;
+
 import com.hust.Ecommerce.entities.general.Image;
-import com.hust.Ecommerce.entities.order.OrderVariant;
+
 import com.hust.Ecommerce.entities.review.Review;
 import com.hust.Ecommerce.util.JsonNodeConverter;
 
@@ -26,7 +22,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+
 import jakarta.persistence.Table;
 
 import lombok.Getter;

@@ -18,8 +18,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "inventories")
 public class Inventory extends BaseEntity {
-    @Column(name = "amount")
-    private Integer amount;
 
     @Column(name = "available")
     private Integer available;
