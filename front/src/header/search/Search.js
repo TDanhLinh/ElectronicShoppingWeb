@@ -2,7 +2,7 @@ import { Cart } from "./Cart";
 import { Search_input } from "./Search_input";
 import Link from 'next/link';
 
-export function Search() {
+export function Search({setSearchText, cart, setCart}) {
     return (
         <div className="header-with-search">
             <div className="header__logo">
@@ -10,8 +10,13 @@ export function Search() {
                     <img src="/assets/img/logo.png" className="header__logo-img"/>
                 </Link>
             </div>
-            <Search_input />
-            <Cart />
+            <Search_input
+                setSearchText = {setSearchText}
+            />
+            <Cart 
+                cart = {cart}
+                setCart = {setCart}
+            />
         </div> 
     )
 }

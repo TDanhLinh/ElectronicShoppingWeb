@@ -1,3 +1,8 @@
+import { App_container } from "./app_container/App_container";
+import { Header } from "../header/Header"
+import { useEffect } from "react";
+import { Footer } from "../footer/Footer";
+import { useState } from "react";
 import {App_container} from "./app_container/App_container";
 import {Header} from "../header/Header"
 import {useEffect, useState} from "react";
@@ -10,6 +15,10 @@ export function App() {
     const [element, setElement] = useState([]);
     const [user, setUser] = useState([]);
 
+    const [searchText, setSearchText] = useState('');
+    const [cart, setCart] = useState([])
+
+    // nếu chưa đăng nhập, chuyển sang trang đăng nhập
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const user = cookies().getItem('user');
@@ -22,8 +31,12 @@ export function App() {
             <DataTableContext value={{data, setData}}>
                 <LableTableContext value={{label, setLabel}}>
                     <ElementTableContext value={{element, setElement}}>
-                        <Header/>
-                        <App_container/>
+                        <Header
+                        setSearchText = {setSearchText}
+                cart = {cart}
+                setCart = {setCart}
+            /><App_containersearchText = {searchText}
+                setSearchText = {setSearchText}/>
                         <Footer/>
                     </ElementTableContext>
                 </LableTableContext>

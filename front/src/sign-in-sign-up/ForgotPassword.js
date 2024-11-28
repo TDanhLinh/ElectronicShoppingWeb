@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function ForgotPassword() {
+    // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const user = localStorage.getItem('user');
@@ -13,7 +14,10 @@ export function ForgotPassword() {
     
     const submit = (e) => {
         e.preventDefault();
-        if (send === false) setSend(true);
+        if (send === false) {
+            // Gửi yêu cầu tìm lại mật khẩu dựa trên email lên server
+            setSend(true);
+        }
         else window.location.href = '/login';
     }
     

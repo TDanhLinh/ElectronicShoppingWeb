@@ -47,7 +47,7 @@
     width: 87%;
     padding: 15px 10px 15px;
     font-size: 14px;
-    border: 2px solid #ea9b7a;
+    border: 2px solid #f58d61;
     margin-bottom: 16px;
     font-family: 'Quicksand', sans-serif;
     background-color: transparent;
@@ -84,18 +84,18 @@
 }
 
 .options .forgot-password {
-    color: rgb(105, 19, 19);
+    color: rgb(105, 55, 19);
     text-decoration: none;
     transition: color 0.5s ease;
 }
 
 .options .forgot-password:hover {
-    color: rgb(228, 151, 151);
+    color: rgb(230, 152, 107);
 }
 
 .btn {
     padding: 10px 65px;
-    background-color: rgb(216, 113, 113);
+    background-color: rgb(238, 106, 50);
     color: white;
     border: none;
     border-radius: 5px;
@@ -105,7 +105,7 @@
 }
 
 .btn:hover {
-    background-color: rgb(138, 21, 21);
+    background-color: rgb(177, 98, 33);
 }
 
 .register {
@@ -117,7 +117,7 @@
 }
 
 .register p {
-    color: rgb(105, 19, 19);
+    color: rgb(105, 51, 19);
     margin: 0 10px 0 0;
 }
 
@@ -125,15 +125,15 @@
     background-color: transparent;
     padding: 7px 20px;
     border: 1px solid rgb(105, 19, 19);
-    color: rgb(203, 62, 62);
+    color: rgb(201, 97, 37);
     cursor: pointer;
     transition: 0.5s ease;
     font-weight: bold;
 }
 
 .register .register-btn:hover {
-    border: 1px solid rgb(255, 0, 0);
-    color: rgb(255, 0, 0);
+    border: 1px solid rgb(255, 106, 0);
+    color: rgb(255, 123, 46);
 }
 
 .address-dob {

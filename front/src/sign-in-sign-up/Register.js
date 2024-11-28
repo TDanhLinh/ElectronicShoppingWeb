@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export function Register() {
+    // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const user = localStorage.getItem('user');
@@ -12,9 +13,9 @@ export function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [exist, setExist] = useState(false);
+    const [exist, setExist] = useState(false); // kiểm tra tài khoản đã tồn tại chưa
     const [address, setAddress] = useState("");
-    const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState(false); // kiểm tra đăng ký thành công chưa
     const [notify, setNotify] = useState(false);
     const [dob, setDob] = useState('');
     
@@ -22,6 +23,7 @@ export function Register() {
         e.preventDefault();
 
         if (success) {
+            // nếu đã ấn nút đăng ký, nút đăng ký thành 'chuyển sang trang đăng nhập'
             window.location.href = "/login";
             return;
         }
@@ -32,12 +34,13 @@ export function Register() {
             name: name,
             address: address,
             dob: dob,
-            role: 0
+            role: 0 // role = 0: user, role = 1: seller, role = 2: admin
         }
 
+        // thêm tài khoản mới vào database, hiện tại chưa dùng axios
         const accounts = localStorage.getItem("accounts");
 
-        if (accounts) {
+        if (accounts) { // kiểm tra xem tài khoản đã tồn tại chưa
             const Accounts = JSON.parse(accounts);
             if (Accounts.find((item) => (item.email === email))) {
                 setExist(true);
@@ -50,7 +53,7 @@ export function Register() {
                 setExist(false);
             }
         }
-        else {
+        else { // chưa tồn tại thì thêm vào database, hiện tại chưa có axios
             localStorage.setItem(email, JSON.stringify(newAccount));
             const Accounts = [newAccount];
             localStorage.setItem("accounts", JSON.stringify(Accounts));

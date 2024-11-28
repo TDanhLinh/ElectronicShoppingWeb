@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-export function Category() {
+// Lưu các danh mục, danh mục sẽ tương đương với phần tìm kiếm ở header
+export function Category({setSearchText}) {
     const categories = [
         'Đồng hồ thông minh',
         'Iphone',
@@ -12,14 +13,13 @@ export function Category() {
     const [category, setCategory] = useState('');
 
     useEffect(() => {
-        
         setCategory(categories[0]);
-        localStorage.setItem('searchingFor', categories[0]);
+        setSearchText(categories[0]);
     }, [])
 
     const clickOnCategory = (item) => {
         setCategory(item);
-        localStorage.setItem('searchingFor', item);
+        setSearchText(item.toLowerCase());
     }
     
     return (
