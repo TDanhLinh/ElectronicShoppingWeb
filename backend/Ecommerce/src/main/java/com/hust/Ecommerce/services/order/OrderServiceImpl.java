@@ -238,86 +238,88 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse save(Long id, OrderRequest request) {
-        // Order order = orderRepository.findById(id)
-        // .map((Order existingEntity) -> {
-        // // khong cap nhat cho don hang da cancel
-        // if (existingEntity.getStatus() == 5)
-        // throw new RuntimeException("khong cap nhat don hang CANCEL");
+        Order order = orderRepository.findById(id)
+                .map((Order existingEntity) -> {
 
-        // return orderMapper.partialUpdate(existingEntity, request);
-        // })
-        // .map((Order existingEntity) -> {
-        // // neu khong cap nhat status
-        // if (request.getStatus() == null)
-        // return existingEntity;
+                    // khong cap nhat cho don hang da cancel
+                    if (existingEntity.getStatus() == 5)
+                        throw new RuntimeException("khong cap nhat don hang CANCEL");
 
-        // // neu status moi < status hien tai cua order
-        // if (request.getStatus() < existingEntity.getStatus())
-        // throw new RuntimeException("khong the cap nhat trang thai quay lai");
+                    return orderMapper.partialUpdate(existingEntity, request);
+                })
+                .map((Order orderEntity) -> {
 
-        // // neu trang thai order hien tai la pending
-        // if (existingEntity.getStatus() == 1) {
+                    // neu khong cap nhat status
+                    if (request.getStatus() == null)
+                        return orderEntity;
 
-        // // neu trang thai moi khong phai cancel
-        // if (request.getStatus() > 1 && request.getStatus() != 5) {
+                    // neu status moi < status hien tai cua order
+                    if (request.getStatus() < orderEntity.getStatus())
+                        throw new RuntimeException("khong the cap nhat trang thai quay lai");
 
-        // // cap nhat inventory (giam available)
-        // existingEntity.getOrderVariants().stream().forEach(orderVariant -> {
-        // Variant variant = orderVariant.getVariant();
-        // Inventory inventory = variant.getInventory();
-        // if (inventory == null)
-        // throw new ResourceNotFoundException("inventory khong ton tai");
+                    // neu trang thai order hien tai la pending
+                    if (orderEntity.getStatus() == 1) {
 
-        // if (inventory.getAvailable() < orderVariant.getQuantity())
-        // throw new RuntimeException("inventory khong du");
-        // Integer newAvailable = inventory.getAvailable() - orderVariant.getQuantity();
-        // inventory.setAvailable(newAvailable);
-        // inventoryRepository.save(inventory);
-        // });
-        // }
-        // } else {
-        // // cap nhat order CANCEL (huy don)
-        // if (request.getStatus() == 5) {
-        // // cap nhat inventory (tang available)
-        // existingEntity.getOrderVariants().stream().forEach(orderVariant -> {
-        // Variant variant = orderVariant.getVariant();
-        // Inventory inventory = variant.getInventory();
-        // if (inventory == null)
-        // throw new ResourceNotFoundException("inventory khong ton tai");
+                        // neu trang thai moi khong phai cancel
+                        if (request.getStatus() > 1 && request.getStatus() != 5) {
 
-        // Integer newAvailable = inventory.getAvailable() + orderVariant.getQuantity();
-        // inventory.setAvailable(newAvailable);
-        // inventoryRepository.save(inventory);
-        // });
-        // }
-        // }
+                            // cap nhat inventory (giam available)
+                            orderEntity.getOrderVariants().stream().forEach(orderVariant -> {
+                                Variant variant = orderVariant.getVariant();
+                                Inventory inventory = variant.getInventory();
+                                if (inventory == null)
+                                    throw new ResourceNotFoundException("inventory khong ton tai");
 
-        // // cap nhat sold neu cap nhat order hoan thanh FINISHED
-        // if (request.getStatus() == 6) {
-        // // cap nhat inventory (tang sold)
-        // existingEntity.getOrderVariants().stream().forEach(orderVariant -> {
-        // Variant variant = orderVariant.getVariant();
-        // Inventory inventory = variant.getInventory();
-        // if (inventory == null)
-        // throw new ResourceNotFoundException("inventory khong ton tai");
+                                if (inventory.getAvailable() < orderVariant.getQuantity())
+                                    throw new RuntimeException("inventory khong du");
+                                Integer newAvailable = inventory.getAvailable() - orderVariant.getQuantity();
+                                inventory.setAvailable(newAvailable);
+                                inventoryRepository.save(inventory);
+                            });
+                        }
+                    } else {
+                        // cap nhat order CANCEL (huy don)
+                        if (request.getStatus() == 5) {
+                            // cap nhat inventory (tang available)
+                            orderEntity.getOrderVariants().stream().forEach(orderVariant -> {
+                                Variant variant = orderVariant.getVariant();
+                                Inventory inventory = variant.getInventory();
+                                if (inventory == null)
+                                    throw new ResourceNotFoundException("inventory khong ton tai");
 
-        // Integer newSold = inventory.getSold() + orderVariant.getQuantity();
-        // inventory.setAvailable(newSold);
-        // inventoryRepository.save(inventory);
-        // });
-        // }
+                                Integer newAvailable = inventory.getAvailable() + orderVariant.getQuantity();
+                                inventory.setAvailable(newAvailable);
+                                inventoryRepository.save(inventory);
+                            });
+                        }
+                    }
 
-        // // cap nhat status order
-        // existingEntity.setStatus(request.getStatus());
-        // return existingEntity;
+                    // cap nhat order FINISHED
+                    if (request.getStatus() == 6) {
+                        // cap nhat inventory (tang sold)
+                        orderEntity.getOrderVariants().stream().forEach(orderVariant -> {
+                            Variant variant = orderVariant.getVariant();
+                            Inventory inventory = variant.getInventory();
+                            if (inventory == null)
+                                throw new ResourceNotFoundException("inventory khong ton tai");
 
-        // })
-        // .map(orderRepository::save)
-        // .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER,
-        // FieldName.ID, id));
+                            Integer newSold = inventory.getSold() + orderVariant.getQuantity();
+                            inventory.setSold(newSold);
+                            inventoryRepository.save(inventory);
+                        });
+                    }
 
-        // return orderMapper.entityToResponse(order);
-        throw new RuntimeException();
+                    // cap nhat status order
+                    orderEntity.setStatus(request.getStatus());
+                    return orderEntity;
+
+                })
+                .map(orderRepository::save)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER,
+                        FieldName.ID, id));
+
+        return orderMapper.entityToResponse(order);
+
     }
 
     @Override
