@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     margin: 0 0 20px 10px;
+    min-height: 600px;
 }
 
 .user-information-header {
@@ -14,7 +15,7 @@
 
 .user-information-container {
     padding: 16px 16px 16px 16px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.714);
     display: flex;
     flex-direction: row;
     border-radius: 8px;
@@ -204,7 +205,6 @@
     cursor: pointer;
     margin-left: 115px;
     margin-top: 15px;
-    transition: 300ms;
 }
 
 .set-change-btn:hover {
@@ -275,6 +275,7 @@
     width: 400px;
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
 .box-text {
@@ -309,8 +310,117 @@
     margin-top: 20px;
 }
 
+.box-btn:hover {
+    background-color: rgb(194, 72, 39);
+    color: rgb(212, 212, 212);
+}
+
 .error-msg {
     color: red;
     font-size: 14px;
     margin-bottom: -15px;
 }
+
+.bought-products-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.all-products {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 0 20px;
+}
+
+.pagination-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.product-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 0 40px 0 40px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.product-img {
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    background-color: white;
+    margin-right: 30px;
+}
+
+.name-type-amount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.name-product {
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0 0 5px;
+    word-wrap: break-word;
+    color: rgb(0, 0, 0);
+}
+
+.type-product {
+    color: rgba(0, 0, 0, .54);
+    margin: 0 0 5px;
+    word-wrap: break-word;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+.amount-product {
+    color: rgba(0, 0, 0, 0.815);
+    word-wrap: break-word;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+.price-product {
+    font-size: 26px;
+    padding: 0;
+    color: rgb(255, 56, 1);
+    font-weight: 500;
+}
+
+.buy-again-btn {
+    color: white;
+    background-color: rgb(255, 104, 22);
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.buy-again-btn:hover {
+    background-color: rgb(194, 72, 39);
+    color: rgb(212, 212, 212);
+}
+

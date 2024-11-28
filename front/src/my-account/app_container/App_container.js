@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react';
 import { Category } from './Category';
 import { User_information } from './User_information';
 import { UpdatePhonenumber } from './Update_phonenumber';
-import { UpdateEmail } from './Update_email';
 import { ChangePassword } from './Change_password';
+import { DeleteAccount } from './Delete_account';
+import { BoughtProducts } from './Bought_products';
 
 export function App_container() {
     const categories = [
         'Thông tin tài khoản',
         'Sản phẩm đã mua',
         'Cập nhật sđt',
-        'Cập nhật email',
-        'Thay đổi mật khẩu'
+        'Thay đổi mật khẩu',
+        'Xóa tài khoản'
     ];
 
     const [category, setCategory] = useState(categories[0]);
@@ -35,12 +36,16 @@ export function App_container() {
                             <UpdatePhonenumber />
                         }
                         {
-                            category === 'Cập nhật email' &&
-                            <UpdateEmail />
-                        }
-                        {
                             category === 'Thay đổi mật khẩu' &&
                             <ChangePassword />
+                        }
+                        {
+                            category === 'Xóa tài khoản' &&
+                            <DeleteAccount />
+                        }
+                        {
+                            category === 'Sản phẩm đã mua' &&
+                            <BoughtProducts />
                         }
                     </div>
                 </div>

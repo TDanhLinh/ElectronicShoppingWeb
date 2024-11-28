@@ -7,6 +7,7 @@ export function User_information({setCategory}) {
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('');
     const [nation, setNation] = useState('');
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         // lấy ra thông tin người dùng, hiện chưa có axios
@@ -22,9 +23,11 @@ export function User_information({setCategory}) {
         if (user.nation) setNation(user.nation);
     }, [])
 
-    // cập nhật các thông tin đã có lên database
+    // cập nhật các thông tin lên database
     const changeUserInformation = () => {
+        if (success) return;
 
+        setSuccess(true);
     }
 
     // chuyển sang trang 'tính năng đang phát triển'
@@ -132,7 +135,7 @@ export function User_information({setCategory}) {
                             className='set-change-btn'
                             onClick={changeUserInformation}
                         >
-                            Lưu thay đổi
+                            {success ? 'Thành công' : 'Lưu thay đổi'}
                         </button>
                     </div>
                 </div>
@@ -161,15 +164,7 @@ export function User_information({setCategory}) {
                                 <div className='user-sdt-email-detail'>Địa chỉ email</div>
                                 <div className='user-sdt-email-detail'>{user.email || 'abc@gmail.com'}</div>
                             </div>
-                            <div className='update-btn-container'>
-                                <span></span>
-                                <button
-                                    className='update-btn'
-                                    onClick={() => setCategory("Cập nhật email")}
-                                >
-                                    Cập nhật
-                                </button>
-                            </div>
+                            <div className='update-btn-container'></div>
                         </div>
                     </div>
                     <div className='user-information-wrapper'>
@@ -201,6 +196,7 @@ export function User_information({setCategory}) {
                                 
                                 <button
                                     className='update-btn'
+                                    onClick={() => setCategory("Xóa tài khoản")}
                                 >
                                     Yêu cầu
                                 </button>
