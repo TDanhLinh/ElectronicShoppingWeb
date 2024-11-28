@@ -352,7 +352,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 20px;
-    padding: 0 40px 0 40px;
+    padding: 0 30px 0 20px;
 }
 
 .product-info {
@@ -370,13 +370,15 @@
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 8px;
     background-color: white;
-    margin-right: 30px;
+    margin-right: 15px;
+    cursor: pointer;
 }
 
 .name-type-amount {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 180px;
 }
 
 .name-product {
@@ -385,6 +387,7 @@
     margin: 0 0 5px;
     word-wrap: break-word;
     color: rgb(0, 0, 0);
+    text-decoration: none;
 }
 
 .type-product {
@@ -412,11 +415,13 @@
 .buy-again-btn {
     color: white;
     background-color: rgb(255, 104, 22);
-    width: 100px;
+    width: 110px;
     height: 40px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
+    transition: 300ms;
 }
 
 .buy-again-btn:hover {
@@ -424,3 +429,93 @@
     color: rgb(212, 212, 212);
 }
 
+.no-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-item-img {
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+.no-item-p {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.cmt-price-product {
+    font-size: 20px;
+    padding: 0;
+    color: rgb(255, 56, 1);
+    font-weight: 500;
+}
+
+.comment-stars {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.comment-star {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.no-star {
+    color: #d4d4d4;
+}
+
+.write-comment {
+    color: rgb(255, 68, 0);
+    background-color: rgb(255, 221, 203);
+    border: 1px solid rgb(255, 68, 0);
+    width: 140px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.write-comment:hover {
+    background-color: rgb(255, 244, 238);
+}
+
+.write-comment-container {
+    background-color: white;
+    width: 800px;
+    height: 500px;
+    border: none;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.write-comment-input {
+    font-size: 24px;
+    font-weight: 500;
+    color: #1f1f1f;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    cursor: text;
+    caret-color: auto;
+    box-sizing: border-box;
+    text-align: left;
+    vertical-align: top;
+    resize: none;
+    margin: 0;
+}
+
+.write-comment-input::placeholder {
+    color: rgb(208, 208, 208);
+}
+
+.write-comment-input:focus {
+    outline: none;
+}

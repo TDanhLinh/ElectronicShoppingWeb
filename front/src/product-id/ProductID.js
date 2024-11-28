@@ -19,7 +19,9 @@ export function ProductID({id}) {
             <Header
                 setSearchText = {setSearchText}
             />
-            <App_container />
+            <App_container 
+                id={id}
+            />
             <Footer />
         </div>
     );

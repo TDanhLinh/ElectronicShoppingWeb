@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { sampleUser } from './SampleUser';
 
 export function User_information({setCategory}) {
     const [user, setUser] = useState({}); // chứa các thông tin như tên, sđt, email, ....
@@ -7,20 +8,19 @@ export function User_information({setCategory}) {
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('');
     const [nation, setNation] = useState('');
+    const [address, setAddress] = useState('');
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         // lấy ra thông tin người dùng, hiện chưa có axios
-        const account = localStorage.getItem('user');
-        let acc = JSON.parse(localStorage.getItem(account));
-        if (!acc.img) acc.img = "https://st.quantrimang.com/photos/image/2017/04/08/anh-dai-dien-FB-200.jpg";
-        setUser(acc);
+        setUser(sampleUser);
 
-        setName(user.name);
-        if (user.nickname) setNickname(user.nickname);
-        setDob(user.dob);
-        if (user.gender) setGender(user.gender);
-        if (user.nation) setNation(user.nation);
+        setName(sampleUser.name);
+        if (sampleUser.nickname) setNickname(sampleUser.nickname);
+        setDob(sampleUser.dob);
+        if (sampleUser.gender) setGender(sampleUser.gender);
+        if (sampleUser.nation) setNation(sampleUser.nation);
+        setAddress(sampleUser.address);
     }, [])
 
     // cập nhật các thông tin lên database
@@ -128,6 +128,15 @@ export function User_information({setCategory}) {
                             value={nation}
                             placeholder='Việt Nam'
                             onChange={(e) => setNation(e.target.value)} 
+                        />
+                    </div>
+                    <div className='form-other'>
+                        <div className="name-p">Địa chỉ</div>
+                        <input
+                            type="text"
+                            className='input-nation-box'
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)} 
                         />
                     </div>
                     <div className='form-other'>

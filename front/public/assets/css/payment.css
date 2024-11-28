@@ -7,7 +7,7 @@
 }
 
 .container {
-    height: 100vh;
+    min-height: 100vh;
     background: url('/assets/img/payment_background.png') no-repeat center center/cover;
     display: flex;
     flex-direction: column;
@@ -153,4 +153,76 @@ h1, h2 {
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #f7f7f7;
+}
+
+.transfer-to {
+    margin-top: 30px;
+    background-color: rgba(237, 199, 183, 0.9);;
+    border-radius: 8px;
+    color: #333;
+    padding: 20px;
+}
+
+.transfer-to-input {
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1f1f1f;
+    width: 100%;
+    outline: none;
+    cursor: text;
+    caret-color: auto;
+    border: none;
+    border-radius: 5px;
+}
+
+.payment-method {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    gap: 20px;
+}
+
+.pame input[type="radio"] {
+    display: none;
+}
+
+.pame {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e66b1e; /* Viền ngoài cam đỏ */
+    border-radius: 50%; /* Hình tròn */
+    margin-right: 10px;
+    position: relative;
+    background-color: #fff; /* Màu trắng ở vòng trong */
+    transition: all 0.3s ease;
+}
+
+.pame input[type="radio"]:checked + .radio-custom {
+    border-color: #e66b1e; /* Viền ngoài không đổi */
+    background-color: #fff; /* Nền bên trong không đổi */
+}
+
+.pame input[type="radio"]:checked + .radio-custom::after {
+    content: '';
+    position: absolute;
+    width: 10px; /* Kích thước hình tròn ở giữa */
+    height: 10px;
+    background-color: #e66b1e; /* Màu cam đỏ */
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.payment-method-type {
+    font-size: 20px;
 }

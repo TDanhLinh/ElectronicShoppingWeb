@@ -17,11 +17,17 @@ export function Home_product({products}) {
                                     <span className="home-product-item__price-current">{item.discountedPrice.toLocaleString()}đ</span>
                                 </div>
                                 <div className="home-product-item__rating">
-                                    <i className="home-product-item__rating--gold fas fa-star" />
-                                    <i className="home-product-item__rating--gold fas fa-star" />
-                                    <i className="home-product-item__rating--gold fas fa-star" />
-                                    <i className="home-product-item__rating--gold fas fa-star" />
-                                    <i className="fas fa-star"></i>
+                                    {
+                                        
+                                        [...Array(Math.round(item.star))].map((_, nindex) => (
+                                            <i className="home-product-item__rating--gold fas fa-star" key={nindex} />
+                                        ))
+                                    }
+                                    {
+                                        [...Array(5-Math.round(item.star))].map((_, nindex) => (
+                                            <i className="fas fa-star" key={nindex} />
+                                        ))
+                                    }
                                 </div>
                                 <div className="home-product-item__sold">{item.sold} đã bán</div>
                                 <div className="home-product-item__origin">
@@ -29,7 +35,7 @@ export function Home_product({products}) {
                                     <span className="home-product-item__origin-name">{item.origin}</span>
                                 </div>
                                 <div className="home-product-item__sale-off">
-                                    <span className="home-product-item__sale-off-percent">{100-(item.discountedPrice * 100 / item.originalPrice).toFixed(0)}%</span>
+                                    <span className="home-product-item__sale-off-percent">{100-(item.discountedPrice * 100 / item.originalPrice).toFixed()}%</span>
                                     <span className="home-product-item__sale-off-label">GIẢM</span>
                                 </div>
                             </Link>

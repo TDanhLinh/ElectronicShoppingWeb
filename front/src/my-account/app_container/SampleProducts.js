@@ -10,7 +10,7 @@ export const sampleProducts = [
     {
         id: 2,
         src: 'https://img.abaha.vn/photos/resized/320x/83-1597318354-myphamohui-lgvina.png',
-        name: 'Đồng hồ thông minh loại 2',
+        name: 'Đồng hồ',
         price: 1125000,
         type: 'đen',
         amount: 2
@@ -18,7 +18,7 @@ export const sampleProducts = [
     {
         id: 3,
         src: 'https://img.abaha.vn/photos/resized/320x/83-1596624550-myphamohui-lgvina.png',
-        name: 'Đồng hồ thông minh loại 3',
+        name: 'Đồng hồ thông não',
         price: 910000,
         type: 'đen',
         amount: 2
