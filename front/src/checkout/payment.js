@@ -73,7 +73,7 @@ export function Payment() {
             return;
         }
 
-        if (/^[0-9]+$/.test(sdt)) {
+        if (!/^[0-9]+$/.test(sdt)) {
             setError(true);
             setErrorMsg('Số điện thoại của bạn không hợp lệ');
             return;
