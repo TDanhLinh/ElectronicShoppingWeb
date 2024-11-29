@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 // search input để lấy thông tin tìm kiếm của người dùng
 export function Search_input({setSearchText}) {
+    const router = useRouter();
+
     const [historyList, setHistoryList] = useState([]);
     const [focus, setFocus] = useState(false);
     const [text, setText] = useState('');
@@ -23,8 +26,8 @@ export function Search_input({setSearchText}) {
             
             // cập nhật lịch sử tìm kiếm lên database, chưa có axios
             localStorage.setItem('historyList', JSON.stringify(updatedHistoryList));
-            if (window.location.href !== window.location.origin + '/') {
-                window.location.href = '/';
+            if (router.asPath !== '/') {
+                router.push('/');
             }
         }
     };

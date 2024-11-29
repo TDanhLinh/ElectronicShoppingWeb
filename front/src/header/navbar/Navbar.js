@@ -1,9 +1,12 @@
 import { User } from "./User";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 export function Navbar() {
+    const router = useRouter();
+    
     const handleClick = () => {
-        window.location.href = window.location.origin + '/under-dev'
+        router.push('/under-dev');
     }
     
     return (

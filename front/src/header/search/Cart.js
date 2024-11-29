@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 import Link from "next/link";
 import { sampleProducts } from "./SampleProducts";
+import { useRouter } from 'next/router';
 
 export function Cart() {
+    const router = useRouter();
+
     const [cart, setCart] = useState([])
     
     useEffect(() => {
@@ -18,7 +21,7 @@ export function Cart() {
     }
 
     const clickOnItem = (id) => {
-        window.location.href = window.location.origin + `/products/${id}`
+        router.push(`/products/${id}`)
     }
 
     return (

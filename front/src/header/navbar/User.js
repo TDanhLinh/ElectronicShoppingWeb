@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react"
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export function User() {
+    const router = useRouter();
+    
     const [user, setUser] = useState({});
 
     // lấy ra thông tin người dùng từ database, hiện tại chưa có axios
@@ -27,7 +30,7 @@ export function User() {
                         href=""
                         onClick={() => {
                             localStorage.setItem('user', '');
-                            window.location.href = '/login';
+                            router.push('/login')
                         }}
                     >
                         Đăng xuất

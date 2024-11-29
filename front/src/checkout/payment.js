@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { sampleProducts } from './SampleProducts';
 import { sampleUser } from './SampleUser';
+import { useRouter } from 'next/router';
 
 export function Payment() {
     // Nếu chưa đăng nhập, chuyển sang trang đăng nhập
+    const router = useRouter();
+
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const user = localStorage.getItem('user');
-            if (!user || user.length === 0) window.location.href = '/login';
-        }
+        const user = localStorage.getItem('user');
+        if (!user || user.length === 0) router.push('/login');
     }, [])
     
     const [user, setUser] = useState({});
@@ -83,6 +84,10 @@ export function Payment() {
         setError(false);
     }
 
+    const clickOnItem = (id) => {
+        router.push(`/products/${id}`);
+    }
+
     return (
         <div className='container'>
             <Link href='/'>
@@ -97,8 +102,17 @@ export function Payment() {
                     <h2>Thông tin sản phẩm</h2>
                     {cartItems.map((item) => (
                         <div key={item.id} className="product-item">
+                            <div 
+                                className="product-item-img" style={{backgroundImage: `url(${item.src})`}}
+                                onClick={() => clickOnItem(item.id)}
+                            />
                             <div className="product-details">
-                                <p><strong>{item.name}</strong></p>
+                                <p 
+                                    className='product-item-name'
+                                    onClick={() => clickOnItem(item.id)}
+                                >
+                                    <strong>{item.name}</strong>
+                                </p>
                                 <p>{'Số lượng: ' + item.quantity}</p>
                             </div>
                             <div className="product-pricing">

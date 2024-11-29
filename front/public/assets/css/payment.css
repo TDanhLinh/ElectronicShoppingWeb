@@ -75,6 +75,23 @@ h1, h2 {
     color: #333;
 }
 
+.product-item-img {
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    background-color: white;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.product-item-name {
+    cursor: pointer;
+}
+
 .product-details, .product-pricing {
     flex: 1;
     margin-right: 20px;
