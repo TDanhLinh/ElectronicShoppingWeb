@@ -17,6 +17,8 @@ public class ClientListedProductResponse {
     private String productSlug;
     @Nullable
     private String productThumbnail;
+    // san pham co the ban hay khong
+    private boolean productSaleable;
     private List<Double> productPriceRange;
     private List<ClientListedVariantResponse> productVariants;
 
