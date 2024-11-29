@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     margin: 0 0 20px 10px;
+    min-height: 600px;
 }
 
 .user-information-header {
@@ -14,7 +15,7 @@
 
 .user-information-container {
     padding: 16px 16px 16px 16px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.714);
     display: flex;
     flex-direction: row;
     border-radius: 8px;
@@ -204,7 +205,6 @@
     cursor: pointer;
     margin-left: 115px;
     margin-top: 15px;
-    transition: 300ms;
 }
 
 .set-change-btn:hover {
@@ -266,4 +266,256 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
+}
+
+.container-box {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 16px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.box-text {
+    font-size: 14px;
+    color: rgb(56, 56, 61);
+    margin-bottom: 4px;
+}
+
+.box-input {
+    width: 100%;
+    height: 36px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    cursor: text;
+    outline: none;
+    caret-color: auto;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+}
+
+.box-btn {
+    border: 0px;
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    background-color: rgb(255, 104, 22);
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.box-btn:hover {
+    background-color: rgb(194, 72, 39);
+    color: rgb(212, 212, 212);
+}
+
+.error-msg {
+    color: red;
+    font-size: 14px;
+    margin-bottom: -15px;
+}
+
+.bought-products-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.all-products {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 0 20px;
+}
+
+.pagination-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.product-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 0 30px 0 20px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.product-img {
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    background-color: white;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.name-type-amount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 180px;
+}
+
+.name-product {
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0 0 5px;
+    word-wrap: break-word;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.type-product {
+    color: rgba(0, 0, 0, .54);
+    margin: 0 0 5px;
+    word-wrap: break-word;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+.amount-product {
+    color: rgba(0, 0, 0, 0.815);
+    word-wrap: break-word;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+.price-product {
+    font-size: 26px;
+    padding: 0;
+    color: rgb(255, 56, 1);
+    font-weight: 500;
+}
+
+.buy-again-btn {
+    color: white;
+    background-color: rgb(255, 104, 22);
+    width: 110px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.buy-again-btn:hover {
+    background-color: rgb(194, 72, 39);
+    color: rgb(212, 212, 212);
+}
+
+.no-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-item-img {
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+.no-item-p {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.cmt-price-product {
+    font-size: 20px;
+    padding: 0;
+    color: rgb(255, 56, 1);
+    font-weight: 500;
+}
+
+.comment-stars {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.comment-star {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.no-star {
+    color: #d4d4d4;
+}
+
+.write-comment {
+    color: rgb(255, 68, 0);
+    background-color: rgb(255, 221, 203);
+    border: 1px solid rgb(255, 68, 0);
+    width: 140px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.write-comment:hover {
+    background-color: rgb(255, 244, 238);
+}
+
+.write-comment-container {
+    background-color: white;
+    width: 800px;
+    height: 500px;
+    border: none;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.write-comment-input {
+    font-size: 24px;
+    font-weight: 500;
+    color: #1f1f1f;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    cursor: text;
+    caret-color: auto;
+    box-sizing: border-box;
+    text-align: left;
+    vertical-align: top;
+    resize: none;
+    margin: 0;
+}
+
+.write-comment-input::placeholder {
+    color: rgb(208, 208, 208);
+}
+
+.write-comment-input:focus {
+    outline: none;
 }

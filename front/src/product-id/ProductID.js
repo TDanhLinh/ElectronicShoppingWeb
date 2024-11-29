@@ -1,11 +1,10 @@
-import { App_container } from "./app_container/App_container";
 import { Header } from "../header/Header"
-import { useEffect } from "react";
+import { App_container } from "./app_container/App_container";
+import { useState, useEffect } from "react";
 import { Footer } from "../footer/Footer";
-import { useState } from "react";
 
-export function App() {
-    const [searchText, setSearchText] = useState(''); // dùng để lọc sản phẩm theo tìm kiếm của người dùng
+export function ProductID({id}) {
+    const [searchText, setSearchText] = useState('');
 
     // nếu chưa đăng nhập, chuyển sang trang đăng nhập
     useEffect(() => {
@@ -20,9 +19,8 @@ export function App() {
             <Header
                 setSearchText = {setSearchText}
             />
-            <App_container
-                searchText = {searchText}
-                setSearchText = {setSearchText}
+            <App_container 
+                id={id}
             />
             <Footer />
         </div>

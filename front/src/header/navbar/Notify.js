@@ -61,6 +61,7 @@ export function Notify() {
             isChecked: true,
         }));
         setNotifyList(updatedList);
+        //chỉnh lại notifyList trong database
         localStorage.setItem('notifyList', JSON.stringify(updatedList));
     }
 
@@ -69,6 +70,7 @@ export function Notify() {
             i === index ? { ...notify, isChecked: true } : notify
         );
         setNotifyList(updatedList);
+        //chỉnh lại notifyList trong database
         localStorage.setItem('notifyList', JSON.stringify(updatedList));
     }
     

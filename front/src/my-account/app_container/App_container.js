@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Category } from './Category';
 import { User_information } from './User_information';
+import { UpdatePhonenumber } from './Update_phonenumber';
+import { ChangePassword } from './Change_password';
+import { DeleteAccount } from './Delete_account';
+import { BoughtProducts } from './Bought_products';
+import { CommentProduct } from './Comment_product';
 
 export function App_container() {
     const categories = [
         'Thông tin tài khoản',
-        'Quản lý sản phẩm',
+        'Sản phẩm đã mua',
+        'Đánh giá sản phẩm',
+        'Cập nhật sđt',
+        'Thay đổi mật khẩu',
+        'Xóa tài khoản',
     ];
 
-    const [category, setCategory] = useState('');
-
-    useEffect(() => {
-        
-        setCategory(categories[0]);
-        localStorage.setItem('userSelect', categories[0]);
-    }, [])
+    const [category, setCategory] = useState(categories[0]);
 
     return (
         <div className="app__container">
@@ -24,7 +27,32 @@ export function App_container() {
                         <Category category={category} setCategory={setCategory} categories={categories} />
                     </div>
                     <div className="col l-10 m-12 c-12">
-                        <User_information />
+                        {
+                            category === 'Thông tin tài khoản' &&
+                            <User_information 
+                                setCategory = {setCategory}
+                            />
+                        }
+                        {
+                            category === 'Cập nhật sđt' &&
+                            <UpdatePhonenumber />
+                        }
+                        {
+                            category === 'Thay đổi mật khẩu' &&
+                            <ChangePassword />
+                        }
+                        {
+                            category === 'Xóa tài khoản' &&
+                            <DeleteAccount />
+                        }
+                        {
+                            category === 'Sản phẩm đã mua' &&
+                            <BoughtProducts />
+                        }
+                        {
+                            category === 'Đánh giá sản phẩm' &&
+                            <CommentProduct />
+                        }
                     </div>
                 </div>
             </div>

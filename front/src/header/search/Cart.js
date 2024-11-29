@@ -1,52 +1,48 @@
 import { useState, useEffect } from "react"
 import Link from "next/link";
 
-export function Cart({cart, setCart}) {
+export function Cart() {
+    const [cart, setCart] = useState([])
+    
     useEffect(() => {
         // lấy thông tin về sản phẩm trong giỏ hàng, chưa có axios
-        const tempCart = localStorage.getItem('cartItems');
-        if (tempCart) {
-            setCart(JSON.parse(tempCart));
-        }
-        else {
-            const sampleItems = [
-                {
-                    id: 1,
-                    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2OWZC_tivnVl1D5HIDzKnJj0MX8uksIqNfg&s',
-                    name: 'ROLEX YACHT-MASTER 40 MM',
-                    quantity: 2,
-                    originalPrice: 60000000,
-                    discountedPrice: 39000000,
-                    shippingFee: 25000,
-                },
-                {
-                    id: 2,
-                    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1o70KztHpRohL_lfZAxUOsA57FDvY71YTQ&s',
-                    name: 'Iphone 15 pro max',
-                    quantity: 1,
-                    originalPrice: 8000000,
-                    discountedPrice: 6000000,
-                    shippingFee: 30000,
-                },
-                {
-                    id: 3,
-                    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXp_vMn-caMedxr7zsnhI3Lz59Nl2sWNWD0A&s',
-                    name: 'Macbook pro',
-                    quantity: 3,
-                    originalPrice: 7400000,
-                    discountedPrice: 5500000,
-                    shippingFee: 30000,
-                },
-            ]
+        const sampleItems = [
+            {
+                id: 1,
+                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2OWZC_tivnVl1D5HIDzKnJj0MX8uksIqNfg&s',
+                name: 'ROLEX YACHT-MASTER 40 MM',
+                quantity: 2,
+                originalPrice: 60000000,
+                discountedPrice: 39000000,
+                shippingFee: 25000,
+            },
+            {
+                id: 2,
+                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1o70KztHpRohL_lfZAxUOsA57FDvY71YTQ&s',
+                name: 'Iphone 15 pro max',
+                quantity: 1,
+                originalPrice: 8000000,
+                discountedPrice: 6000000,
+                shippingFee: 30000,
+            },
+            {
+                id: 3,
+                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXp_vMn-caMedxr7zsnhI3Lz59Nl2sWNWD0A&s',
+                name: 'Macbook pro',
+                quantity: 3,
+                originalPrice: 7400000,
+                discountedPrice: 5500000,
+                shippingFee: 30000,
+            },
+        ]
 
-            setCart(sampleItems);
-        }
+        setCart(sampleItems);
     }, [])
-
+    
+    // xóa sản phẩm ra khỏi cart, chưa có axios
     const removeItem = (id) => {
         const updateCart = cart.filter(item => item.id !== id);
         setCart(updateCart);
-        localStorage.setItem('cartItems', JSON.stringify(updateCart));
     }
 
     return (

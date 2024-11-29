@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 // Chọn ra filter để sắp xếp sản phẩm
 export function Home_filter({page, setPage, maxPage, setFilter}) {
     
-    const [state, setState] = useState(0);
+    const [state, setState] = useState(-1);
 
     const filters = [
         "Phổ biến",
@@ -15,19 +15,11 @@ export function Home_filter({page, setPage, maxPage, setFilter}) {
 
     const changeFilter = (index) => {
         setState(index);
-        localStorage.setItem('filter', filters[index]);
         setFilter(filters[index])
     }
-
-    useEffect(() => {
-        setState(0);
-        setFilter(filters[0])
-    }, [])
-
     const pageOnChange = (numPage) => {
         if (numPage > 0 && numPage <= maxPage) {
             setPage(numPage);
-            localStorage.setItem('page', numPage.toString());
         }
     }
     
@@ -38,7 +30,7 @@ export function Home_filter({page, setPage, maxPage, setFilter}) {
                 filters.slice(0, 3).map((item, index) => (
                     <button 
                         key={index}
-                        className={"btn home-filter__btn"+((filters[state] === item) ? " btn--primary" : "")}
+                        className={"btn home-filter__btn"+((state >= 0 && filters[state] === item) ? " btn--primary" : "")}
                         onClick={()=>changeFilter(index)}
                     >
                         {item}
