@@ -58,7 +58,7 @@ h1, h2 {
 .product-info, .order-summary {
     margin-top: 30px;
     padding: 20px;
-    background-color: rgba(237, 199, 183, 0.9); /* Màu nền với độ trong suốt */
+    background-color: rgba(253, 228, 219, 0.9); /* Màu nền với độ trong suốt */
     border-radius: 8px;
     color: #333;
 }
@@ -69,7 +69,7 @@ h1, h2 {
     align-items: center;
     padding: 15px;
     border-bottom: 1px solid #BAB2B5;
-    background-color: rgba(238, 226, 220, 0.9); /* Màu nền với độ trong suốt */
+    background-color: rgba(247, 241, 237, 0.9); /* Màu nền với độ trong suốt */
     border-radius: 8px;
     margin-bottom: 15px;
     color: #333;
@@ -157,7 +157,7 @@ h1, h2 {
 
 .transfer-to {
     margin-top: 30px;
-    background-color: rgba(237, 199, 183, 0.9);;
+    background-color: rgba(253, 228, 219, 0.9);
     border-radius: 8px;
     color: #333;
     padding: 20px;
@@ -225,4 +225,48 @@ h1, h2 {
 
 .payment-method-type {
     font-size: 20px;
+}
+
+.payment-user-info {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: -30px;
+}
+
+.payment-user-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%;
+    padding: 0 40px 20px 30px;
+}
+
+.input-separate {
+    border-right: 1px solid red;
+}
+
+.payment-user-input {
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f1f1f;
+    width: 100%;
+    outline: none;
+    cursor: text;
+    caret-color: auto;
+    border: none;
+    border-radius: 5px;
+}
+
+.error-message-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    font-size: 16px;
 }

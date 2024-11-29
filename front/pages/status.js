@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { UnderDevelopment } from "../src/under-development/underDevelopment"
+import { Status } from "../src/status/Status"
 
 export default function login() {
     return (
@@ -10,15 +10,15 @@ export default function login() {
                 <meta name="theme-color" content="#000000" />
                 <meta
                     name="description"
-                    content="Tính năng chưa phát triển"
+                    content="Kiểm tra thanh toán"
                 />
 
                 <link rel="stylesheet" href="/assets/css/under-dev.css" />
                 <link rel="icon" href="/favicon.png" />
                 
-                <title>Sorry</title>
+                <title>Bán hàng yêu thương</title>
             </Head>
-            <UnderDevelopment />
+            <Status />
         </>
     )
 }

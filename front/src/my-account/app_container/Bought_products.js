@@ -8,12 +8,34 @@ export function BoughtProducts() {
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [maxPage, setMaxPage] = useState(0);
+    const [star, setStar] = useState([]);
+    const [success, setSuccess] = useState([]);
+    const [writeComment, setWriteComment] = useState(-1); // kiểm tra xem đang viết bình luận cho sản phẩm thứ mấy
+    const [comment, setComment] = useState([]);
 
     useEffect(() => {
         // lấy sản phẩm đã mua từ database, hiện tại chưa có axios
         setProducts(sampleProducts);
         setMaxPage(Math.ceil(sampleProducts.length / 5));
+        setStar(Array(sampleProducts.length).fill(5));
+        setSuccess(Array(sampleProducts.length).fill(false))
+        setComment(Array(sampleProducts.length).fill(''))
     }, [])
+
+    const changeComment = (e, index) => {
+        const newComment = [...comment];
+        newComment[index] = e.target.value;
+        setComment(newComment);
+    }
+
+    // Đẩy bình luận lên database, hiện chưa có axios
+    const clickOnJudge = (id, index) => { // Thêm comment, star vào sản phẩm id
+        if (success[index]) return;
+
+        const newSuccess = [...success];
+        newSuccess[index] = true;
+        setSuccess(newSuccess);
+    }
 
     return (
         <div className="user-information">
@@ -35,12 +57,65 @@ export function BoughtProducts() {
                                             </div>
                                         </div>
                                         <div className='price-product'>{item.price.toLocaleString()}đ</div>
-                                        <Link href={`../products/${item.id}`}>
-                                            <button className='buy-again-btn'>Mua lại</button>
-                                        </Link>
+                                        <div className='all-btn'>
+                                            <button className='write-comment' onClick={() => setWriteComment(Math.round(index + (page - 1) * 5))}>Viết đánh giá</button>
+                                            <Link href={`../products/${item.id}`}>
+                                                <button className='buy-again-btn'>Mua lại</button>
+                                            </Link>
+                                        </div>
                                     </div>
                                 ))
                             }
+                        </div>
+                    }
+                    {
+                        writeComment > -1 &&
+                        <div className='overlay' onClick={() => setWriteComment(-1)}>
+                            <div className='write-comment-container' onClick={(e) => e.stopPropagation()}>
+                                <div className='comment-stars'>
+                                    <div className='comment-stars-p'>{`Đánh giá ${star[writeComment]} sao: `}</div>
+                                    {
+                                        [...Array(star[writeComment])].map((_, nindex) => (
+                                            <i  
+                                                className="home-product-item__rating--gold fas fa-star comment-star" 
+                                                key={nindex}
+                                                onClick={() => {
+                                                    const newStar = [...star];
+                                                    newStar[writeComment] = Math.round(nindex + 1);
+                                                    setStar(newStar);
+                                                }}
+                                            />
+                                        ))
+                                    }
+                                    {
+                                        [...Array(5-star[writeComment])].map((_, nindex) => (
+                                            <i 
+                                                className="fas fa-star comment-star no-star" 
+                                                key={nindex}
+                                                onClick={() => {
+                                                    const newStar = [...star];
+                                                    newStar[writeComment] = Math.round(star[writeComment] + nindex + 1);
+                                                    setStar(newStar);
+                                                }}
+                                            />
+                                        ))
+                                    }
+                                </div>
+                                <textarea
+                                    type='text'
+                                    className='write-comment-input'
+                                    value={comment[writeComment]}
+                                    placeholder={'Viết bình luận của bạn cho sản phẩm: ' + products[writeComment].name}
+                                    onChange={(e) => changeComment(e, writeComment)}
+                                />
+                                <button 
+                                    className='buy-again-btn' 
+                                    onClick={() => clickOnJudge(products[writeComment].id, writeComment)}
+                                    style={{width:'300px'}}
+                                >
+                                    {(success[writeComment]) ? 'Thành công' : 'Viết bình luận'}
+                                </button>
+                            </div>
                         </div>
                     }
                     {

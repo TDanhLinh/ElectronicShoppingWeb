@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { sampleProducts } from './SampleProducts';
+import { sampleUser } from './SampleUser';
 
 export function Payment() {
     // Nếu chưa đăng nhập, chuyển sang trang đăng nhập
@@ -10,46 +12,26 @@ export function Payment() {
         }
     }, [])
     
+    const [user, setUser] = useState({});
     const [cartItems, setCartItems] = useState([]);
     const [success, setSuccess] = useState(false);
     const [address, setAddress] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('Thanh toán khi nhận hàng');
+    const [name, setName] = useState('');
+    const [sdt, setSdt] = useState('');
+    const [note, setNote] = useState('');
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     // Lấy thông tin giỏ hàng từ database, đang thiếu axios
     useEffect(() => {
-        const sampleItems = [
-            {
-                id: 1,
-                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2OWZC_tivnVl1D5HIDzKnJj0MX8uksIqNfg&s',
-                name: 'ROLEX YACHT-MASTER 40 MM',
-                quantity: 2,
-                originalPrice: 60000000,
-                discountedPrice: 39000000,
-                shippingFee: 25000,
-            },
-            {
-                id: 2,
-                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1o70KztHpRohL_lfZAxUOsA57FDvY71YTQ&s',
-                name: 'Iphone 15 pro max',
-                quantity: 1,
-                originalPrice: 8000000,
-                discountedPrice: 6000000,
-                shippingFee: 30000,
-            },
-            {
-                id: 3,
-                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXp_vMn-caMedxr7zsnhI3Lz59Nl2sWNWD0A&s',
-                name: 'Macbook pro',
-                quantity: 3,
-                originalPrice: 7400000,
-                discountedPrice: 5500000,
-                shippingFee: 30000,
-            },
-        ]
-        setCartItems(sampleItems);
+        
+        setCartItems(sampleProducts);
 
-        // Lấy địa chỉ mặc định từ database, hiện tại chưa có axios
-        setAddress('Thành phố Ninh Bình, tỉnh Ninh Bình, Việt Nam');
+        setUser(sampleUser);
+        setName(sampleUser.name);
+        setAddress(sampleUser.address);
+        if (user.sdt) setSdt(user.std);
     }, []);
 
     // Cập nhật khi giỏ hàng thay đổi, thiếu axios
@@ -72,7 +54,33 @@ export function Payment() {
     // xóa tất cả sản phẩm ra khỏi giỏ hàng
     const clickOnOrder = () => {
         if (success) return;
+
+        if (address === '') {
+            setError(true);
+            setErrorMsg('Bạn chưa điền địa chỉ nhận hàng');
+            return;
+        }
+
+        if (name === '') {
+            setError(true);
+            setErrorMsg('Bạn chưa điền tên người nhận');
+            return;
+        }
+
+        if (sdt === '') {
+            setError(true);
+            setErrorMsg('Bạn chưa điền số điện thoại người nhận');
+            return;
+        }
+
+        if (/^[0-9]+$/.test(sdt)) {
+            setError(true);
+            setErrorMsg('Số điện thoại của bạn không hợp lệ');
+            return;
+        }
+
         setSuccess(true);
+        setError(false);
     }
 
     return (
@@ -110,6 +118,7 @@ export function Payment() {
                         type='text'
                         value={address}
                         className='transfer-to-input'
+                        placeholder='Địa chỉ của bạn'
                         onChange={(e) => setAddress(e.target.value)} 
                     />
                     <h2>Chọn phương thức thanh toán</h2>
@@ -139,6 +148,36 @@ export function Payment() {
                             <span className='payment-method-type'>Thanh toán qua VNPay</span>
                         </label>
                     </div>
+                    <div className='payment-user-info'>
+                        <div className='payment-user-box input-separate'>
+                            <h2>Tên người nhận</h2>
+                            <input
+                                type='text'
+                                value={name}
+                                className='payment-user-input'
+                                placeholder='Tên của bạn'
+                                onChange={(e) => setName(e.target.value)} 
+                            />
+                        </div>
+                        <div className='payment-user-box'>
+                            <h2>Sđt người nhận</h2>
+                            <input
+                                type='text'
+                                value={sdt}
+                                className='payment-user-input'
+                                placeholder='Số điện thoại của bạn'
+                                onChange={(e) => setSdt(e.target.value)} 
+                            />
+                        </div>
+                    </div>
+                    <h2>Ghi chú cho người giao hàng</h2>
+                    <input
+                        type='text'
+                        value={note}
+                        className='transfer-to-input'
+                        placeholder='Ghi chú của bạn'
+                        onChange={(e) => setNote(e.target.value)} 
+                    />
                 </div>
 
                 <div className="order-summary">
@@ -155,6 +194,14 @@ export function Payment() {
                         <span>Tổng tiền</span>
                         <span className="total">{total.toLocaleString()}đ</span>
                     </div>
+                    {
+                        error &&
+                        <div className='error-message-container'>
+                            <div className='error-message'>
+                                {errorMsg}
+                            </div>
+                        </div>
+                    }
                     <button className="place-order-btn" onClick={clickOnOrder}>{(success) ? 'Thành công' : 'Đặt hàng'}</button>
                 </div>
             </div>

@@ -1,48 +1,24 @@
 import { useState, useEffect } from "react"
 import Link from "next/link";
+import { sampleProducts } from "./SampleProducts";
 
 export function Cart() {
     const [cart, setCart] = useState([])
     
     useEffect(() => {
         // lấy thông tin về sản phẩm trong giỏ hàng, chưa có axios
-        const sampleItems = [
-            {
-                id: 1,
-                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2OWZC_tivnVl1D5HIDzKnJj0MX8uksIqNfg&s',
-                name: 'ROLEX YACHT-MASTER 40 MM',
-                quantity: 2,
-                originalPrice: 60000000,
-                discountedPrice: 39000000,
-                shippingFee: 25000,
-            },
-            {
-                id: 2,
-                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE1o70KztHpRohL_lfZAxUOsA57FDvY71YTQ&s',
-                name: 'Iphone 15 pro max',
-                quantity: 1,
-                originalPrice: 8000000,
-                discountedPrice: 6000000,
-                shippingFee: 30000,
-            },
-            {
-                id: 3,
-                src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXp_vMn-caMedxr7zsnhI3Lz59Nl2sWNWD0A&s',
-                name: 'Macbook pro',
-                quantity: 3,
-                originalPrice: 7400000,
-                discountedPrice: 5500000,
-                shippingFee: 30000,
-            },
-        ]
-
-        setCart(sampleItems);
+        
+        setCart(sampleProducts);
     }, [])
     
     // xóa sản phẩm ra khỏi cart, chưa có axios
     const removeItem = (id) => {
         const updateCart = cart.filter(item => item.id !== id);
         setCart(updateCart);
+    }
+
+    const clickOnItem = (id) => {
+        window.location.href = window.location.origin + `/products/${id}`
     }
 
     return (
@@ -68,12 +44,12 @@ export function Cart() {
                             <h4 className="header__cart-heading">Sản phẩm đã thêm </h4>
                             <ul className="header__cart-list-item">
                                 {
-                                    cart.slice(0, 3).map((item, index) => (
+                                    cart.map((item, index) => (
                                         <li key={index} className="header__cart-item">
-                                            <img src={item.src} alt="" className="header__cart-img"/>
+                                            <img src={item.src} className="header__cart-img" onClick={() => clickOnItem(item.id)}/>
                                             <div className="header__cart-item-info">
                                                 <div className="header__cart-item-head">
-                                                    <h5 className="header__cart-item-name">{item.name}</h5>
+                                                    <h5 className="header__cart-item-name" onClick={() => clickOnItem(item.id)}>{item.name}</h5>
                                                     <div className="header__cart-price-wrap">
                                                         <span className="header__cart-item-discounted-price">
                                                             {item.discountedPrice.toLocaleString()}đ
