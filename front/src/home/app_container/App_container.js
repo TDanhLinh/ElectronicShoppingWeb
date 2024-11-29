@@ -3,7 +3,6 @@ import { Home_filter } from "./Home_filter";
 import { Home_product } from "./Home_product"; 
 import { Pagination } from "./Pagination";
 import { useState, useEffect } from 'react';
-
 import { sampleProducts } from "./SampleProducts";
 
 // Lấy ra tất cả sản phẩm từ database, hiện tại chưa có axios

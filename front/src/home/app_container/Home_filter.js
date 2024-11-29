@@ -17,7 +17,6 @@ export function Home_filter({page, setPage, maxPage, setFilter}) {
         setState(index);
         setFilter(filters[index])
     }
-
     const pageOnChange = (numPage) => {
         if (numPage > 0 && numPage <= maxPage) {
             setPage(numPage);

@@ -20,5 +20,5 @@ public class PaymentRequest {
 
     private String txnRef;
 
-    private long amount;
+    private Long amount;
 }

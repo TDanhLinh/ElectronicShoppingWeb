@@ -23,7 +23,6 @@ export function Search_input({setSearchText}) {
             
             // cập nhật lịch sử tìm kiếm lên database, chưa có axios
             localStorage.setItem('historyList', JSON.stringify(updatedHistoryList));
-
             if (window.location.href !== window.location.origin + '/') {
                 window.location.href = '/';
             }

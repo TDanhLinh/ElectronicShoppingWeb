@@ -2,8 +2,6 @@ package com.hust.Ecommerce.mappers.client;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -58,7 +56,7 @@ public class ClientCartMapper {
         response.setVariantProduct(entityToResponse(entity.getProduct()));
         response.setVariantPrice(entity.getPrice());
         response.setVariantProperties(entity.getProperties());
-        // xu ly inventory clientvariantresponse
+
         return response;
     }
 

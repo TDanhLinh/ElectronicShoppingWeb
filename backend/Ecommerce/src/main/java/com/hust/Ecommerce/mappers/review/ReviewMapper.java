@@ -1,8 +1,10 @@
 package com.hust.Ecommerce.mappers.review;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.hust.Ecommerce.dtos.review.ReviewRequest;
@@ -22,6 +24,7 @@ public interface ReviewMapper extends GenericMapper<Review, ReviewRequest, Revie
     @Override
     @Mapping(source = "userId", target = "user")
     @Mapping(source = "productId", target = "product")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Review partialUpdate(@MappingTarget Review entity, ReviewRequest request);
 
 }

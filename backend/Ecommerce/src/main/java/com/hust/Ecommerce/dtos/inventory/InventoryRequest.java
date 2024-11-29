@@ -1,14 +1,16 @@
 package com.hust.Ecommerce.dtos.inventory;
 
+import org.springframework.lang.Nullable;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class InventoryRequest {
     @NotNull
-    private Long productId;
-    private Integer amount;
+    private Long variantId;
     private Integer available;
-    private Integer sold = 0;
+    @Nullable
+    private Integer sold;
 
 }
