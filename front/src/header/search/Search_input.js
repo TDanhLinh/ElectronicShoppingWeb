@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 // search input để lấy thông tin tìm kiếm của người dùng
 export function Search_input({setSearchText}) {
+    const router = useRouter();
+
     const [historyList, setHistoryList] = useState([]);
     const [focus, setFocus] = useState(false);
     const [text, setText] = useState('');
@@ -23,6 +26,9 @@ export function Search_input({setSearchText}) {
             
             // cập nhật lịch sử tìm kiếm lên database, chưa có axios
             localStorage.setItem('historyList', JSON.stringify(updatedHistoryList));
+            if (router.asPath !== '/') {
+                router.push('/');
+            }
         }
     };
 
@@ -35,7 +41,7 @@ export function Search_input({setSearchText}) {
                     placeholder="Nhập để tìm kiếm sản phẩm"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    onClick={() => {setFocus(true);console.log("focus")}}
+                    onClick={() => setFocus(true)}
                     onBlur={() => setTimeout(() => setFocus(false), 200)}
                     onKeyUp={(e) => {if (e.key === 'Enter') {search(); setFocus(false);}}}
                 />

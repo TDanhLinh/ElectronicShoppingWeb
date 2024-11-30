@@ -1,23 +1,42 @@
 import { useEffect, useState } from 'react';
+import { sampleUser } from './SampleUser';
+import { useRouter } from 'next/router';
 
-export function User_information() {
-    const [user, setUser] = useState({});
+export function User_information({setCategory}) {
+    const router = useRouter();
+
+    const [user, setUser] = useState({}); // chứa các thông tin như tên, sđt, email, ....
     const [name, setName] = useState('');
     const [nickname, setNickname] = useState('');
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('');
     const [nation, setNation] = useState('');
+    const [address, setAddress] = useState('');
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const account = localStorage.getItem('user');
-        let acc = JSON.parse(localStorage.getItem(account));
-        if (!acc.img) acc.img = "https://st.quantrimang.com/photos/image/2017/04/08/anh-dai-dien-FB-200.jpg";
-        setUser(acc);
+        // lấy ra thông tin người dùng, hiện chưa có axios
+        setUser(sampleUser);
 
-        setName(user.name);
-        setGender(user.gender);
-        setNation(user.nation);
+        setName(sampleUser.name);
+        if (sampleUser.nickname) setNickname(sampleUser.nickname);
+        setDob(sampleUser.dob);
+        if (sampleUser.gender) setGender(sampleUser.gender);
+        if (sampleUser.nation) setNation(sampleUser.nation);
+        setAddress(sampleUser.address);
     }, [])
+
+    // cập nhật các thông tin lên database
+    const changeUserInformation = () => {
+        if (success) return;
+
+        setSuccess(true);
+    }
+
+    // chuyển sang trang 'tính năng đang phát triển'
+    const underDevelopment = () => {
+        router.push('/under-dev');
+    }
     
     return (
         <div className="user-information">
@@ -115,10 +134,20 @@ export function User_information() {
                         />
                     </div>
                     <div className='form-other'>
+                        <div className="name-p">Địa chỉ</div>
+                        <input
+                            type="text"
+                            className='input-nation-box'
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)} 
+                        />
+                    </div>
+                    <div className='form-other'>
                         <button
                             className='set-change-btn'
+                            onClick={changeUserInformation}
                         >
-                            Lưu thay đổi
+                            {success ? 'Thành công' : 'Lưu thay đổi'}
                         </button>
                     </div>
                 </div>
@@ -129,12 +158,13 @@ export function User_information() {
                             <img src="https://frontend.tikicdn.com/_desktop-next/static/img/account/phone.png" className='icon-png'/>
                             <div className='user-sdt-email'>
                                 <div className='user-sdt-email-detail'>Số điện thoại</div>
-                                <div className='user-sdt-email-detail'>{user.phonenumber || '000000000'}</div>
+                                <div className='user-sdt-email-detail'>{user.phonenumber || ''}</div>
                             </div>
                             <div className='update-btn-container'>
                                 <span></span>
                                 <button
                                     className='update-btn'
+                                    onClick={() => setCategory("Cập nhật sđt")}
                                 >
                                     Cập nhật
                                 </button>
@@ -146,14 +176,7 @@ export function User_information() {
                                 <div className='user-sdt-email-detail'>Địa chỉ email</div>
                                 <div className='user-sdt-email-detail'>{user.email || 'abc@gmail.com'}</div>
                             </div>
-                            <div className='update-btn-container'>
-                                <span></span>
-                                <button
-                                    className='update-btn'
-                                >
-                                    Cập nhật
-                                </button>
-                            </div>
+                            <div className='update-btn-container'></div>
                         </div>
                     </div>
                     <div className='user-information-wrapper'>
@@ -161,13 +184,14 @@ export function User_information() {
                         <div className='form-sdt-email-other'>
                             <img src="https://frontend.tikicdn.com/_desktop-next/static/img/account/lock.png" className='icon-png'/>
                             <div className='user-sdt-email'>
-                                <div className='user-sdt-email-detail'>Thiết lập mật khẩu</div>
+                                <div className='user-sdt-email-detail'>Thay đổi mật khẩu</div>
                                 <div className='user-sdt-email-detail'></div>
                             </div>
                             <div className='update-btn-container'>
                                 <span></span>
                                 <button
                                     className='update-btn'
+                                    onClick={() => setCategory("Thay đổi mật khẩu")}
                                 >
                                     Cập nhật
                                 </button>
@@ -181,8 +205,10 @@ export function User_information() {
                             </div>
                             <div className='update-btn-container'>
                                 <span></span>
+                                
                                 <button
                                     className='update-btn'
+                                    onClick={() => setCategory("Xóa tài khoản")}
                                 >
                                     Yêu cầu
                                 </button>
@@ -201,10 +227,12 @@ export function User_information() {
                                 <span></span>
                                 <button
                                     className='update-btn'
+                                    onClick={underDevelopment}
                                 >
                                     Liên kết
                                 </button>
                             </div>
+                            
                         </div>
                         <div className='form-sdt-email-other'>
                             <img src="https://frontend.tikicdn.com/_desktop-next/static/img/account/google.png" className='icon-png'/>
@@ -216,6 +244,7 @@ export function User_information() {
                                 <span></span>
                                 <button
                                     className='update-btn'
+                                    onClick={underDevelopment}
                                 >
                                     Liên kết
                                 </button>

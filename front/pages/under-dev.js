@@ -13,8 +13,9 @@ export default function login() {
                     content="Tính năng chưa phát triển"
                 />
 
+                <link rel="stylesheet" href="/assets/css/under-dev.css" />
                 <link rel="icon" href="/favicon.png" />
-
+                
                 <title>Sorry</title>
             </Head>
             <UnderDevelopment />

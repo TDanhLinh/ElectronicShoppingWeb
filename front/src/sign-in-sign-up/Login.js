@@ -1,18 +1,16 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import {request} from "../api/axios";
+import { useRouter } from 'next/router';
 
 export function Login() {
+    const router = useRouter();
+
     // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const user = localStorage.getItem('user'); // user là email người dùng
-            if (user && user.length > 0) window.location.href = '/';
-        } else {
-            request()
-        }
+        const user = localStorage.getItem('user');
+        if (user && user.length > 0) router.push('/');
     }, [])
-
+    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
@@ -29,15 +27,18 @@ export function Login() {
             accounts = JSON.parse(accounts);
             const account = accounts.find((item) => (item.email === email));
             if (account && account.password === password) {
-                window.location.href = "/";
+                router.push("/");
                 localStorage.setItem("user", email);
-            } else setFail(true);
-        } else {
+            }
+            else setFail(true);
+        }
+        else {
             setFail(true);
         }
     }
 
-    return (<div className='container'>
+    return (
+        <div className='container'>
             <h1 className='describe'>ĐĂNG NHẬP VÀO WEB BÁN HÀNG</h1>
             <div className='form'>
                 <h2>ĐĂNG NHẬP</h2>
@@ -63,8 +64,8 @@ export function Login() {
                     {fail && (<div className='message'>Tài khoản hoặc mật khẩu không đúng</div>)}
                     <div className="options">
                         <label>
-                            <input
-                                type="checkbox"
+                            <input 
+                                type="checkbox" 
                                 onChange={() => setRememberMe(!rememberMe)}
                             />
                             Remember me
@@ -89,5 +90,6 @@ export function Login() {
                     </div>
                 </form>
             </div>
-        </div>)
+        </div>
+    )
 }

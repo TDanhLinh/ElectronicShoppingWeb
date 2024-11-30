@@ -1,0 +1,154 @@
+/* Thiết lập chung cho trang */
+body {
+    background-color: #EEE2DC; /* Màu be nhạt làm nền chính */
+    font-family: 'Arial, sans-serif';
+    color: #123C69; /* Màu xanh đậm cho văn bản chính */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container chính */
+.about-container {
+    width: 100%; /* Cho phép container rộng ra toàn màn hình */
+    padding: 20px;
+}
+
+/* Liên kết điều hướng */
+.about-nav {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #AC3B61; /* Hồng đậm cho liên kết điều hướng */
+    text-align: left;
+    padding-left: 20px;
+}
+
+/* Tiêu đề chính */
+.about-title {
+    font-size: 2.5em;
+    color: #AC3B61; /* Hồng đậm cho tiêu đề chính */
+    margin: 10px 20px;
+    text-align: left;
+}
+
+/* Mô tả dự án */
+.about-description {
+    color: #BAB2B5; /* Xám nhạt cho phần mô tả */
+    width: 100%;
+    font-size: 1.2em;
+    margin: 10px 20px 30px 20px;
+    text-align: left;
+}
+
+/* Tiêu đề phần thành viên nhóm */
+.about-team-title {
+    font-size: 2em;
+    color: #123C69; /* Xanh đậm cho tiêu đề thành viên nhóm */
+    margin: 30px 20px 10px 20px;
+    text-align: left;
+}
+
+/* Danh sách thành viên */
+.about-team-list {
+    display: flex;
+    flex-wrap: wrap; /* Để các thành viên xuống hàng khi hết chỗ */
+    gap: 20px; /* Khoảng cách giữa các card thành viên */
+    padding: 0 20px;
+    justify-content: flex-start; /* Căn lề trái cho toàn bộ danh sách */
+}
+
+/* Card từng thành viên */
+.about-member-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background-color: #EDC7B7; /* Đào nhạt cho nền card */
+    padding: 20px;
+    border-radius: 5px;
+    width: calc(50% - 20px); /* Mỗi card chiếm 50% chiều rộng hàng, trừ khoảng cách */
+    max-width: 500px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+/* Ảnh của thành viên */
+.about-member-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 20px;
+    border: 2px solid #123C69;
+}
+
+/* Thông tin thành viên */
+.member-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Tên thành viên */
+.about-member-name {
+    font-size: 1.8em;
+    color: #AC3B61; /* Hồng đậm cho tên thành viên */
+    margin: 5px 0;
+    text-align: left;
+}
+
+/* Vai trò thành viên */
+.about-member-role {
+    color: #123C69;
+    font-weight: bold;
+    margin: 5px 0;
+    text-align: left;
+}
+
+/* Mô tả vai trò */
+.about-member-description {
+    color: #BAB2B5;
+    font-size: 1em;
+    margin: 5px 0;
+    text-align: left;
+}
+
+/* Nút Play */
+.play-button {
+    background-color: #AC3B61;
+    color: #EEE2DC;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    align-self: flex-start;
+}
+
+.play-button:hover {
+    background-color: #123C69;
+}
+
+/* Liên kết */
+a {
+    text-decoration: none;
+    color: #AC3B61;
+}
+
+a:hover {
+    color: #123C69;
+}
+
+/* Phân lớp phụ trợ */
+.accent-text {
+    color: #AC3B61;
+}
+
+/* Nền nhẹ cho các phần phụ */
+.subtle-background {
+    background-color: #BAB2B5;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+}

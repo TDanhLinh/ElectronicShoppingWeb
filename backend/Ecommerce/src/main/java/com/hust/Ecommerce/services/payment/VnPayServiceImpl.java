@@ -33,7 +33,7 @@ public class VnPayServiceImpl implements PaymentService {
     public static final String COMMAND = "pay";
     public static final String ORDER_TYPE = "other";
 
-    @Value("${payment.vnPay.tmnCode}}")
+    @Value("${payment.vnPay.tmnCode}")
     private String tmnCode;
 
     @Value("${payment.vnPay.url}")

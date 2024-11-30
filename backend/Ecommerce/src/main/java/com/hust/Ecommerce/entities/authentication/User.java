@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.chat.Message;
+import com.hust.Ecommerce.entities.chat.Room;
 import com.hust.Ecommerce.entities.order.Order;
 
 import com.hust.Ecommerce.entities.product.Blog;
@@ -23,6 +24,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -112,6 +114,9 @@ public class User extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user")
+    private Room room;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference

@@ -20,16 +20,8 @@ public class ClientProductResponse {
     private ClientCategoryResponse productCategory;
     private String productStatus;
     private Long warrantyDuration;
-    private SimpleProductInventory simpleProductInventory;
+
     private int productAverageRate;
     private int productCountReviews;
 
-    @Data
-    @Accessors(chain = true)
-    public static class SimpleProductInventory {
-        private Long productId;
-        private Integer amount;
-        private Integer available;
-        private Integer sold;
-    }
 }

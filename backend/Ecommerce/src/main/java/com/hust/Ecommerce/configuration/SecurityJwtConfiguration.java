@@ -39,7 +39,6 @@ public class SecurityJwtConfiguration {
                 .build();
         return token -> {
             try {
-                log.info("token is {}", token);
                 if (tokenRepository.findByToken(token).isEmpty())
                     throw new ResourceNotFoundException("Token khong ton tai trong data base");
                 return jwtDecoder.decode(token);
