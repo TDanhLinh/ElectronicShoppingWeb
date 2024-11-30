@@ -8,12 +8,13 @@
 
 .container {
     min-height: 100vh;
-    background: url('/assets/img/payment_background.png') no-repeat center center/cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
+    background: url('/assets/img/background.png') center; /* Thêm ảnh nền */
 }
+
 
 .back-to-home {
     height: 50px;
@@ -22,35 +23,32 @@
     top: 10px;
     left: 0;
     z-index: 10;
-    background-color: white;
+    background-color: #FEF7BC; /* Màu vàng nhạt */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-left: -10px;
-    color: rgb(255, 98, 1);
+    color: #000000; /* Màu đen cho chữ */
     font-weight: bold;
     font-size: 20px;
     cursor: pointer;
 }
 
 .back-to-home:hover {
-    background-color: #f8f8f8
+    background-color: #FFD601; /* Màu vàng đậm khi hover */
 }
 
 .payment-page {
     width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Đặt màu nền trắng với độ trong suốt */
+    background-color: #FFFBDE; /* Màu vàng nhạt cho nền */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Các phần tử khác giữ nguyên */
-
-
 h1, h2 {
     text-align: left;
-    color: rgb(255, 98, 1);
+    color: #A8BB47; /* Màu xanh lá sáng cho tiêu đề */
     margin-bottom: 20px;
     font-weight: bold;
 }
@@ -58,9 +56,9 @@ h1, h2 {
 .product-info, .order-summary {
     margin-top: 30px;
     padding: 20px;
-    background-color: rgba(253, 228, 219, 0.9); /* Màu nền với độ trong suốt */
+    background-color: rgba(255, 255, 255, 0); /* Xóa background */
     border-radius: 8px;
-    color: #333;
+    color: #000000; /* Màu đen cho chữ */
 }
 
 .product-item {
@@ -69,10 +67,10 @@ h1, h2 {
     align-items: center;
     padding: 15px;
     border-bottom: 1px solid #BAB2B5;
-    background-color: rgba(247, 241, 237, 0.9); /* Màu nền với độ trong suốt */
+    background-color: rgba(255, 255, 255, 0); /* Xóa background */
     border-radius: 8px;
     margin-bottom: 15px;
-    color: #333;
+    color: #000000; /* Màu đen cho chữ */
 }
 
 .product-item-img {
@@ -81,15 +79,16 @@ h1, h2 {
     background-repeat: no-repeat;
     background-position: top center;
     background-size: contain;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid #BAB2B5;
     border-radius: 8px;
-    background-color: white;
+    background-color: #fff;
     margin-right: 15px;
     cursor: pointer;
 }
 
 .product-item-name {
     cursor: pointer;
+    color: #A8BB47; /* Màu xanh lá sáng cho tên sản phẩm */
 }
 
 .product-details, .product-pricing {
@@ -100,6 +99,7 @@ h1, h2 {
 .product-details p {
     margin: 10px 0;
     font-size: 16px;
+    color: #000000; /* Màu đen cho chữ */
 }
 
 .original-price {
@@ -110,12 +110,12 @@ h1, h2 {
 
 .discounted-price {
     font-size: 18px;
-    color: rgb(255, 98, 1);
+    color: #A8BB47; /* Màu xanh lá sáng cho giá giảm */
     font-weight: bold;
 }
 
 .remove-btn {
-    background-color: #df762c;
+    background-color: #024F3F; /* Màu xanh đậm cho nút xóa */
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -126,7 +126,7 @@ h1, h2 {
 }
 
 .remove-btn:hover {
-    background-color: rgb(181, 88, 30);
+    background-color: #FFD601; /* Màu vàng đậm khi hover */
 }
 
 .order-item {
@@ -134,6 +134,7 @@ h1, h2 {
     justify-content: space-between;
     margin-bottom: 15px;
     font-size: 16px;
+    color: #000000; /* Màu đen cho chữ */
 }
 
 .order-total {
@@ -141,14 +142,14 @@ h1, h2 {
     justify-content: space-between;
     font-size: 20px;
     font-weight: bold;
-    color: #000000;
+    color: #000000; /* Màu đen cho chữ */
     margin-top: 20px;
 }
 
 .place-order-btn {
     width: 100%;
     padding: 15px;
-    background-color: rgb(230, 107, 30);
+    background-color: #A8BB47; /* Màu xanh lá sáng cho nút đặt hàng */
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -159,7 +160,7 @@ h1, h2 {
 }
 
 .place-order-btn:hover {
-    background-color: #aa4d17;
+    background-color: #FFD601; /* Màu vàng đậm khi hover */
 }
 
 .product-details input {
@@ -174,9 +175,9 @@ h1, h2 {
 
 .transfer-to {
     margin-top: 30px;
-    background-color: rgba(253, 228, 219, 0.9);
+    background-color: rgba(255, 255, 255, 0); /* Xóa background */
     border-radius: 8px;
-    color: #333;
+    color: #000000; /* Màu đen cho chữ */
     padding: 20px;
 }
 
@@ -215,7 +216,7 @@ h1, h2 {
 .radio-custom {
     width: 20px;
     height: 20px;
-    border: 2px solid #e66b1e; /* Viền ngoài cam đỏ */
+    border: 2px solid #FFD601; /* Màu vàng đậm cho viền radio button */
     border-radius: 50%; /* Hình tròn */
     margin-right: 10px;
     position: relative;
@@ -224,7 +225,7 @@ h1, h2 {
 }
 
 .pame input[type="radio"]:checked + .radio-custom {
-    border-color: #e66b1e; /* Viền ngoài không đổi */
+    border-color: #FFD601; /* Màu vàng đậm khi chọn */
     background-color: #fff; /* Nền bên trong không đổi */
 }
 
@@ -233,7 +234,7 @@ h1, h2 {
     position: absolute;
     width: 10px; /* Kích thước hình tròn ở giữa */
     height: 10px;
-    background-color: #e66b1e; /* Màu cam đỏ */
+    background-color: #FFD601; /* Màu vàng đậm */
     border-radius: 50%;
     top: 50%;
     left: 50%;
@@ -242,6 +243,7 @@ h1, h2 {
 
 .payment-method-type {
     font-size: 20px;
+    color: #000000; /* Màu đen cho chữ */
 }
 
 .payment-user-info {
@@ -260,7 +262,7 @@ h1, h2 {
 }
 
 .input-separate {
-    border-right: 1px solid red;
+    border-right: 1px solid #024F3F; /* Màu xanh đậm cho viền */
 }
 
 .payment-user-input {

@@ -5,7 +5,6 @@ import Link from 'next/link';
 export function ForgotPassword() {
     const router = useRouter();
 
-    // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user && user.length > 0) router.push('/');
@@ -24,27 +23,27 @@ export function ForgotPassword() {
     }
     
     return (
-        <div className='container'>
-            <h1 className='describe'>TÌM LẠI MẬT KHẨU</h1>
-            <div className='form'>
-                <h2>NHẬP EMAIL</h2>
+        <div className='forgot-password-container'>
+            <h1 className='forgot-password-header'>TÌM LẠI MẬT KHẨU</h1>
+            <div className='forgot-password-form'>
+                <h2 className='form-title'>NHẬP EMAIL</h2>
                 <form onSubmit={submit}>
                     <input 
                         type="text"
-                        className="input-box"
-                        id="email"
+                        className="input-field"
+                        id="email-input"
                         value={email}
                         placeholder='Email'
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                    {send && (<div className='message' style={{color: 'rgb(105, 19, 19)',}}>Đã gửi mật khẩu qua email</div>)}
-                    <div className="options">
-                        <Link href="/login" className='forgot-password'>Quay lại trang đăng nhập</Link>
+                    {send && (<div className='success-message'>Đã gửi mật khẩu qua email</div>)}
+                    <div className="options-container">
+                        <Link href="/login" className='login-link'>Quay lại trang đăng nhập</Link>
                     </div>
                     <input
                         type="submit"
-                        className="btn"
+                        className="submit-btn"
                         value={(send === false) ? "Gửi" : "Quay lại trang đăng nhập"}
                     />
                 </form>

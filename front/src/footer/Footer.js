@@ -53,6 +53,34 @@ export function Footer() {
                             </li>
                         </ul>
                     </div>
+                    <div className="col l-2-4 m-4 c-4">
+                        <h3 className="footer__heading">Đang phát triển</h3>
+                        <ul className="footer-list">
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 1</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 2</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 3</Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="col l-2-4 m-8 c-12">
+                        <h3 className="footer__heading">Đang phát triển</h3>
+                        <ul className="footer-list">
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 1</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 2</Link>
+                            </li>
+                            <li className="footer-item">
+                                <Link href="/under-dev">Nội dung 3</Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div className="footer__copyright">
