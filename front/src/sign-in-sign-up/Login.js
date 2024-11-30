@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export function Login() {
+    const router = useRouter();
+
     // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const user = localStorage.getItem('user'); // user là email người dùng
-            if (user && user.length > 0) window.location.href = '/';
-        }
+        const user = localStorage.getItem('user');
+        if (user && user.length > 0) router.push('/');
     }, [])
     
     const [email, setEmail] = useState("");
@@ -26,7 +27,7 @@ export function Login() {
             accounts = JSON.parse(accounts);
             const account = accounts.find((item) => (item.email === email));
             if (account && account.password === password) {
-                window.location.href = "/";
+                router.push("/");
                 localStorage.setItem("user", email);
             }
             else setFail(true);

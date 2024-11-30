@@ -1,0 +1,36 @@
+* {
+    caret-color: transparent;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    border: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.describe {
+    font-size: 50px;
+}
+
+.back-to-home {
+    height: 50px;
+    width: 225px;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    z-index: 100;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: -10px;
+    color: rgb(255, 98, 1);
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}

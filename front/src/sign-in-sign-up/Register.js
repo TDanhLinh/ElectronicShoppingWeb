@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export function Register() {
+    const router = useRouter();
+
     // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const user = localStorage.getItem('user');
-            if (user && user.length > 0) window.location.href = '/';
-        }
+        const user = localStorage.getItem('user');
+        if (user && user.length > 0) router.push('/');
     }, [])
     
     const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ export function Register() {
 
         if (success) {
             // nếu đã ấn nút đăng ký, nút đăng ký thành 'chuyển sang trang đăng nhập'
-            window.location.href = "/login";
+            router.push("/login");
             return;
         }
 

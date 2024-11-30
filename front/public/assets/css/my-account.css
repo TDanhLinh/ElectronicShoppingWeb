@@ -410,6 +410,7 @@
     padding: 0;
     color: rgb(255, 56, 1);
     font-weight: 500;
+    width: 150px;
 }
 
 .buy-again-btn {
@@ -427,6 +428,13 @@
 .buy-again-btn:hover {
     background-color: rgb(194, 72, 39);
     color: rgb(212, 212, 212);
+}
+
+.all-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 15px;
 }
 
 .no-item {
@@ -457,6 +465,14 @@
     display: flex;
     flex-direction: row;
     gap: 5px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.comment-stars-p {
+    font-size: 24px;
+    font-weight: 500;
+    color: #ff5100;
 }
 
 .comment-star {
@@ -487,10 +503,13 @@
 .write-comment-container {
     background-color: white;
     width: 800px;
-    height: 500px;
     border: none;
     border-radius: 8px;
     padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .write-comment-input {
@@ -501,7 +520,7 @@
     white-space: pre-wrap;
     border: none;
     width: 100%;
-    height: 100%;
+    min-height: 200px;
     outline: none;
     cursor: text;
     caret-color: auto;
@@ -510,6 +529,7 @@
     vertical-align: top;
     resize: none;
     margin: 0;
+    margin-bottom: 20px;
 }
 
 .write-comment-input::placeholder {

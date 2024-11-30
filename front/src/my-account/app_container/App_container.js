@@ -5,13 +5,11 @@ import { UpdatePhonenumber } from './Update_phonenumber';
 import { ChangePassword } from './Change_password';
 import { DeleteAccount } from './Delete_account';
 import { BoughtProducts } from './Bought_products';
-import { CommentProduct } from './Comment_product';
 
 export function App_container() {
     const categories = [
         'Thông tin tài khoản',
         'Sản phẩm đã mua',
-        'Đánh giá sản phẩm',
         'Cập nhật sđt',
         'Thay đổi mật khẩu',
         'Xóa tài khoản',
@@ -48,10 +46,6 @@ export function App_container() {
                         {
                             category === 'Sản phẩm đã mua' &&
                             <BoughtProducts />
-                        }
-                        {
-                            category === 'Đánh giá sản phẩm' &&
-                            <CommentProduct />
                         }
                     </div>
                 </div>

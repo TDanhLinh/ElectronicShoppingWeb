@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { sampleUser } from './SampleUser';
+import { useRouter } from 'next/router';
 
 export function User_information({setCategory}) {
+    const router = useRouter();
+
     const [user, setUser] = useState({}); // chứa các thông tin như tên, sđt, email, ....
     const [name, setName] = useState('');
     const [nickname, setNickname] = useState('');
@@ -32,7 +35,7 @@ export function User_information({setCategory}) {
 
     // chuyển sang trang 'tính năng đang phát triển'
     const underDevelopment = () => {
-        window.location.href = '/under-dev'
+        router.push('/under-dev');
     }
     
     return (
