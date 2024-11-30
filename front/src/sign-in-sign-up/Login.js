@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import {request} from "../api/axios";
 
 export function Login() {
     // Nếu đã đăng nhập, chuyển trang chính
@@ -7,6 +8,8 @@ export function Login() {
         if (typeof window !== 'undefined') {
             const user = localStorage.getItem('user'); // user là email người dùng
             if (user && user.length > 0) window.location.href = '/';
+        } else {
+            request()
         }
     }, [])
     

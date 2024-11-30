@@ -99,8 +99,7 @@ export default function DisplayTable(props) {
         setFilteredData(data); // Reset to original data
     };
 
-    return (
-        (<Paper sx={{width: '100%', overflow: 'hidden'}}>
+    return ((<Paper sx={{width: '100%', overflow: 'hidden'}}>
             <div style={{display: "flex", justifyContent: "space-between", margin: "1rem 3rem 1rem 3rem"}}>
                 <h4>{header}</h4>
                 <Stack direction="row" spacing={2}>
@@ -108,13 +107,10 @@ export default function DisplayTable(props) {
                                onChange={(e) => handleSearch(e.target.value)}
                                slotProps={{
                                    input: {
-                                       endAdornment: (
-                                           searchTerm && ( // Conditionally render the clear icon
+                                       endAdornment: (searchTerm && ( // Conditionally render the clear icon
                                                (<IconButton onClick={clearSearch}>
                                                    <ClearIcon/>
-                                               </IconButton>)
-                                           )
-                                       )
+                                               </IconButton>)))
                                    }
                                }}
                     />
@@ -129,32 +125,25 @@ export default function DisplayTable(props) {
                     <TableHead>
                         <TableRow>
                             {/* Mapping through labels */}
-                            {label.map((item) => (
-                                <TableCell
+                            {label.map((item) => (<TableCell
                                     key={item.id}
                                     align="center"
                                     style={{maxWidth: item.maxWidth}}
                                 >
                                     {item}
-                                </TableCell>
-                            ))}
+                                </TableCell>))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredData // Use filteredData for table rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((item) => (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={item.id}>
+                            .map((item) => (<TableRow hover role="checkbox" tabIndex={-1} key={item.id}>
                                     {/* Mapping through table elements */}
                                     {element.map((e) => {
                                         const value = item[e];
-                                        return (
-                                            <TableCell key={e} align="center">
-                                                {e.format && typeof value === 'number'
-                                                    ? e.format(value)
-                                                    : value}
-                                            </TableCell>
-                                        );
+                                        return (<TableCell key={e} align="center">
+                                                {e.format && typeof value === 'number' ? e.format(value) : value}
+                                            </TableCell>);
                                     })}
                                     {/* Action buttons */}
                                     <TableCell align="center" style={{maxWidth: '11rem'}}>
@@ -171,8 +160,7 @@ export default function DisplayTable(props) {
                                             Xóa
                                         </Button>
                                     </TableCell>
-                                </TableRow>
-                            ))}
+                                </TableRow>))}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -182,14 +170,12 @@ export default function DisplayTable(props) {
                              sx={{
                                  "& .MuiTablePagination-selectLabel": { // Target specific class for menu items
                                      marginTop: "1rem"
-                                 },
-                                 "& .MuiTablePagination-displayedRows": { // Target specific class for menu items
+                                 }, "& .MuiTablePagination-displayedRows": { // Target specific class for menu items
                                      marginTop: "1rem"
                                  }
                              }}
             />
             <ModalDialog open={openInfo} setOpen={setOpenInfo} action={modalAction}
                          id={id} functionName={functionName} setFilteredData={setFilteredData}/>
-        </Paper>)
-    );
+        </Paper>));
 }
