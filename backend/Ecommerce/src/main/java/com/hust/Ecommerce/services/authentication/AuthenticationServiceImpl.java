@@ -167,10 +167,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public Token createTokenAndSave(String email, String password) {
 
         // exists by user
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-        if (optionalUser.isEmpty()) {
-            throw new AppException(ErrorCode.USER_NOT_EXISTED);
-        }
+        User user = getUserWithAuthoritiesByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
+
         String token;
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email,
@@ -183,9 +182,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         } catch (BadCredentialsException e) {
             throw new AppException(ErrorCode.EMAIL_PASSWORD_NOT_MATCH);
         }
-
-        User user = getUserWithAuthoritiesByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
         return verificationTokenService.addTokenEndRefreshToken(user, token);
     }

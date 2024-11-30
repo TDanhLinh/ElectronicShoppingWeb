@@ -49,7 +49,7 @@ public class ClientUserController {
                                 .map(AdminUserDTO::new)
                                 .orElseThrow(() -> new UsernameNotFoundException(MessageKeys.USER_NOT_FOUND));
 
-                return ResponseEntity.ok(ApiResponse.builder()
+                return ResponseEntity.ok(ApiResponse.<AdminUserDTO>builder()
                                 .success(true)
                                 .payload(userResponse)
                                 .build());
@@ -62,10 +62,8 @@ public class ClientUserController {
                 String email = SecurityUtils.getCurrentUserLogin()
                                 .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
-                Optional<User> user = userSetting.getUserWithAuthoritiesByEmail(email);
-                if (!user.isPresent()) {
-                        throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-                }
+                User user = userSetting.getUserWithAuthoritiesByEmail(email)
+                                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
                 userSetting.updatePersonalSetting(
                                 userDTO.getName(),
@@ -75,8 +73,9 @@ public class ClientUserController {
                                 userDTO.getAvatar(),
                                 userDTO.getDateOfBirth());
 
-                return ResponseEntity.ok(ApiResponse.builder()
+                return ResponseEntity.ok(ApiResponse.<AdminUserDTO>builder()
                                 .success(true)
+                                .payload(new AdminUserDTO(user))
                                 .build());
 
         }

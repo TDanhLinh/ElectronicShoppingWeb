@@ -75,10 +75,9 @@ public class AuthController {
         @GetMapping("/registration/confirm")
         public ResponseEntity<ApiResponse<?>> activateAccount(@RequestParam(value = "key") String key) {
 
-                Optional<User> user = authenticationService.activateRegistration(key);
-                if (!user.isPresent()) {
-                        throw new AppException(ErrorCode.INVALID_KEY);
-                }
+                authenticationService.activateRegistration(key)
+                                .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
+
                 return ResponseEntity.ok(ApiResponse.builder()
                                 .message(MessageKeys.ACTIVE_ACCOUNT_SUCCESS)
                                 .success(true)
@@ -173,12 +172,9 @@ public class AuthController {
                                                         .message(MessageKeys.ERROR_MESSAGE)
                                                         .errors(errorMessages).build());
                 }
-                Optional<User> user = authenticationService.resetPassword(forgotPasswordDTO.getPassword(),
-                                key);
+                authenticationService.resetPassword(forgotPasswordDTO.getPassword(),
+                                key).orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
-                if (!user.isPresent()) {
-                        throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-                }
                 return ResponseEntity.ok(ApiResponse.builder()
                                 .success(true).build());
 
