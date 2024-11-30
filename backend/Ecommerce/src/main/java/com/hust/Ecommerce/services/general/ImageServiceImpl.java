@@ -8,7 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.hust.Ecommerce.dtos.general.ImageRequest;
+import com.hust.Ecommerce.dtos.general.CloudinaryImageDTO;
+
 import com.hust.Ecommerce.exceptions.payload.UploadImageException;
 
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,13 @@ public class ImageServiceImpl implements ImageService {
     private final Cloudinary cloudinary;
 
     @Override
-    public ImageRequest uploadImage(MultipartFile file, String uploadFolder) {
+    public CloudinaryImageDTO uploadImage(MultipartFile file, String uploadFolder) {
         try {
             Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap(
                             "resource_type", "auto",
                             "folder", uploadFolder));
-            return new ImageRequest()
+            return new CloudinaryImageDTO()
                     .setPath(uploadResult.get("url").toString())
                     .setContentType(
                             uploadResult.get("resource_type").toString() + "/" + uploadResult.get("format").toString())

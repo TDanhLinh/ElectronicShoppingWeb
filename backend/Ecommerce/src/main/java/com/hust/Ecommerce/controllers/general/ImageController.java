@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.CollectionWrapper;
-import com.hust.Ecommerce.dtos.general.ImageRequest;
+import com.hust.Ecommerce.dtos.general.CloudinaryImageDTO;
 import com.hust.Ecommerce.services.general.ImageService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,8 +34,9 @@ public class ImageController {
     @PostMapping(value = "/upload-single", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<ApiResponse<?>> uploadSingleImage(@RequestParam("image") MultipartFile image,
             @RequestParam("folder") String folder) {
-        ImageRequest uploadImageUrl = imageService.uploadImage(image, folder);
-        return ResponseEntity.ok(ApiResponse.<ImageRequest>builder().success(true).payload(uploadImageUrl).build());
+        CloudinaryImageDTO uploadImageUrl = imageService.uploadImage(image, folder);
+        return ResponseEntity
+                .ok(ApiResponse.<CloudinaryImageDTO>builder().success(true).payload(uploadImageUrl).build());
 
     }
 
@@ -43,7 +44,7 @@ public class ImageController {
     public ResponseEntity<ApiResponse<?>> uploadMultipleImages(
             @RequestParam("images") MultipartFile[] images, @RequestParam("folder") String folder) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<CollectionWrapper<ImageRequest>>builder()
+                .body(ApiResponse.<CollectionWrapper<CloudinaryImageDTO>>builder()
                         .success(true).payload(new CollectionWrapper<>(Stream.of(images)
                                 .map(image -> imageService.uploadImage(image, folder))
                                 .collect(Collectors.toList())))

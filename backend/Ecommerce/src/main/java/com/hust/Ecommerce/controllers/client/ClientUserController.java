@@ -33,13 +33,13 @@ import com.hust.Ecommerce.security.SecurityUtils;
 import com.hust.Ecommerce.services.client.account.UserSetting;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/client-api/users")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ClientUserController {
-        private final UserSetting userSetting;
+        private UserSetting userSetting;
 
         @GetMapping("/info")
         public ResponseEntity<ApiResponse<?>> getUserInfo() {

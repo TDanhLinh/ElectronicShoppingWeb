@@ -5,8 +5,7 @@ import lombok.Data;
 @Data
 public class ImageResponse {
     private Long id;
-    private String path;
-    private String contentType;
-    private String name;
-    private Long size;
+    private CloudinaryImageDTO image;
+
+    private Boolean isThumbnail;
 }

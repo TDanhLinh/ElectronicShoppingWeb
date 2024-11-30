@@ -19,7 +19,6 @@ public class ClientProductResponse {
     private String productSlug;
     @Nullable
     private String productDescription;
-    private String productThumbnail;
     private List<ImageResponse> productImages;
     @Nullable
     private List<ClientCategoryResponse> productCategories;

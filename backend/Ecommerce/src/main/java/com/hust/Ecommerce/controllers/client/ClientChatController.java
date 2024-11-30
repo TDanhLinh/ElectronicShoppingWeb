@@ -1,9 +1,7 @@
 package com.hust.Ecommerce.controllers.client;
 
-import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.PageRequest;

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.constants.FieldName;
 import com.hust.Ecommerce.constants.ResourceName;
+import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.ListResponse;
 import com.hust.Ecommerce.dtos.client.product.ClientListedProductResponse;
 import com.hust.Ecommerce.dtos.client.product.ClientProductResponse;
@@ -40,7 +41,7 @@ public class ClientProductController {
 
         // saleable: co the ban, newable: moi nhat
         @GetMapping
-        public ResponseEntity<ListResponse<ClientListedProductResponse>> getAllProducts(
+        public ResponseEntity<ApiResponse<?>> getAllProducts(
                         @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
                         @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
                         @RequestParam(name = "filter", required = false) @Nullable String filter,
@@ -64,12 +65,14 @@ public class ClientProductController {
                                 .map(product -> clientProductMapper.entityToListedResponse(product, productInventories))
                                 .toList();
 
-                return ResponseEntity.ok(ListResponse.of(clientListedProductResponses,
-                                products));
+                return ResponseEntity.ok(ApiResponse.<ListResponse<ClientListedProductResponse>>builder()
+                                .success(true)
+                                .payload(ListResponse.of(clientListedProductResponses, products))
+                                .build());
         }
 
         @GetMapping("/{slug}")
-        public ResponseEntity<ClientProductResponse> getProduct(@PathVariable String slug) {
+        public ResponseEntity<ApiResponse<?>> getProduct(@PathVariable String slug) {
                 Product product = productRepository.findBySlug(slug)
                                 .orElseThrow(() -> new ResourceNotFoundException(ResourceName.PRODUCT, FieldName.SLUG,
                                                 slug));
@@ -99,6 +102,9 @@ public class ClientProductController {
                 ClientProductResponse clientProductResponse = clientProductMapper.entityToResponse(product,
                                 productInventories, averageRatingScore, countReviews);
 
-                return ResponseEntity.ok(clientProductResponse);
+                return ResponseEntity.ok(ApiResponse.<ClientProductResponse>builder()
+                                .success(true)
+                                .payload(clientProductResponse)
+                                .build());
         }
 }

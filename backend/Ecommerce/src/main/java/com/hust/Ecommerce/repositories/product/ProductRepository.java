@@ -75,7 +75,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
             List<Order> orders = new ArrayList<>();
 
             Join<Product, Variant> variant = root.join("variants");
-            Join<Variant, Inventory> docketVariant = variant.join("inventory");
+            Join<Variant, Inventory> inventory = variant.join("inventory");
 
             if (saleable) {
                 Subquery<Integer> subquery = query.subquery(Integer.class);

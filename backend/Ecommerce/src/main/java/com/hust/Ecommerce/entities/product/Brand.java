@@ -24,9 +24,6 @@ public class Brand extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "thumbnail")
-    private String thumbnail;
-
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 }

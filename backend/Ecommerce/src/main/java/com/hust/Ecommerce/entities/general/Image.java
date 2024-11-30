@@ -29,6 +29,9 @@ public class Image extends BaseEntity {
     @Column(name = "size", nullable = false)
     private Long size;
 
+    @Column(name = "is_thumbnail", nullable = false, columnDefinition = "BOOLEAN")
+    private Boolean isThumbnail;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonBackReference

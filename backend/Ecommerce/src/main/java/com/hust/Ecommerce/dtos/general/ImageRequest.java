@@ -7,9 +7,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class ImageRequest {
-
-    private String path;
-    private String contentType;
-    private String name;
-    private Long size;
+    private CloudinaryImageDTO image;
+    private Boolean isThumbnail;
 }

@@ -13,7 +13,6 @@ public class ProductRequest {
     private String name;
     private String slug;
     private String description;
-    private String thumbnail;
     private List<ImageRequest> images;
     private Integer status;
 

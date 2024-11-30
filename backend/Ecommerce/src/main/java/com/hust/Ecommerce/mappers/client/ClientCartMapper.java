@@ -1,9 +1,11 @@
 package com.hust.Ecommerce.mappers.client;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ import com.hust.Ecommerce.dtos.client.cart.UpdateQuantityType;
 import com.hust.Ecommerce.entities.cart.Cart;
 import com.hust.Ecommerce.entities.cart.CartVariant;
 import com.hust.Ecommerce.entities.cart.CartVariantKey;
+import com.hust.Ecommerce.entities.general.Image;
 import com.hust.Ecommerce.entities.product.Product;
 import com.hust.Ecommerce.entities.product.Variant;
 import com.hust.Ecommerce.repositories.authentication.UserRepository;
@@ -46,7 +49,13 @@ public class ClientCartMapper {
         response.setProductId(entity.getId());
         response.setProductName(entity.getName());
         response.setProductSlug(entity.getSlug());
-        response.setProductThumbnail(entity.getThumbnail());
+        response.setProductThumbnail(Optional.ofNullable(entity.getImages())
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(image -> image.getIsThumbnail() == true)
+                .findFirst()
+                .map(Image::getPath)
+                .orElse(null));
         return response;
     }
 

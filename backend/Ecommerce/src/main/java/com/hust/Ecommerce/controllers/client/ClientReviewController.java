@@ -30,15 +30,15 @@ import com.hust.Ecommerce.mappers.client.ClientReviewMapper;
 import com.hust.Ecommerce.repositories.review.ReviewRepository;
 import com.hust.Ecommerce.security.SecurityUtils;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/client-api/reviews")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ClientReviewController {
 
-        private final ReviewRepository reviewRepository;
-        private final ClientReviewMapper clientReviewMapper;
+        private ReviewRepository reviewRepository;
+        private ClientReviewMapper clientReviewMapper;
 
         @GetMapping("/products/{productSlug}")
         public ResponseEntity<ApiResponse<?>> getAllReviewsByProduct(
