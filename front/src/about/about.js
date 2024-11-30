@@ -31,13 +31,13 @@ const teamMembers = [
 
 export function About() {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <nav style={{ marginBottom: '20px' }}>
-                <Link href="/" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
-                    &larr; Về trang chủ
-                </Link>
-            </nav>
-
+        <div>
+            <Link href='/'>
+                <button className='back-to-home'>
+                    Quay về trang chủ
+                </button>
+            </Link>
+    
             <h1 style={{ textAlign: 'center' }}>Giới thiệu Dự án</h1>
             <p style={{ textAlign: 'center', maxWidth: '600px' }}>
                 Dự án của chúng tôi phát triển một ứng dụng web sử dụng Next.js, với mục tiêu tạo ra trải nghiệm người dùng tốt và dễ quản lý nội dung.

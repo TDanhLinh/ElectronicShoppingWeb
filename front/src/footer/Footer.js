@@ -9,10 +9,10 @@ export function Footer() {
                         <h3 className="footer__heading">Chăm sóc khách hàng</h3>
                         <ul className="footer-list">
                             <li className="footer-item">
-                                <Link href="/under-dev">Trung tâm trợ giúp</Link>
+                                <Link href="/faq">Trung tâm trợ giúp</Link>
                             </li>
                             <li className="footer-item">
-                                <Link href="/under-dev">Hướng dẫn mua hàng</Link>
+                                <Link href="/how-to-buy">Hướng dẫn mua hàng</Link>
                             </li>
                         </ul>
                     </div>
@@ -20,7 +20,7 @@ export function Footer() {
                         <h3 className="footer__heading">Giới thiệu</h3>
                         <ul className="footer-list">
                             <li className="footer-item">
-                                <Link href="/under-dev">Giới thiệu</Link>
+                                <Link href="/about">Giới thiệu</Link>
                             </li>
                             <li className="footer-item">
                                 <Link href="/under-dev">Tuyển dụng</Link>
@@ -50,34 +50,6 @@ export function Footer() {
                                     <i className="fab fa-linkedin"></i>
                                     LinkedIn
                                 </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="col l-2-4 m-4 c-4">
-                        <h3 className="footer__heading">Chưa nghĩ ra</h3>
-                        <ul className="footer-list">
-                            <li className="footer-item">
-                                <Link href="/under-dev">Nội dung 1</Link>
-                            </li>
-                            <li className="footer-item">
-                                <Link href="/under-dev">Nội dung 2</Link>
-                            </li>
-                            <li className="footer-item">
-                                <Link href="/under-dev">Nội dung 3</Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="col l-2-4 m-8 c-12">
-                        <h3 className="footer__heading">Chưa nghĩ ra</h3>
-                        <ul className="footer-list">
-                            <li className="footer-item">
-                                <Link href="/under-dev">Nội dung 1</Link>
-                            </li>
-                            <li className="footer-item">
-                                <Link href="/under-dev">Nội dung 2</Link>
-                            </li>
-                            <li className="footer-item">
-                                <Link href="/under-dev">Nội dung 3</Link>
                             </li>
                         </ul>
                     </div>
