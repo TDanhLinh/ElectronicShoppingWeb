@@ -67,11 +67,10 @@ public class ClientReviewController {
                         @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
                         @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
                         @RequestParam(name = "filter", required = false) @Nullable String filter) {
-                Optional<String> email = SecurityUtils.getCurrentUserLogin();
-                if (email.isEmpty()) {
-                        throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-                }
-                Page<Review> reviews = reviewRepository.findAllByEmail(email.get(), sort,
+                String email = SecurityUtils.getCurrentUserLogin()
+                                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
+
+                Page<Review> reviews = reviewRepository.findAllByEmail(email, sort,
                                 filter,
                                 PageRequest.of(page - 1, size));
                 List<ClientReviewResponse> clientReviewResponses = reviews.map(clientReviewMapper::entityToResponse)

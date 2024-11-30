@@ -61,12 +61,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ClientConfirmedOrderResponse createClientOrder(ClientSimpleOrderRequest request) {
-        Optional<User> optionalUser = authenticationService.getUserWithAuthorities();
-
-        if (optionalUser.isEmpty())
-            throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-
-        User user = optionalUser.get();
+        User user = authenticationService.getUserWithAuthorities()
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
         Cart cart = cartRepository.findByUser(user)
                 .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.CART_NOT_FOUND));

@@ -83,10 +83,10 @@ public class AuthenticationService implements IAuthenticationService {
         newUser.setActivationKey(RandomUtil.generateActivationKey());
 
         // Set<Role> roles = new HashSet<>();
-        Optional<Role> role = roleRepository.findById(RoleKeys.USER);
-        if (role.isEmpty())
-            throw new ResourceNotFoundException(MessageKeys.ROLE_NOT_FOUND);
-        newUser.setRole(role.get());
+        Role role = roleRepository.findById(RoleKeys.USER)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.ROLE_NOT_FOUND));
+
+        newUser.setRole(role);
         userRepository.save(newUser);
 
         log.debug("Created Information for User: {}", newUser);
@@ -184,12 +184,10 @@ public class AuthenticationService implements IAuthenticationService {
             throw new AppException(ErrorCode.EMAIL_PASSWORD_NOT_MATCH);
         }
 
-        Optional<User> user = getUserWithAuthoritiesByEmail(email);
-        if (!user.isPresent()) {
-            throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-        }
+        User user = getUserWithAuthoritiesByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
-        return verificationTokenService.addTokenEndRefreshToken(user.get(), token);
+        return verificationTokenService.addTokenEndRefreshToken(user, token);
     }
 
     public Token createTokenAndSaveForRefresh(User user) {

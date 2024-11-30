@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hust.Ecommerce.constants.FieldName;
 import com.hust.Ecommerce.constants.MessageKeys;
+import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
 import com.hust.Ecommerce.dtos.authentication.EmailInput;
@@ -151,13 +153,11 @@ public class AuthController {
 
         @PostMapping(path = "/forgot-password")
         public void forgotPassword(@RequestBody EmailInput email) {
-                Optional<User> user = authenticationService.forgetPassword(email.getEmail());
-                if (user.isPresent()) {
-                        mailService.sendPasswordResetMail(user.get());
-                } else {
+                User user = authenticationService.forgetPassword(email.getEmail()).orElseThrow(
+                                () -> new ResourceNotFoundException(ResourceName.USER, FieldName.EMAIL, email));
 
-                        log.warn("Password reset requested for non existing mail");
-                }
+                mailService.sendPasswordResetMail(user);
+
         }
 
         @PutMapping(path = "/reset-password")

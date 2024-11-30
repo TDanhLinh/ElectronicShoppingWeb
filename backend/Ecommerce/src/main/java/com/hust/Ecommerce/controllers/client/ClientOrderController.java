@@ -58,11 +58,8 @@ public class ClientOrderController {
                         @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
                         @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
                         @RequestParam(name = "filter", required = false) @Nullable String filter) {
-                Optional<User> optionalUser = authenticationService.getUserWithAuthorities();
-
-                if (optionalUser.isEmpty())
-                        throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-                User user = optionalUser.get();
+                User user = authenticationService.getUserWithAuthorities()
+                                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
                 Page<Order> orders = orderRepository.findAllByEmail(user.getEmail(), sort, filter,
                                 PageRequest.of(page - 1, size));
@@ -102,12 +99,8 @@ public class ClientOrderController {
                 // id cua transaction; cung nhu la code cua order
                 String vnp_TxnRef = queryParams.get("vnp_TxnRef");
 
-                Optional<Order> orderOptional = orderRepository.findByCode(vnp_TxnRef);
-
-                if (orderOptional.isEmpty())
-                        throw new ResourceNotFoundException(ResourceName.ORDER, FieldName.CODE, vnp_TxnRef);
-
-                Order order = orderOptional.get();
+                Order order = orderRepository.findByCode(vnp_TxnRef).orElseThrow(
+                                () -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.CODE, vnp_TxnRef));
 
                 if (vnp_ResponseCode.equals("00")) {
 

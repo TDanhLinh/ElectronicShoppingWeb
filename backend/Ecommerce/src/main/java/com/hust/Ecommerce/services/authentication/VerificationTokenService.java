@@ -81,11 +81,10 @@ public class VerificationTokenService implements IVerificationTokenService {
     }
 
     public void deleteTokenWithJwt(String jwt) {
-        Optional<Token> deleteToken = tokenRepository.findByToken(jwt);
-        if (deleteToken.isEmpty()) {
-            throw new ResourceNotFoundException(MessageKeys.TOKEN_NOT_FOUND);
-        }
-        log.debug("delete token: {}", deleteToken.get());
-        tokenRepository.delete(deleteToken.get());
+        Token token = tokenRepository.findByToken(jwt)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.TOKEN_NOT_FOUND));
+
+        log.debug("delete token: {}", token);
+        tokenRepository.delete(token);
     }
 }

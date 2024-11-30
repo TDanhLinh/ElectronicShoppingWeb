@@ -49,13 +49,12 @@ public class ClientCartController {
     // lay cac cartVariant hien tai cua user ma co status = 1
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getCart() {
-        Optional<User> user = authenticationService.getUserWithAuthorities();
-        if (user.isEmpty())
-            throw new ResourceNotFoundException(MessageKeys.ACCOUNT_NOT_LOGIN);
+        User user = authenticationService.getUserWithAuthorities()
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.ACCOUNT_NOT_LOGIN));
 
         ObjectMapper mapper = new ObjectMapper();
 
-        ObjectNode response = cartRepository.findByUser(user.get())
+        ObjectNode response = cartRepository.findByUser(user)
                 .map(clientCartMapper::entityToResponse)
                 .map(clientCartResponse -> mapper.convertValue(clientCartResponse, ObjectNode.class))
                 .orElse(mapper.createObjectNode());

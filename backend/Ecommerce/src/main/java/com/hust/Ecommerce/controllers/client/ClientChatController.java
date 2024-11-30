@@ -21,7 +21,6 @@ import com.hust.Ecommerce.dtos.chat.RoomResponse;
 import com.hust.Ecommerce.entities.authentication.User;
 import com.hust.Ecommerce.entities.chat.Message;
 import com.hust.Ecommerce.entities.chat.Room;
-import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.chat.MessageMapper;
 import com.hust.Ecommerce.mappers.chat.RoomMapper;
@@ -44,12 +43,8 @@ public class ClientChatController {
 
     @GetMapping("/get-room")
     public ResponseEntity<ApiResponse<?>> getRoom() {
-        Optional<User> optionalUser = authenticationService.getUserWithAuthorities();
-        if (optionalUser.isEmpty())
-            throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-
-        User user = optionalUser.get();
-
+        User user = authenticationService.getUserWithAuthorities()
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
         RoomResponse roomResponse = roomRepository.findByUser(user)
                 .map(roomMapper::entityToResponse)
                 .orElse(null);
@@ -75,11 +70,9 @@ public class ClientChatController {
 
     @PostMapping("/create-room")
     public ResponseEntity<ApiResponse<?>> createRoom() {
-        Optional<User> optionalUser = authenticationService.getUserWithAuthorities();
-        if (optionalUser.isEmpty())
-            throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
+        User user = authenticationService.getUserWithAuthorities()
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
-        User user = optionalUser.get();
         if (user.getRoom() != null)
             throw new RuntimeException(MessageKeys.ROOM_EXISTED);
 
