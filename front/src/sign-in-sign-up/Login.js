@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import Link from 'next/link';
 import {request} from "../api/axios";
 
@@ -12,7 +12,7 @@ export function Login() {
             request()
         }
     }, [])
-    
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
@@ -31,16 +31,13 @@ export function Login() {
             if (account && account.password === password) {
                 window.location.href = "/";
                 localStorage.setItem("user", email);
-            }
-            else setFail(true);
-        }
-        else {
+            } else setFail(true);
+        } else {
             setFail(true);
         }
     }
 
-    return (
-        <div className='container'>
+    return (<div className='container'>
             <h1 className='describe'>ĐĂNG NHẬP VÀO WEB BÁN HÀNG</h1>
             <div className='form'>
                 <h2>ĐĂNG NHẬP</h2>
@@ -66,8 +63,8 @@ export function Login() {
                     {fail && (<div className='message'>Tài khoản hoặc mật khẩu không đúng</div>)}
                     <div className="options">
                         <label>
-                            <input 
-                                type="checkbox" 
+                            <input
+                                type="checkbox"
                                 onChange={() => setRememberMe(!rememberMe)}
                             />
                             Remember me
@@ -92,6 +89,5 @@ export function Login() {
                     </div>
                 </form>
             </div>
-        </div>
-    )
+        </div>)
 }
