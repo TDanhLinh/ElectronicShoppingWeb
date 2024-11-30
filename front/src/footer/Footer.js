@@ -26,7 +26,7 @@ export function Footer() {
                                 <Link href="/under-dev">Tuyển dụng</Link>
                             </li>
                             <li className="footer-item">
-                                <Link href="/under-dev">Điều khoản</Link>
+                                <Link href="/terms-of-sale">Điều khoản</Link>
                             </li>
                         </ul>
                     </div>
