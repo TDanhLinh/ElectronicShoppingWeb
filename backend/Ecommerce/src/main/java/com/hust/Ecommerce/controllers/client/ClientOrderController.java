@@ -36,7 +36,7 @@ import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientOrderMapper;
 import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
 import com.hust.Ecommerce.repositories.order.OrderRepository;
-import com.hust.Ecommerce.services.authentication.IAuthenticationService;
+import com.hust.Ecommerce.services.authentication.AuthenticationService;
 import com.hust.Ecommerce.services.order.OrderService;
 
 import lombok.AllArgsConstructor;
@@ -48,7 +48,7 @@ public class ClientOrderController {
 
         private OrderRepository orderRepository;
         private InventoryRepository inventoryRepository;
-        private IAuthenticationService authenticationService;
+        private AuthenticationService authenticationService;
         private ClientOrderMapper clientOrderMapper;
         private OrderService orderService;
 

@@ -3,30 +3,35 @@ package com.hust.Ecommerce.services.general;
 import java.io.IOException;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.hust.Ecommerce.dtos.general.ImageRequest;
 import com.hust.Ecommerce.exceptions.payload.UploadImageException;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ImageServiceImpl implements IImageService {
+public class ImageServiceImpl implements ImageService {
 
     private final Cloudinary cloudinary;
 
     @Override
-    public String uploadImage(MultipartFile file, String uploadFolder) {
+    public ImageRequest uploadImage(MultipartFile file, String uploadFolder) {
         try {
             Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap(
                             "resource_type", "auto",
                             "folder", uploadFolder));
-            return uploadResult.get("url").toString();
+            return new ImageRequest()
+                    .setPath(uploadResult.get("url").toString())
+                    .setContentType(
+                            uploadResult.get("resource_type").toString() + "/" + uploadResult.get("format").toString())
+                    .setName(uploadResult.get("public_id").toString())
+                    .setSize(Long.parseLong(uploadResult.get("bytes").toString()));
         } catch (IOException e) {
             throw new UploadImageException("[cloudinary] can't upload file");
         }

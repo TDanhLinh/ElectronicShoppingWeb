@@ -31,7 +31,7 @@ import com.hust.Ecommerce.mappers.client.ClientCartMapper;
 import com.hust.Ecommerce.repositories.cart.CartRepository;
 import com.hust.Ecommerce.repositories.cart.CartVariantRepository;
 import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
-import com.hust.Ecommerce.services.authentication.IAuthenticationService;
+import com.hust.Ecommerce.services.authentication.AuthenticationService;
 
 import lombok.AllArgsConstructor;
 
@@ -43,7 +43,7 @@ public class ClientCartController {
     private CartRepository cartRepository;
     private CartVariantRepository cartVariantRepository;
     private ClientCartMapper clientCartMapper;
-    private IAuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
     private InventoryRepository inventoryRepository;
 
     // lay cac cartVariant hien tai cua user ma co status = 1

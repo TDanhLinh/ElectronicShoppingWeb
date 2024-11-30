@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class ImageResponse {
     private Long id;
-    private String imageUrl;
-    private String type;
+    private String path;
+    private String contentType;
     private String name;
+    private Long size;
 }

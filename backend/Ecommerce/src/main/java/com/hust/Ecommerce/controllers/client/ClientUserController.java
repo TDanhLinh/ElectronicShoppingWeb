@@ -30,7 +30,7 @@ import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.security.SecurityUtils;
 
-import com.hust.Ecommerce.services.client.account.IUserSetting;
+import com.hust.Ecommerce.services.client.account.UserSetting;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/client-api/users")
 @RequiredArgsConstructor
 public class ClientUserController {
-        private final IUserSetting userSetting;
+        private final UserSetting userSetting;
 
         @GetMapping("/info")
         public ResponseEntity<ApiResponse<?>> getUserInfo() {

@@ -34,8 +34,8 @@ import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.security.SecurityUtils;
-import com.hust.Ecommerce.services.authentication.IAuthenticationService;
-import com.hust.Ecommerce.services.mail.MailService;
+import com.hust.Ecommerce.services.authentication.AuthenticationService;
+import com.hust.Ecommerce.services.mail.MailServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +47,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthController {
 
-        private final IAuthenticationService authenticationService;
-        private final MailService mailService;
+        private final AuthenticationService authenticationService;
+        private final MailServiceImpl mailService;
 
         @PostMapping("/registration")
         public ResponseEntity<ApiResponse<?>> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM,

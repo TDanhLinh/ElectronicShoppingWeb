@@ -36,7 +36,7 @@ import com.hust.Ecommerce.mappers.order.OrderMapper;
 import com.hust.Ecommerce.repositories.cart.CartRepository;
 import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
 import com.hust.Ecommerce.repositories.order.OrderRepository;
-import com.hust.Ecommerce.services.authentication.IAuthenticationService;
+import com.hust.Ecommerce.services.authentication.AuthenticationService;
 import com.hust.Ecommerce.services.payment.PaymentService;
 import com.hust.Ecommerce.util.RandomUtil;
 
@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderServiceImpl implements OrderService {
 
-    private IAuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
     private CartRepository cartRepository;
     private OrderRepository orderRepository;
     private PaymentService vnPayService;
