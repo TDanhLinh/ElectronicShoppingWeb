@@ -4,7 +4,7 @@ Display the list of customers
 import DisplayTable from "../Table"
 import {DataTableContext, ElementTableContext, LableTableContext} from "../TableContext";
 import {useContext, useEffect} from "react";
-import {listAllAPI} from "../api/axios";
+import {listAllAPI} from "../../api/axios";
 
 const sampleLabel = ['STT', 'Tên sản phẩm', 'Số lượng', 'Giá', 'Tình trạng', 'Model', 'Lần cập nhập cuối', 'Thao tác'];
 const sampleElement = ['id', 'name', 'unit', 'price', 'status', 'model', 'updated_at'];
