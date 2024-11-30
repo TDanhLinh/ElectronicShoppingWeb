@@ -59,61 +59,6 @@ public class OrderServiceImpl implements OrderService {
 
     // order service cho phia client
 
-    // @Override
-    // public void cancelOrder(String code) {
-    // Order order = orderRepository.findByCode(code)
-    // .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER,
-    // FieldName.ORDER_CODE, code));
-
-    // // Hủy đơn hàng khi status = 1 hoặc 2
-    // if (order.getStatus() < 3) {
-    // order.setStatus(5); // Status 5 là trạng thái Hủy
-    // orderRepository.save(order);
-
-    // // Status 1 là Vận đơn đang chờ lấy hàng
-    // if (waybill != null && waybill.getStatus() == 1) {
-    // String cancelOrderApiPath = ghnApiPath + "/switch-status/cancel";
-
-    // HttpHeaders headers = new HttpHeaders();
-    // headers.setContentType(MediaType.APPLICATION_JSON);
-    // headers.add("Token", ghnToken);
-    // headers.add("ShopId", ghnShopId);
-
-    // RestTemplate restTemplate = new RestTemplate();
-
-    // var request = new HttpEntity<>(new
-    // GhnCancelOrderRequest(List.of(waybill.getCode())), headers);
-    // var response = restTemplate.postForEntity(cancelOrderApiPath, request,
-    // GhnCancelOrderResponse.class);
-
-    // if (response.getStatusCode() != HttpStatus.OK) {
-    // throw new RuntimeException("Error when calling Cancel Order GHN API");
-    // }
-
-    // // Integrated with GHN API
-    // if (response.getBody() != null) {
-    // for (var data : response.getBody().getData()) {
-    // if (data.getResult()) {
-    // WaybillLog waybillLog = new WaybillLog();
-    // waybillLog.setWaybill(waybill);
-    // waybillLog.setPreviousStatus(waybill.getStatus()); // Status 1: Đang đợi lấy
-    // hàng
-    // waybillLog.setCurrentStatus(4);
-    // waybillLogRepository.save(waybillLog);
-
-    // waybill.setStatus(4); // Status 4 là trạng thái Hủy
-    // waybillRepository.save(waybill);
-    // }
-    // }
-    // }
-    // }
-    // } else {
-    // throw new RuntimeException(String
-    // .format("Order with code %s is in delivery or has been cancelled. Please
-    // check again!", code));
-    // }
-    // }
-
     @Override
     public ClientConfirmedOrderResponse createClientOrder(ClientSimpleOrderRequest request) {
         Optional<User> optionalUser = authenticationService.getUserWithAuthorities();

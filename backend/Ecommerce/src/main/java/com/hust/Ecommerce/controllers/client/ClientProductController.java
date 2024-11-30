@@ -19,11 +19,13 @@ import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.dtos.ListResponse;
 import com.hust.Ecommerce.dtos.client.product.ClientListedProductResponse;
 import com.hust.Ecommerce.dtos.client.product.ClientProductResponse;
-import com.hust.Ecommerce.dtos.client.product.ClientProductResponse.SimpleProductInventory;
+
 import com.hust.Ecommerce.entities.BaseEntity;
 import com.hust.Ecommerce.entities.product.Product;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientProductMapper;
+import com.hust.Ecommerce.mappers.projection.SimpleProductInventory;
+import com.hust.Ecommerce.repositories.ProjectionRepository;
 import com.hust.Ecommerce.repositories.product.ProductRepository;
 import com.hust.Ecommerce.repositories.review.ReviewRepository;
 
@@ -36,38 +38,35 @@ public class ClientProductController {
     private ProductRepository productRepository;
     private ClientProductMapper clientProductMapper;
     private ReviewRepository reviewRepository;
+    private ProjectionRepository projectionRepository;
 
-    // @GetMapping
-    // public ResponseEntity<ListResponse<ClientListedProductResponse>>
-    // getAllProducts(
-    // @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER)
-    // int page,
-    // @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE)
-    // int size,
-    // @RequestParam(name = "filter", required = false) @Nullable String filter,
-    // @RequestParam(name = "sort", required = false) @Nullable String sort,
-    // @RequestParam(name = "search", required = false) @Nullable String search
-    // ) {
-    // // Phân trang
-    // Pageable pageable = PageRequest.of(page - 1, size);
+    // saleable: co the ban, newable: moi nhat
+    @GetMapping
+    public ResponseEntity<ListResponse<ClientListedProductResponse>> getAllProducts(
+            @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(name = "filter", required = false) @Nullable String filter,
+            @RequestParam(name = "sort", required = false) @Nullable String sort,
+            @RequestParam(name = "search", required = false) @Nullable String search,
+            @RequestParam(name = "saleable", required = false) boolean saleable,
+            @RequestParam(name = "newable", required = false) boolean newable) {
+        // Phân trang
+        Pageable pageable = PageRequest.of(page - 1, size);
 
-    // // Lấy danh sách sản phẩm theo điều kiện lọc và phân trang
-    // Page<Product> products = productRepository.findByParams(filter, sort, search,
-    // pageable);
+        // Lấy danh sách sản phẩm theo điều kiện lọc và phân trang
+        Page<Product> products = productRepository.findByParams(filter, sort, search, saleable, newable, pageable);
 
-    // // Lấy thông tin tồn kho của sản phẩm
-    // List<Long> productIds = products.map(Product::getId).toList();
-    // List<SimpleProductInventory> productInventories =
-    // projectionRepository.findSimpleProductInventories(productIds);
+        // Lấy thông tin tồn kho của sản phẩm
+        List<Long> productIds = products.map(Product::getId).toList();
+        List<SimpleProductInventory> productInventories = projectionRepository.findSimpleProductInventories(productIds);
 
-    // List<ClientListedProductResponse> clientListedProductResponses = products
-    // .map(product -> clientProductMapper.entityToListedResponse(product,
-    // productInventories)).toList();
+        List<ClientListedProductResponse> clientListedProductResponses = products
+                .map(product -> clientProductMapper.entityToListedResponse(product, productInventories))
+                .toList();
 
-    // return
-    // ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(clientListedProductResponses,
-    // products));
-    // }
+        return ResponseEntity.ok(ListResponse.of(clientListedProductResponses,
+                products));
+    }
 
     // @GetMapping("/{slug}")
     // public ResponseEntity<ClientProductResponse> getProduct(@PathVariable String
@@ -79,8 +78,8 @@ public class ClientProductController {
     // // List<SimpleProductInventory> productInventories = projectionRepository
     // // .findSimpleProductInventories(List.of(product.getId()));
 
-    // int averageRatingScore =
-    // (int)Math.ceil(reviewRepository.findAverageRatingScoreByProductId(product.getId()));
+    // int averageRatingScore = (int)
+    // Math.ceil(reviewRepository.findAverageRatingScoreByProductId(product.getId()));
     // int countReviews = reviewRepository.countByProductId(product.getId());
 
     // // Related Products
@@ -103,7 +102,8 @@ public class ClientProductController {
 
     // List<ClientListedProductResponse> relatedProductResponses = relatedProducts
     // .map(p -> clientProductMapper.entityToListedResponse(p,
-    // relatedProductInventories)).toList();
+    // relatedProductInventories))
+    // .toList();
 
     // // Result
     // ClientProductResponse clientProductResponse = clientProductMapper

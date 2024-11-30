@@ -38,6 +38,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ReviewResponse save(ReviewRequest request) {
+        if (reviewRepository.existsByProductIdAndUserId(request.getProductId(), request.getUserId())) {
+            throw new RuntimeException("ban da review san pham nay roi !");
+        }
         return defaultSave(request, reviewRepository, reviewMapper);
     }
 
