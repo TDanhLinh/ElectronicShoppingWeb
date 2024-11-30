@@ -314,11 +314,11 @@
 }
 
 .header__logo {
-    width: 100px;
+    width: 75px;
 }
 
 .header__logo-img {
-    width: 90px;
+    width: 75px;
 }
 
 .header__search {
@@ -974,7 +974,7 @@
 }
 
 .home-product-item__sale-off-percent {
-    color: #EE4D2D; /* Màu đỏ */
+    color: #A8BB47; /* Màu đỏ */
     font-weight: 500;
     font-size: 1.3rem;
     line-height: 1.3rem;
