@@ -66,14 +66,6 @@ public class User extends BaseEntity {
     @Column(name = "avatar", length = 256)
     private String avatar;
 
-    @Column(name = "facebook_account_id")
-    @JsonIgnore
-    private int facebookAccountId;
-
-    @Column(name = "google_account_id")
-    @JsonIgnore
-    private int googleAccountId;
-
     // trang thai user (0): NOT_ACTIVATED, (1): ACTIVATED, (2): BANNED
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;

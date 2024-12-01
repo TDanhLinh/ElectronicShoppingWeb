@@ -22,6 +22,9 @@ public class ClientListedProductResponse {
     private List<Double> productPriceRange;
     private List<ClientListedVariantResponse> productVariants;
 
+    private double productAverageRate;
+    private int productSold;
+
     @Data
     @Accessors(chain = true)
     public static class ClientListedVariantResponse {

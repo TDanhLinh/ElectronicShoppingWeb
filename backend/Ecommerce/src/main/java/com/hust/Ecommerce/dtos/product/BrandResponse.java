@@ -11,5 +11,5 @@ public class BrandResponse {
     private Instant updatedAt;
     private String name;
     private String description;
-    private String thumbnail;
+
 }

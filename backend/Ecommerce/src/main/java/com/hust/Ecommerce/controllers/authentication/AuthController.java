@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hust.Ecommerce.constants.FieldName;
 import com.hust.Ecommerce.constants.MessageKeys;
+import com.hust.Ecommerce.constants.ResourceName;
 import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.authentication.AdminUserDTO;
 import com.hust.Ecommerce.dtos.authentication.EmailInput;
@@ -32,8 +34,8 @@ import com.hust.Ecommerce.exceptions.AppException;
 import com.hust.Ecommerce.exceptions.ErrorCode;
 import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.security.SecurityUtils;
-import com.hust.Ecommerce.services.authentication.IAuthenticationService;
-import com.hust.Ecommerce.services.mail.MailService;
+import com.hust.Ecommerce.services.authentication.AuthenticationService;
+import com.hust.Ecommerce.services.mail.MailServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +47,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthController {
 
-        private final IAuthenticationService authenticationService;
-        private final MailService mailService;
+        private final AuthenticationService authenticationService;
+        private final MailServiceImpl mailService;
 
         @PostMapping("/registration")
         public ResponseEntity<ApiResponse<?>> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM,
@@ -73,10 +75,9 @@ public class AuthController {
         @GetMapping("/registration/confirm")
         public ResponseEntity<ApiResponse<?>> activateAccount(@RequestParam(value = "key") String key) {
 
-                Optional<User> user = authenticationService.activateRegistration(key);
-                if (!user.isPresent()) {
-                        throw new AppException(ErrorCode.INVALID_KEY);
-                }
+                authenticationService.activateRegistration(key)
+                                .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
+
                 return ResponseEntity.ok(ApiResponse.builder()
                                 .message(MessageKeys.ACTIVE_ACCOUNT_SUCCESS)
                                 .success(true)
@@ -151,13 +152,11 @@ public class AuthController {
 
         @PostMapping(path = "/forgot-password")
         public void forgotPassword(@RequestBody EmailInput email) {
-                Optional<User> user = authenticationService.forgetPassword(email.getEmail());
-                if (user.isPresent()) {
-                        mailService.sendPasswordResetMail(user.get());
-                } else {
+                User user = authenticationService.forgetPassword(email.getEmail()).orElseThrow(
+                                () -> new ResourceNotFoundException(ResourceName.USER, FieldName.EMAIL, email));
 
-                        log.warn("Password reset requested for non existing mail");
-                }
+                mailService.sendPasswordResetMail(user);
+
         }
 
         @PutMapping(path = "/reset-password")
@@ -173,12 +172,9 @@ public class AuthController {
                                                         .message(MessageKeys.ERROR_MESSAGE)
                                                         .errors(errorMessages).build());
                 }
-                Optional<User> user = authenticationService.resetPassword(forgotPasswordDTO.getPassword(),
-                                key);
+                authenticationService.resetPassword(forgotPasswordDTO.getPassword(),
+                                key).orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
-                if (!user.isPresent()) {
-                        throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-                }
                 return ResponseEntity.ok(ApiResponse.builder()
                                 .success(true).build());
 

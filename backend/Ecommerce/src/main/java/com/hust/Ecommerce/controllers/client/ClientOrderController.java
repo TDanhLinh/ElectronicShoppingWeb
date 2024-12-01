@@ -2,7 +2,6 @@ package com.hust.Ecommerce.controllers.client;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +35,7 @@ import com.hust.Ecommerce.exceptions.payload.ResourceNotFoundException;
 import com.hust.Ecommerce.mappers.client.ClientOrderMapper;
 import com.hust.Ecommerce.repositories.inventory.InventoryRepository;
 import com.hust.Ecommerce.repositories.order.OrderRepository;
-import com.hust.Ecommerce.services.authentication.IAuthenticationService;
+import com.hust.Ecommerce.services.authentication.AuthenticationService;
 import com.hust.Ecommerce.services.order.OrderService;
 
 import lombok.AllArgsConstructor;
@@ -48,7 +47,7 @@ public class ClientOrderController {
 
         private OrderRepository orderRepository;
         private InventoryRepository inventoryRepository;
-        private IAuthenticationService authenticationService;
+        private AuthenticationService authenticationService;
         private ClientOrderMapper clientOrderMapper;
         private OrderService orderService;
 
@@ -58,11 +57,8 @@ public class ClientOrderController {
                         @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
                         @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
                         @RequestParam(name = "filter", required = false) @Nullable String filter) {
-                Optional<User> optionalUser = authenticationService.getUserWithAuthorities();
-
-                if (optionalUser.isEmpty())
-                        throw new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND);
-                User user = optionalUser.get();
+                User user = authenticationService.getUserWithAuthorities()
+                                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.USER_NOT_FOUND));
 
                 Page<Order> orders = orderRepository.findAllByEmail(user.getEmail(), sort, filter,
                                 PageRequest.of(page - 1, size));
@@ -102,12 +98,8 @@ public class ClientOrderController {
                 // id cua transaction; cung nhu la code cua order
                 String vnp_TxnRef = queryParams.get("vnp_TxnRef");
 
-                Optional<Order> orderOptional = orderRepository.findByCode(vnp_TxnRef);
-
-                if (orderOptional.isEmpty())
-                        throw new ResourceNotFoundException(ResourceName.ORDER, FieldName.CODE, vnp_TxnRef);
-
-                Order order = orderOptional.get();
+                Order order = orderRepository.findByCode(vnp_TxnRef).orElseThrow(
+                                () -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.CODE, vnp_TxnRef));
 
                 if (vnp_ResponseCode.equals("00")) {
 

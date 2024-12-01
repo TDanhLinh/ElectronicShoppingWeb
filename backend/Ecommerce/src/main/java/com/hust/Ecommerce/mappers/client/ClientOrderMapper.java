@@ -32,7 +32,6 @@ public abstract class ClientOrderMapper {
     @Mapping(source = "variant.product.id", target = "orderItemVariant.variantProduct.productId")
     @Mapping(source = "variant.product.name", target = "orderItemVariant.variantProduct.productName")
     @Mapping(source = "variant.product.slug", target = "orderItemVariant.variantProduct.productSlug")
-    @Mapping(source = "variant.product.thumbnail", target = "orderItemVariant.variantProduct.productThumbnail")
     @Mapping(source = "variant.properties", target = "orderItemVariant.variantProperties")
     @Mapping(source = "price", target = "orderItemPrice")
     @Mapping(source = "quantity", target = "orderItemQuantity")

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hust.Ecommerce.dtos.ApiResponse;
 import com.hust.Ecommerce.dtos.CollectionWrapper;
-import com.hust.Ecommerce.services.general.IImageService;
+import com.hust.Ecommerce.dtos.general.CloudinaryImageDTO;
+import com.hust.Ecommerce.services.general.ImageService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,23 +29,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ImageController {
 
-    private final IImageService imageService;
+    private final ImageService imageService;
 
     @PostMapping(value = "/upload-single", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<?> uploadSingleImage(@RequestParam("image") MultipartFile image,
+    public ResponseEntity<ApiResponse<?>> uploadSingleImage(@RequestParam("image") MultipartFile image,
             @RequestParam("folder") String folder) {
-        String uploadImageUrl = imageService.uploadImage(image, folder);
-        return ResponseEntity.ok(uploadImageUrl);
+        CloudinaryImageDTO uploadImageUrl = imageService.uploadImage(image, folder);
+        return ResponseEntity
+                .ok(ApiResponse.<CloudinaryImageDTO>builder().success(true).payload(uploadImageUrl).build());
 
     }
 
     @PostMapping("/upload-multiple")
-    public ResponseEntity<CollectionWrapper<String>> uploadMultipleImages(
+    public ResponseEntity<ApiResponse<?>> uploadMultipleImages(
             @RequestParam("images") MultipartFile[] images, @RequestParam("folder") String folder) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new CollectionWrapper<>(Stream.of(images)
-                        .map(image -> imageService.uploadImage(image, folder))
-                        .collect(Collectors.toList())));
+                .body(ApiResponse.<CollectionWrapper<CloudinaryImageDTO>>builder()
+                        .success(true).payload(new CollectionWrapper<>(Stream.of(images)
+                                .map(image -> imageService.uploadImage(image, folder))
+                                .collect(Collectors.toList())))
+                        .build());
     }
 
     @DeleteMapping("/cloud/single-image")

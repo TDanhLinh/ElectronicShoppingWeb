@@ -2,10 +2,11 @@ package com.hust.Ecommerce.dtos.general;
 
 import lombok.Data;
 
-@Data
-public class ImageRequest {
+import lombok.experimental.Accessors;
 
-    private String imageUrl;
-    private String type;
-    private String name;
+@Data
+@Accessors(chain = true)
+public class ImageRequest {
+    private CloudinaryImageDTO image;
+    private Boolean isThumbnail;
 }

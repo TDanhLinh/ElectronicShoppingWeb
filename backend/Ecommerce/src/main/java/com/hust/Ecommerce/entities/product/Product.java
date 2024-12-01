@@ -44,9 +44,6 @@ public class Product extends BaseEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "thumbnail")
-    private String thumbnail;
-
     // trang thai san pham (0): chua nhap ve (1): san sang de ban (2): khong con ban
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
@@ -63,9 +60,6 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
-
-    @Column(name = "model")
-    private String model;
 
     @Column(name = "specifications", columnDefinition = "JSON")
     @Convert(converter = JsonNodeConverter.class)
