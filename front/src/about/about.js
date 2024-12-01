@@ -23,7 +23,7 @@ const teamMembers = [
     },
     {
         name: "Nguyễn Tuấn Linh",
-        role: "Chuyên viên QA",
+        role: "Nhà phát triển Frontend",
         description: "Thiết kế giao diện và trải nghiệm người dùng.",
         image: "/assets/img/tlinh.jpg" 
     },
