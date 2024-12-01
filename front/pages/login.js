@@ -13,7 +13,7 @@ export default function login() {
                     content="Đăng nhập"
                 />
 
-                <link rel="stylesheet" href="/assets/css/sign-in-sign-up.css" />
+                <link rel="stylesheet" href="/assets/css/login.css" />
                 <link rel="icon" href="/favicon.png" />
 
                 <title>Đăng nhập</title>

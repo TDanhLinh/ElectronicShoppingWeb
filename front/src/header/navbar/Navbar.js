@@ -13,7 +13,7 @@ export function Navbar() {
         <nav className="header__navbar">
             <ul className="header__navbar-list">
                 <li className="header__navbar-item header__navbar-item--seperate header__navbar-item--download">
-                    Sản phẩm bán hàng điện tử của nhóm 30
+                    Nhóm 30 - Web bán đồ điện tử
                 </li>
                 <li className="header__navbar-item">    
                     <span className="header__navbar-title--noPointer">Kết nối</span>

@@ -1,8 +1,8 @@
 /* Thiết lập chung cho trang */
 body {
-    background-color: #EEE2DC; /* Màu be nhạt làm nền chính */
+    background-color: #FEF7BC; /* Màu nền vàng nhạt cho trang */
     font-family: 'Arial, sans-serif';
-    color: #123C69; /* Màu xanh đậm cho văn bản chính */
+    color: #024F3F; /* Màu xanh đậm cho văn bản chính */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,7 +10,9 @@ body {
 
 /* Container chính */
 .about-container {
-    width: 100%; /* Cho phép container rộng ra toàn màn hình */
+    max-width: 1200px; /* Đặt chiều rộng tối đa để không quá rộng */
+    width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
+    margin: 0 auto; /* Căn giữa container */
     padding: 20px;
 }
 
@@ -18,7 +20,7 @@ body {
 .about-nav {
     margin-bottom: 20px;
     font-weight: bold;
-    color: #AC3B61; /* Hồng đậm cho liên kết điều hướng */
+    color: #024F3F; /* Màu xanh đậm cho liên kết điều hướng */
     text-align: left;
     padding-left: 20px;
 }
@@ -26,14 +28,14 @@ body {
 /* Tiêu đề chính */
 .about-title {
     font-size: 2.5em;
-    color: #AC3B61; /* Hồng đậm cho tiêu đề chính */
+    color: #A8BB47; /* Màu xanh lá cây cho tiêu đề chính */
     margin: 10px 20px;
     text-align: left;
 }
 
 /* Mô tả dự án */
 .about-description {
-    color: #BAB2B5; /* Xám nhạt cho phần mô tả */
+    color: #737373; /* Màu xám cho phần mô tả */
     width: 100%;
     font-size: 1.2em;
     margin: 10px 20px 30px 20px;
@@ -43,7 +45,7 @@ body {
 /* Tiêu đề phần thành viên nhóm */
 .about-team-title {
     font-size: 2em;
-    color: #123C69; /* Xanh đậm cho tiêu đề thành viên nhóm */
+    color: #024F3F; /* Xanh đậm cho tiêu đề thành viên nhóm */
     margin: 30px 20px 10px 20px;
     text-align: left;
 }
@@ -54,7 +56,7 @@ body {
     flex-wrap: wrap; /* Để các thành viên xuống hàng khi hết chỗ */
     gap: 20px; /* Khoảng cách giữa các card thành viên */
     padding: 0 20px;
-    justify-content: flex-start; /* Căn lề trái cho toàn bộ danh sách */
+    justify-content: center; /* Căn giữa các item trong danh sách */
 }
 
 /* Card từng thành viên */
@@ -62,10 +64,10 @@ body {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    background-color: #EDC7B7; /* Đào nhạt cho nền card */
+    background-color: #FFFBDE; /* Màu vàng sáng cho nền card */
     padding: 20px;
     border-radius: 5px;
-    width: calc(50% - 20px); /* Mỗi card chiếm 50% chiều rộng hàng, trừ khoảng cách */
+    width: calc(33.33% - 20px); /* Mỗi card chiếm 1/3 chiều rộng hàng */
     max-width: 500px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
@@ -78,7 +80,9 @@ body {
     border-radius: 50%;
     margin-right: 20px;
     border: 2px solid #123C69;
+    object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ gốc và không bị kéo giãn */
 }
+
 
 /* Thông tin thành viên */
 .member-info {
@@ -90,14 +94,14 @@ body {
 /* Tên thành viên */
 .about-member-name {
     font-size: 1.8em;
-    color: #AC3B61; /* Hồng đậm cho tên thành viên */
+    color: #A8BB47; /* Màu xanh lá cây cho tên thành viên */
     margin: 5px 0;
     text-align: left;
 }
 
 /* Vai trò thành viên */
 .about-member-role {
-    color: #123C69;
+    color: #024F3F; /* Màu xanh đậm cho vai trò */
     font-weight: bold;
     margin: 5px 0;
     text-align: left;
@@ -105,7 +109,7 @@ body {
 
 /* Mô tả vai trò */
 .about-member-description {
-    color: #BAB2B5;
+    color: #737373;
     font-size: 1em;
     margin: 5px 0;
     text-align: left;
@@ -113,42 +117,99 @@ body {
 
 /* Nút Play */
 .play-button {
-    background-color: #AC3B61;
-    color: #EEE2DC;
+    background-color: #A8BB47; /* Màu xanh lá cây cho nút */
+    color: #FFF; /* Màu chữ trắng */
     padding: 12px 24px;
     border: none;
     border-radius: 5px;
     font-size: 1em;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng chuyển màu và scale khi hover */
     margin-top: 20px;
     align-self: flex-start;
 }
 
 .play-button:hover {
-    background-color: #123C69;
+    background-color: #024F3F; /* Màu xanh đậm khi hover */
 }
 
 /* Liên kết */
 a {
     text-decoration: none;
-    color: #AC3B61;
+    color: #A8BB47; /* Màu xanh lá cây cho liên kết */
 }
 
 a:hover {
-    color: #123C69;
+    color: #024F3F; /* Màu xanh đậm khi hover */
 }
 
 /* Phân lớp phụ trợ */
 .accent-text {
-    color: #AC3B61;
+    color: #A8BB47; /* Màu xanh lá cây cho phần văn bản phụ */
 }
 
 /* Nền nhẹ cho các phần phụ */
 .subtle-background {
-    background-color: #BAB2B5;
+    background-color: #FFFBDE; /* Màu vàng sáng cho nền phần phụ */
     padding: 10px;
     border-radius: 5px;
     margin: 10px;
+}
+
+
+
+/* Button Quay về trang chủ */
+.back-to-home {
+    background-color: #A8BB47; /* Màu xanh lá cây cho nền */
+    color: #FFFFFF; /* Màu chữ trắng */
+    padding: 12px 24px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng chuyển màu và scale khi hover */
+    text-align: center;
+}
+
+.back-to-home:hover {
+    background-color: #024F3F; /* Màu xanh đậm khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ khi hover */
+}
+
+.back-to-home:active {
+    background-color: #FFD601; /* Màu vàng đậm khi nhấn */
+    transform: scale(1); /* Trở lại kích thước bình thường khi nhấn */
+}
+
+.back-to-home:focus {
+    outline: none; /* Loại bỏ viền khi focus */
+}
+
+
+/* Giới thiệu Dự án */
+.About-review {
+    background-color: #FFFBDE; /* Màu nền vàng sáng */
+    padding: 40px 20px; /* Padding vừa đủ xung quanh */
+    border-radius: 8px; /* Bo góc nhẹ cho phần tử */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ */
+    margin: 30px 0; /* Khoảng cách giữa các phần tử */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+.About-review h1 {
+    font-size: 2.5rem; /* Kích thước chữ lớn cho tiêu đề */
+    color: #024F3F; /* Màu xanh đậm cho tiêu đề */
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    font-weight: 600;
+}
+
+.About-review p {
+    font-size: 1.4rem; /* Kích thước chữ vừa phải cho mô tả */
+    color: #737373; /* Màu chữ xám cho nội dung */
+    line-height: 1.6; /* Khoảng cách dòng dễ đọc */
+    max-width: 800px; /* Giới hạn chiều rộng để không quá dài */
+    margin: 0 auto; /* Căn giữa đoạn văn */
+    padding: 0 10px; /* Padding nhẹ để nội dung không chạm vào biên */
 }

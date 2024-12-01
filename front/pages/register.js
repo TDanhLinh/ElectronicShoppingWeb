@@ -13,7 +13,7 @@ export default function login() {
                     content="Đăng ký"
                 />
 
-                <link rel="stylesheet" href="/assets/css/sign-in-sign-up.css" />
+                <link rel="stylesheet" href="/assets/css/register.css" />
                 <link rel="icon" href="/favicon.png" />
 
                 <title>Đăng Ký</title>

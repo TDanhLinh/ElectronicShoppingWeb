@@ -2,7 +2,7 @@
     --white-color: #fff;
     --black-color: #000;
     --text-color: #333;
-    --primary-color:  rgb(255, 98, 1);
+    --primary-color: rgb(255, 98, 1);
     --border-color: #dbdbdb;
     --star-gold-color: #FFCE3E;
 
@@ -47,7 +47,7 @@
 }
 
 html {
-    font-size: 62.5%; /* 1rem = 10px*/
+    font-size: 60%; /* giảm từ 62.5% xuống 60% */
     line-height: 1.6rem;
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
@@ -110,7 +110,7 @@ strong {
     text-decoration: none;
     border: none;
     border-radius: 2px;
-    font-size: 1.5rem;
+    font-size: 1.4rem; /* giảm từ 1.5rem xuống 1.4rem */
     padding: 0 12px;
     cursor: pointer;
     color: var(--text-color);
@@ -127,7 +127,7 @@ strong {
 
 .btn.btn--size-s {
     height: 32px;
-    font-size: 12px;
+    font-size: 1.2rem; /* giảm từ 12px xuống 1.2rem */
     padding: 0 8px;
 }
 
@@ -160,11 +160,11 @@ strong {
 }
 
 .select-input__label {
-    font-size: 1.4rem;
+    font-size: 1.3rem; /* giảm từ 1.4rem xuống 1.3rem */
 }
 
 .select-input__icon {
-    font-size: 1.4rem;
+    font-size: 1.3rem; /* giảm từ 1.4rem xuống 1.3rem */
     color: rgb(131, 131, 131);
     position: relative;
     top: 1px;
@@ -185,7 +185,7 @@ strong {
 }
 
 .select-input__link {
-    font-size: 1.4rem;
+    font-size: 1.3rem; /* giảm từ 1.4rem xuống 1.3rem */
     color: var(--text-color);
     text-decoration: none;
     display: block;
@@ -224,7 +224,7 @@ strong {
     text-align: center;
     line-height: var(--height);
     text-decoration: none;
-    font-size: 2rem;
+    font-size: 1.8rem; /* giảm từ 2rem xuống 1.8rem */
     font-weight: 300;
     color: #939393;
     min-width: 40px;

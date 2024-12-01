@@ -20,7 +20,7 @@ export default function home() {
                 
                 <link rel="icon" href="/favicon.png" />
 
-                <title>Bán hàng yêu thương</title>
+                <title>G30</title>
             </Head>
             <App />
         </React.StrictMode>
