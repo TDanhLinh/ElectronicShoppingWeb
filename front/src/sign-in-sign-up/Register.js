@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 export function Register() {
     const router = useRouter();
 
-    // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user && user.length > 0) router.push('/');
@@ -14,9 +13,9 @@ export function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [exist, setExist] = useState(false); // kiểm tra tài khoản đã tồn tại chưa
+    const [exist, setExist] = useState(false);
     const [address, setAddress] = useState("");
-    const [success, setSuccess] = useState(false); // kiểm tra đăng ký thành công chưa
+    const [success, setSuccess] = useState(false);
     const [notify, setNotify] = useState(false);
     const [dob, setDob] = useState('');
     
@@ -24,7 +23,6 @@ export function Register() {
         e.preventDefault();
 
         if (success) {
-            // nếu đã ấn nút đăng ký, nút đăng ký thành 'chuyển sang trang đăng nhập'
             router.push("/login");
             return;
         }
@@ -35,13 +33,12 @@ export function Register() {
             name: name,
             address: address,
             dob: dob,
-            role: 0 // role = 0: user, role = 1: seller, role = 2: admin
+            role: 0 // role = 0: user
         }
 
-        // thêm tài khoản mới vào database, hiện tại chưa dùng axios
         const accounts = localStorage.getItem("accounts");
 
-        if (accounts) { // kiểm tra xem tài khoản đã tồn tại chưa
+        if (accounts) {
             const Accounts = JSON.parse(accounts);
             if (Accounts.find((item) => (item.email === email))) {
                 setExist(true);
@@ -54,7 +51,7 @@ export function Register() {
                 setExist(false);
             }
         }
-        else { // chưa tồn tại thì thêm vào database, hiện tại chưa có axios
+        else {
             localStorage.setItem(email, JSON.stringify(newAccount));
             const Accounts = [newAccount];
             localStorage.setItem("accounts", JSON.stringify(Accounts));
@@ -64,15 +61,15 @@ export function Register() {
     }
 
     return (
-        <div className='container'>
-            <h1 className='describe'>ĐĂNG KÝ TÀI KHOẢN</h1>
-            <div className='form'>
-                <h2>ĐĂNG KÝ</h2>
+        <div className='register-container'>
+            <h1 className='register-header'>ĐĂNG KÝ TÀI KHOẢN</h1>
+            <div className='register-form'>
+                <h2 className='form-title'>ĐĂNG KÝ</h2>
                 <form onSubmit={submit}>
                     <input
                         type="text"
-                        className="input-box"
-                        id="email"
+                        className="input-field"
+                        id="email-input"
                         value={email}
                         placeholder='Email'
                         onChange={(e) => setEmail(e.target.value)}
@@ -80,8 +77,8 @@ export function Register() {
                     />
                     <input
                         type="password"
-                        className="input-box"
-                        id="password"
+                        className="input-field"
+                        id="password-input"
                         value={password}
                         placeholder='Password'
                         onChange={(e) => setPassword(e.target.value)}
@@ -89,18 +86,18 @@ export function Register() {
                     />
                     <input
                         type="text"
-                        className="input-box"
-                        id="name"
+                        className="input-field"
+                        id="name-input"
                         value={name}
                         placeholder='Your name'
                         onChange={(e) => setName(e.target.value)}
                         required
                     />
-                    <div className='address-dob'>
+                    <div className='address-dob-container'>
                         <input
                             type="text"
-                            className="input-box"
-                            id="address"
+                            className="input-field"
+                            id="address-input"
                             value={address}
                             placeholder='Address'
                             onChange={(e) => setAddress(e.target.value)}
@@ -108,28 +105,29 @@ export function Register() {
                         />
                         <input
                             type="date"
-                            className='input-box'
-                            id='dob'
+                            className='input-field'
+                            id='dob-input'
                             value={dob}
                             onChange={(e) => setDob(e.target.value)} 
                             required
                         />
                     </div>
-                    {exist && (<div className='message'>Tài khoản đã tồn tại</div>)}
-                    {success && (<div className='message' style={{color: 'rgb(105, 19, 19)'}}>Đăng ký thành công</div>)}
-                    <div className="options">
-                        <label>
+                    {exist && (<div className='error-message'>Tài khoản đã tồn tại</div>)}
+                    {success && (<div className='success-message'>Đăng ký thành công</div>)}
+                    <div className="options-container">
+                        <label htmlFor="notify">
                             <input 
                                 type="checkbox" 
+                                id="notify"
                                 onChange={() => setNotify(!notify)}
                             />
                             Nhận thông báo email
                         </label>
-                        <Link href="/login" className='forgot-password'>Đã có tài khoản?</Link>
+                        <Link href="/login" className='login-link'>Đã có tài khoản?</Link>
                     </div>
                     <input
                         type="submit"
-                        className="btn"
+                        className="submit-btn"
                         value={(success === false) ? "Sign up" : "Đi trang đăng nhập"}
                     />
                 </form>

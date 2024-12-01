@@ -3,7 +3,6 @@ package com.hust.Ecommerce.controllers.client;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,11 +41,12 @@ public class ClientCategoryController {
     }
 
     @GetMapping("/{slug}")
-    public ResponseEntity<ClientCategoryResponse> getCategory(@PathVariable("slug") String slug) {
+    public ResponseEntity<ApiResponse<?>> getCategory(@PathVariable("slug") String slug) {
         ClientCategoryResponse clientCategoryResponse = categoryRepository.findBySlug(slug)
                 .map(category -> clientCategoryMapper.entityToResponse(category))
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceName.CATEGORY, FieldName.SLUG, slug));
-        return ResponseEntity.status(HttpStatus.OK).body(clientCategoryResponse);
+        return ResponseEntity.ok(
+                ApiResponse.<ClientCategoryResponse>builder().success(true).payload(clientCategoryResponse).build());
     }
 
 }

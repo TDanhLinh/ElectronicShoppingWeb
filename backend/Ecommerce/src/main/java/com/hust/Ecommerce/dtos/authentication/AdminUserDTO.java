@@ -54,12 +54,6 @@ public class AdminUserDTO implements Serializable {
     @JsonProperty("language")
     private String language;
 
-    @JsonProperty("facebook_account_id")
-    private int facebookAccountId;
-
-    @JsonProperty("google_account_id")
-    private int googleAccountId;
-
     private Instant createdAt;
     private Instant updatedAt;
     @JsonProperty("role")

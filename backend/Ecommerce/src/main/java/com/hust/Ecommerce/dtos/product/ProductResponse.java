@@ -22,7 +22,6 @@ public class ProductResponse {
     private List<ImageResponse> images;
     private Integer status;
 
-    private Double price;
     private List<CategoryResponse> categories;
 
     private BrandResponse brandProduct;

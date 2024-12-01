@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 export function Login() {
     const router = useRouter();
 
-    // Nếu đã đăng nhập, chuyển trang chính
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user && user.length > 0) router.push('/');
@@ -14,13 +13,10 @@ export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
-    const [fail, setFail] = useState(false); // kiểm tra đăng nhập có thành không không
+    const [fail, setFail] = useState(false);
 
     const submit = (e) => {
         e.preventDefault();
-
-        // kiểm tra xem thông tin đăng nhập có đúng không
-        // khi ghép nối, thay localStorage bằng axios
         var accounts = localStorage.getItem("accounts");
 
         if (accounts) {
@@ -38,15 +34,15 @@ export function Login() {
     }
 
     return (
-        <div className='container'>
-            <h1 className='describe'>ĐĂNG NHẬP VÀO WEB BÁN HÀNG</h1>
-            <div className='form'>
-                <h2>ĐĂNG NHẬP</h2>
+        <div className='login-container'>
+            <h1 className='login-header'>ĐĂNG NHẬP VÀO WEB BÁN HÀNG</h1>
+            <div className='login-form'>
+                <h2 className='form-title'>ĐĂNG NHẬP</h2>
                 <form onSubmit={submit}>
                     <input
                         type="text"
-                        className="input-box"
-                        id="email"
+                        className="input-field"
+                        id="email-input"
                         value={email}
                         placeholder='Email'
                         onChange={(e) => setEmail(e.target.value)}
@@ -54,34 +50,35 @@ export function Login() {
                     />
                     <input
                         type="password"
-                        className="input-box"
-                        id="password"
+                        className="input-field"
+                        id="password-input"
                         value={password}
                         placeholder='Password'
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    {fail && (<div className='message'>Tài khoản hoặc mật khẩu không đúng</div>)}
-                    <div className="options">
-                        <label>
+                    {fail && (<div className='error-message'>Tài khoản hoặc mật khẩu không đúng</div>)}
+                    <div className="options-container">
+                        <label htmlFor="remember-me">
                             <input 
                                 type="checkbox" 
+                                id="remember-me" 
                                 onChange={() => setRememberMe(!rememberMe)}
                             />
                             Remember me
                         </label>
-                        <Link href="/forgot-password" className='forgot-password'>Forgot password?</Link>
+                        <Link href="/forgot-password" className='forgot-password-link'>Forgot password?</Link>
                     </div>
                     <input
                         type="submit"
-                        className="btn"
+                        className="submit-btn"
                         value="Login"
                     />
-                    <div className='register'>
+                    <div className='register-link-container'>
                         <p>To Register New Account →</p>
                         <Link href='/register'>
                             <button
-                                type="submit"
+                                type="button"
                                 className='register-btn'
                             >
                                 Click Here
@@ -93,3 +90,4 @@ export function Login() {
         </div>
     )
 }
+

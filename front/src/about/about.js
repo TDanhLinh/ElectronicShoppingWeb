@@ -4,44 +4,47 @@ import Link from 'next/link';
 
 const teamMembers = [
     {
-        name: "Nguyễn Văn A",
-        role: "Trưởng nhóm",
-        description: "Quản lý và điều phối dự án.",
-        image: "/assets/images/nguyen-van-a.jpg" // Replace with actual image path
+        name: "Trần Danh Linh",
+        role: "Trưởng nhóm - Kỹ sư backend",
+        description: "Quản lý và điều phối dự án. Phát triển API.",
+        image: "/assets/img/dlinh.jpg" 
     },
     {
-        name: "Trần Thị B",
+        name: "Nguyễn Phương Linh",
         role: "Nhà phát triển Frontend",
         description: "Thiết kế giao diện và trải nghiệm người dùng.",
-        image: "/assets/img/plinh.jpg" // Replace with actual image path
+        image: "/assets/img/plinh.jpg" 
     },
     {
-        name: "Lê Văn C",
+        name: "Ngô Văn Linh",
         role: "Kỹ sư Backend",
         description: "Phát triển API và quản lý cơ sở dữ liệu.",
-        image: "/assets/images/le-van-c.jpg" // Replace with actual image path
+        image: "/assets/img/vlinh.jpg" 
     },
     {
-        name: "Phạm Thị D",
+        name: "Nguyễn Tuấn Linh",
         role: "Chuyên viên QA",
-        description: "Đảm bảo chất lượng và thử nghiệm.",
-        image: "/assets/images/pham-thi-d.jpg" // Replace with actual image path
+        description: "Thiết kế giao diện và trải nghiệm người dùng.",
+        image: "/assets/img/tlinh.jpg" 
     },
 ];
 
 export function About() {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <nav style={{ marginBottom: '20px' }}>
-                <Link href="/" style={{ textDecoration: 'none', color: '#0070f3', fontWeight: 'bold' }}>
-                    &larr; Về trang chủ
-                </Link>
-            </nav>
+        <div>
+            <Link href='/'>
+                <button className='back-to-home'>
+                    Quay về trang chủ
+                </button>
+            </Link>
 
-            <h1 style={{ textAlign: 'center' }}>Giới thiệu Dự án</h1>
-            <p style={{ textAlign: 'center', maxWidth: '600px' }}>
-                Dự án của chúng tôi phát triển một ứng dụng web sử dụng Next.js, với mục tiêu tạo ra trải nghiệm người dùng tốt và dễ quản lý nội dung.
-            </p>
+            <div className='About-review'> 
+                <h1>Giới thiệu Dự án</h1>
+                <p>
+                    Đây là 1 dự án web do nhóm 30 sản xuất có sử dụng công nghệ SPA và NextJS.
+                </p>
+            </div>
+            
 
             <h2 style={{ textAlign: 'center', marginTop: '30px' }}>Các thành viên nhóm</h2>
             <div className="about-team-list">

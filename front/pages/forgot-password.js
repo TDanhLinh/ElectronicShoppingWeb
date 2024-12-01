@@ -13,7 +13,7 @@ export default function login() {
                     content="Quên mật khẩu"
                 />
 
-                <link rel="stylesheet" href="/assets/css/sign-in-sign-up.css" />
+                <link rel="stylesheet" href="/assets/css/forgotpassword.css" />
                 <link rel="icon" href="/favicon.png" />
 
                 <title>Quên mật khẩu</title>

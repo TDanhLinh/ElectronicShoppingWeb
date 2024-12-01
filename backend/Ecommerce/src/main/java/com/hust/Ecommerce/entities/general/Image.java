@@ -6,8 +6,6 @@ import com.hust.Ecommerce.entities.product.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -19,15 +17,20 @@ import lombok.Setter;
 @Entity
 @Table(name = "images")
 public class Image extends BaseEntity {
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "path", nullable = false, unique = true)
+    private String path;
 
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private ImageType type;
+    @Column(name = "content_type", nullable = false)
+    private String contentType;
+
+    @Column(name = "size", nullable = false)
+    private Long size;
+
+    @Column(name = "is_thumbnail", nullable = false, columnDefinition = "BOOLEAN")
+    private Boolean isThumbnail;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
