@@ -1,8 +1,11 @@
 package com.hust.Ecommerce.controllers.authentication;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,16 +76,12 @@ public class AuthController {
         }
 
         @GetMapping("/registration/confirm")
-        public ResponseEntity<ApiResponse<?>> activateAccount(@RequestParam(value = "key") String key) {
-
+        public void activateAccount(@RequestParam(value = "key") String key, HttpServletResponse response) throws IOException {
                 authenticationService.activateRegistration(key)
-                                .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
+                        .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
 
-                return ResponseEntity.ok(ApiResponse.builder()
-                                .message(MessageKeys.ACTIVE_ACCOUNT_SUCCESS)
-                                .success(true)
-                                .build());
-
+                // Redirect to the login page on the frontend
+                response.sendRedirect("http://localhost:3000/login");
         }
 
         @PostMapping("/login")
