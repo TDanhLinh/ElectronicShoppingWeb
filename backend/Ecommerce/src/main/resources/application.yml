@@ -7,17 +7,22 @@ spring:
 
     #config mysql8
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-    #local host
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/ElectronicEcommerce?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
-    username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD:root}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#    #local host
+#    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/ElectronicEcommerce?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+#    username: ${MYSQL_USERNAME:root}
+#    password: ${MYSQL_PASSWORD:root}
 
     #connect clever cloud
     # url: jdbc:mysql://ba8kscdmvjs5s9yh14cp-mysql.services.clever-cloud.com:3306/ba8kscdmvjs5s9yh14cp?useSSL=false&serverTimezone=UTC
     # username: ucmrrgq4zdiuyzbm
     # password: 86OuPeXSug7W3EGi1d2l
+
+    #connect to MySQL AWS RDS
+    url: jdbc:mysql://electronicweb.cjia2m4808pw.ap-southeast-1.rds.amazonaws.com:3306/electronicweb
+    username: admin
+    password: Linh1132003
 
   #hibernate jpa
   jpa:
