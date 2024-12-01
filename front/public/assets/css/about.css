@@ -8,47 +8,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Container chính */
-.about-container {
-    max-width: 1200px; /* Đặt chiều rộng tối đa để không quá rộng */
-    width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
-    margin: 0 auto; /* Căn giữa container */
-    padding: 20px;
-}
-
-/* Liên kết điều hướng */
-.about-nav {
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #024F3F; /* Màu xanh đậm cho liên kết điều hướng */
-    text-align: left;
-    padding-left: 20px;
-}
-
-/* Tiêu đề chính */
-.about-title {
-    font-size: 2.5em;
-    color: #A8BB47; /* Màu xanh lá cây cho tiêu đề chính */
-    margin: 10px 20px;
-    text-align: left;
-}
-
-/* Mô tả dự án */
-.about-description {
-    color: #737373; /* Màu xám cho phần mô tả */
-    width: 100%;
-    font-size: 1.2em;
-    margin: 10px 20px 30px 20px;
-    text-align: left;
-}
-
-/* Tiêu đề phần thành viên nhóm */
-.about-team-title {
-    font-size: 2em;
-    color: #024F3F; /* Xanh đậm cho tiêu đề thành viên nhóm */
-    margin: 30px 20px 10px 20px;
-    text-align: left;
-}
 
 /* Danh sách thành viên */
 .about-team-list {
@@ -114,50 +73,6 @@ body {
     margin: 5px 0;
     text-align: left;
 }
-
-/* Nút Play */
-.play-button {
-    background-color: #A8BB47; /* Màu xanh lá cây cho nút */
-    color: #FFF; /* Màu chữ trắng */
-    padding: 12px 24px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng chuyển màu và scale khi hover */
-    margin-top: 20px;
-    align-self: flex-start;
-}
-
-.play-button:hover {
-    background-color: #024F3F; /* Màu xanh đậm khi hover */
-}
-
-/* Liên kết */
-a {
-    text-decoration: none;
-    color: #A8BB47; /* Màu xanh lá cây cho liên kết */
-}
-
-a:hover {
-    color: #024F3F; /* Màu xanh đậm khi hover */
-}
-
-/* Phân lớp phụ trợ */
-.accent-text {
-    color: #A8BB47; /* Màu xanh lá cây cho phần văn bản phụ */
-}
-
-/* Nền nhẹ cho các phần phụ */
-.subtle-background {
-    background-color: #FFFBDE; /* Màu vàng sáng cho nền phần phụ */
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px;
-}
-
-
 
 /* Button Quay về trang chủ */
 .back-to-home {
