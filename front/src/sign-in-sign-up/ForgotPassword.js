@@ -5,6 +5,7 @@ import Link from 'next/link';
 export function ForgotPassword() {
     const router = useRouter();
 
+    // nếu đã đăng nhập rồi, chuyển sang trang chủ
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user && user.length > 0) router.push('/');

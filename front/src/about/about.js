@@ -1,4 +1,3 @@
-// src/about/About.js
 import React from 'react';
 import Link from 'next/link';
 
@@ -23,7 +22,7 @@ const teamMembers = [
     },
     {
         name: "Nguyễn Tuấn Linh",
-        role: "Chuyên viên QA",
+        role: "Nhà phát triển Frontend",
         description: "Thiết kế giao diện và trải nghiệm người dùng.",
         image: "/assets/img/tlinh.jpg" 
     },
@@ -59,7 +58,6 @@ export function About() {
                     </div>
                 ))}
             </div>
-
         </div>
     );
 }

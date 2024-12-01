@@ -9,7 +9,7 @@ export default function HowToBuyPage() {
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <title>Hướng dẫn mua hàng</title>
-                <link rel="stylesheet" href="/assets/css/how-to-buy.css" />
+                <link rel="stylesheet" href="/assets/css/howtobuy.css" />
             </Head>
             <HowToBuy />
         </>

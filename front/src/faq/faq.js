@@ -1,7 +1,15 @@
 // src/faq/FAQ.js
+import React from 'react';
+import Link from 'next/link';
+
 export function FAQ() {
     return (
         <div className="faq-container">
+            <Link href='/'>
+                <button className='back-to-home'>
+                    Quay về trang chủ
+                </button>
+            </Link>
             <h1>Trung tâm trợ giúp (FAQs)</h1>
             <div className="faq-item">
                 <h3>Câu hỏi 1: Làm thế nào để đặt hàng?</h3>

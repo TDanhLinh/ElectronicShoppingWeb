@@ -1,6 +1,6 @@
 // pages/terms-of-sale.js
 import Head from 'next/head';
-import { TermsOfSale } from '../src/terms-of-sale/TermsOfSale';
+import { TermsOfSale } from '../src/terms-of-sale/termsofsale';
 
 export default function TermsOfSalePage() {
     return (

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 export function Login() {
     const router = useRouter();
 
+    // nếu đã đăng nhập rồi, chuyển sang trang chủ
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user && user.length > 0) router.push('/');
@@ -13,23 +14,47 @@ export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
-    const [fail, setFail] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [success, setSuccess] = useState(false);
 
     const submit = (e) => {
         e.preventDefault();
+
+        if (success) return;
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            // kiểm tra email có đúng định dạng hay không
+            setError(true);
+            setErrorMsg('Tài khoản không hợp lệ');
+            return;
+        }
+
+        if (password === '') {
+            setError(true);
+            setErrorMsg('Mật khẩu không được để trống');
+            return;
+        }
+
         var accounts = localStorage.getItem("accounts");
 
         if (accounts) {
             accounts = JSON.parse(accounts);
             const account = accounts.find((item) => (item.email === email));
             if (account && account.password === password) {
+                setSuccess(true);
+                setError(false);
                 router.push("/");
                 localStorage.setItem("user", email);
             }
-            else setFail(true);
+            else {
+                setError(true);
+                setErrorMsg("Tài khoản hoặc mật khẩu không đúng")
+            }
         }
         else {
-            setFail(true);
+            setError(true);
+            setErrorMsg("Tài khoản hoặc mật khẩu không đúng")
         }
     }
 
@@ -57,7 +82,12 @@ export function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    {fail && (<div className='error-message'>Tài khoản hoặc mật khẩu không đúng</div>)}
+                    {
+                        error && 
+                        <div className='error-message'>
+                            {errorMsg}
+                        </div>
+                    }
                     <div className="options-container">
                         <label htmlFor="remember-me">
                             <input 
