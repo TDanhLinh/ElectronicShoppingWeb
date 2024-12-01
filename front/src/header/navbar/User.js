@@ -27,10 +27,9 @@ export function User() {
                 </li>
                 <li className="header__navbar-user-item header__navbar-user-item--separate">
                     <Link 
-                        href=""
+                        href="/login"
                         onClick={() => {
                             localStorage.setItem('user', '');
-                            router.push('/login')
                         }}
                     >
                         Đăng xuất

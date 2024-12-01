@@ -1,78 +1,45 @@
-/* Thiết lập chung cho trang */
+/* src/faq/FAQ.css */
 body {
-    background-color: #FEF7BC; /* Màu nền vàng nhạt cho trang */
-    font-family: 'Arial, sans-serif';
-    color: #024F3F; /* Màu xanh đậm cho văn bản chính */
+    background-color: #FFFBDE; /* Nền toàn trang */
+    color: #000000; /* Màu văn bản mặc định */
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-
-/* Danh sách thành viên */
-.about-team-list {
-    display: flex;
-    flex-wrap: wrap; /* Để các thành viên xuống hàng khi hết chỗ */
-    gap: 20px; /* Khoảng cách giữa các card thành viên */
-    padding: 0 20px;
-    justify-content: center; /* Căn giữa các item trong danh sách */
-}
-
-/* Card từng thành viên */
-.about-member-card {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    background-color: #FFFBDE; /* Màu vàng sáng cho nền card */
+.faq-container {
+    max-width: 800px;
+    margin: 20px auto;
     padding: 20px;
+    background-color: #FEF7BC; /* Nền container */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #024F3F; /* Màu tiêu đề chính */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+    background-color: #FFFBDE; /* Nền nhẹ cho từng mục FAQ */
+    border-left: 5px solid #A8BB47; /* Đường kẻ nổi bật */
+    padding: 15px;
     border-radius: 5px;
-    width: calc(33.33% - 20px); /* Mỗi card chiếm 1/3 chiều rộng hàng */
-    max-width: 500px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
 }
 
-/* Ảnh của thành viên */
-.about-member-photo {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin-right: 20px;
-    border: 2px solid #123C69;
-    object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ gốc và không bị kéo giãn */
+.faq-item h3 {
+    color: #024F3F; /* Tiêu đề từng câu hỏi */
+    margin: 0 0 10px 0;
 }
 
-
-/* Thông tin thành viên */
-.member-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.faq-item p {
+    margin: 0;
+    color: #000000; /* Màu văn bản */
 }
 
-/* Tên thành viên */
-.about-member-name {
-    font-size: 1.8em;
-    color: #A8BB47; /* Màu xanh lá cây cho tên thành viên */
-    margin: 5px 0;
-    text-align: left;
-}
-
-/* Vai trò thành viên */
-.about-member-role {
-    color: #024F3F; /* Màu xanh đậm cho vai trò */
-    font-weight: bold;
-    margin: 5px 0;
-    text-align: left;
-}
-
-/* Mô tả vai trò */
-.about-member-description {
-    color: #737373;
-    font-size: 1em;
-    margin: 5px 0;
-    text-align: left;
-}
 
 /* Button Quay về trang chủ */
 .back-to-home {

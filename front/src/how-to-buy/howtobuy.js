@@ -1,7 +1,14 @@
-// src/how-to-buy/HowToBuy.js
+import React from 'react';
+import Link from 'next/link';
+
 export function HowToBuy() {
     return (
         <div className="how-to-buy-container">
+            <Link href='/'>
+                <button className='back-to-home'>
+                    Quay về trang chủ
+                </button>
+            </Link>
             <h1>Hướng dẫn mua hàng</h1>
             <p>Chào mừng bạn đến với hướng dẫn mua hàng trên trang web của chúng tôi! Dưới đây là các bước đơn giản để bạn có thể mua sản phẩm yêu thích của mình.</p>
 
