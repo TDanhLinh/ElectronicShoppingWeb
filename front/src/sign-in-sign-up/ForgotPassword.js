@@ -4,11 +4,6 @@ import Link from 'next/link';
 
 export function ForgotPassword() {
     const router = useRouter();
-
-    useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (user && user.length > 0) router.push('/');
-    }, [])
     
     const [email, setEmail] = useState("");
     const [send, setSend] = useState(false);

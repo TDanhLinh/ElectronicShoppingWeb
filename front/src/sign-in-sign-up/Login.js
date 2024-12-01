@@ -1,48 +1,58 @@
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
+import {request} from "../api/axios";
+import {useCookies} from "react-cookie";
 
 export function Login() {
     const router = useRouter();
-
-    useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (user && user.length > 0) router.push('/');
-    }, [])
-    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [fail, setFail] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [cookies, setCookie] = useCookies(["authToken"]);
 
-    const submit = (e) => {
+    // If the user is already logged in, redirect to the home page
+    useEffect(() => {
+        const token = cookies.authToken;
+        if (token && token !== "undefined") router.push('/');
+    }, []);
+
+    const submit = async (e) => {
         e.preventDefault();
-        var accounts = localStorage.getItem("accounts");
+        setLoading(true);
 
-        if (accounts) {
-            accounts = JSON.parse(accounts);
-            const account = accounts.find((item) => (item.email === email));
-            if (account && account.password === password) {
-                router.push("/");
-                localStorage.setItem("user", email);
-            }
-            else setFail(true);
-        }
-        else {
-            setFail(true);
-        }
-    }
+        // Send login request to BE
+        request("POST", "/api/auth/login", {email, password})
+            .then((response) => {
+                console.log(response.data);
+                setLoading(false);
+                if (response.status === 200) {
+                    router.push("/");
+                    setCookie("authToken", response.data.payload.token, {path: "/", maxAge: 86400});
+                    if(rememberMe){
+                        localStorage.setItem("user", JSON.stringify(response.data.payload.user));
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+                setFail(true);
+            });
+    };
 
     return (
-        <div className='login-container'>
-            <h1 className='login-header'>ĐĂNG NHẬP VÀO WEB BÁN HÀNG</h1>
-            <div className='login-form'>
-                <h2 className='form-title'>ĐĂNG NHẬP</h2>
+        <div className='container'>
+            <h1 className='describe'>ĐĂNG NHẬP VÀO WEB BÁN HÀNG</h1>
+            <div className='form'>
+                <h2>ĐĂNG NHẬP</h2>
                 <form onSubmit={submit}>
                     <input
                         type="text"
-                        className="input-field"
-                        id="email-input"
+                        className="input-box"
+                        id="email"
                         value={email}
                         placeholder='Email'
                         onChange={(e) => setEmail(e.target.value)}
@@ -50,35 +60,40 @@ export function Login() {
                     />
                     <input
                         type="password"
-                        className="input-field"
-                        id="password-input"
+                        className="input-box"
+                        id="password"
                         value={password}
                         placeholder='Password'
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    {fail && (<div className='error-message'>Tài khoản hoặc mật khẩu không đúng</div>)}
-                    <div className="options-container">
-                        <label htmlFor="remember-me">
-                            <input 
-                                type="checkbox" 
-                                id="remember-me" 
+                    {fail && (<div className='message'>Tài khoản hoặc mật khẩu không đúng</div>)}
+                    <div className="options">
+                        <label>
+                            <input
+                                type="checkbox"
                                 onChange={() => setRememberMe(!rememberMe)}
                             />
                             Remember me
                         </label>
-                        <Link href="/forgot-password" className='forgot-password-link'>Forgot password?</Link>
+                        <Link href="/forgot-password" className='forgot-password'>Forgot password?</Link>
                     </div>
-                    <input
-                        type="submit"
-                        className="submit-btn"
-                        value="Login"
-                    />
-                    <div className='register-link-container'>
+                    <div>
+                        {loading ? (
+                            <div className="loading">Đang xử lý, vui lòng đợi...</div>
+                        ) : (
+                            <input
+                                type="submit"
+                                className="btn"
+                                value="Login"
+                            />
+                        )}
+                    </div>
+                    <div className='register'>
                         <p>To Register New Account →</p>
                         <Link href='/register'>
                             <button
-                                type="button"
+                                type="submit"
                                 className='register-btn'
                             >
                                 Click Here
@@ -88,6 +103,5 @@ export function Login() {
                 </form>
             </div>
         </div>
-    )
+    );
 }
-

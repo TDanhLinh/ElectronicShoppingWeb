@@ -1,63 +1,40 @@
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
+import {useCookies} from "react-cookie";
+import {request} from "../api/axios";
 
 export function Register() {
     const router = useRouter();
-
-    useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (user && user.length > 0) router.push('/');
-    }, [])
-    
+    const [cookies] = useCookies(["authToken"]);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [exist, setExist] = useState(false);
     const [address, setAddress] = useState("");
     const [success, setSuccess] = useState(false);
-    const [notify, setNotify] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [dob, setDob] = useState('');
-    
-    const submit = (e) => {
+
+    useEffect(() => {
+        const token = cookies.authToken;
+        if (token && token !== "undefined") router.push('/');
+    }, []);
+
+    const submit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
-        if (success) {
-            router.push("/login");
-            return;
-        }
-
-        const newAccount = {
-            email: email,
-            password: password,
-            name: name,
-            address: address,
-            dob: dob,
-            role: 0 // role = 0: user
-        }
-
-        const accounts = localStorage.getItem("accounts");
-
-        if (accounts) {
-            const Accounts = JSON.parse(accounts);
-            if (Accounts.find((item) => (item.email === email))) {
-                setExist(true);
-            }
-            else {
-                localStorage.setItem(email, JSON.stringify(newAccount));
-                Accounts.push(newAccount);
-                localStorage.setItem("accounts", JSON.stringify(Accounts));
-                setSuccess(true);
-                setExist(false);
-            }
-        }
-        else {
-            localStorage.setItem(email, JSON.stringify(newAccount));
-            const Accounts = [newAccount];
-            localStorage.setItem("accounts", JSON.stringify(Accounts));
-            setSuccess(true);
-            setExist(false);
-        }
+        await request("POST", "/api/auth/registration", {email, password, name})
+            .then((response) => {
+                setLoading(false);
+                console.log(response);
+                if (response.status === 200) {
+                    setSuccess(true);
+                }
+            }).catch((error) => {
+                setLoading(false);
+                console.log(error);
+            })
     }
 
     return (
@@ -108,28 +85,25 @@ export function Register() {
                             className='input-field'
                             id='dob-input'
                             value={dob}
-                            onChange={(e) => setDob(e.target.value)} 
+                            onChange={(e) => setDob(e.target.value)}
                             required
                         />
                     </div>
-                    {exist && (<div className='error-message'>Tài khoản đã tồn tại</div>)}
-                    {success && (<div className='success-message'>Đăng ký thành công</div>)}
+                    {!success && (<div className='error-message'>Tài khoản đã tồn tại</div>)}
                     <div className="options-container">
-                        <label htmlFor="notify">
-                            <input 
-                                type="checkbox" 
-                                id="notify"
-                                onChange={() => setNotify(!notify)}
-                            />
-                            Nhận thông báo email
-                        </label>
                         <Link href="/login" className='login-link'>Đã có tài khoản?</Link>
                     </div>
-                    <input
-                        type="submit"
-                        className="submit-btn"
-                        value={(success === false) ? "Sign up" : "Đi trang đăng nhập"}
-                    />
+                    <div>
+                        {loading ? (
+                            <div className="loading">Đang xử lý, vui lòng đợi...</div>
+                        ) : (
+                            <input
+                                type="submit"
+                                className="submit-btn"
+                                value={(success === false) ? "Sign up" : "Đi trang đăng nhập"}
+                            />
+                        )}
+                    </div>
                 </form>
             </div>
         </div>
