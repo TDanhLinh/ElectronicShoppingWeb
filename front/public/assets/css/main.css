@@ -18,6 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center; /* Canh giữa navbar */
+    padding: 5px 0 0 0 ;
 }
 
 .header__navbar-list {

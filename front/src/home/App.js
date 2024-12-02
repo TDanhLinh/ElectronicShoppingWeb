@@ -3,15 +3,12 @@ import {Header} from "../header/Header"
 import {useEffect, useState} from "react";
 import {Footer} from "../footer/Footer";
 import {DataTableContext, ElementTableContext, LableTableContext} from "../admin/TableContext";
-import {useRouter} from 'next/router';
 
 export function App() {
     const [label, setLabel] = useState([]);
     const [data, setData] = useState([]);
     const [element, setElement] = useState([]);
     const [user, setUser] = useState([]);
-
-    const router = useRouter();
 
     const [searchText, setSearchText] = useState(''); // dùng để lọc sản phẩm theo tìm kiếm của người dùng
 

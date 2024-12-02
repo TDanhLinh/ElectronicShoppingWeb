@@ -113,7 +113,7 @@ public class ClientProductMapper {
                                 .findAny()
                                 .map(productInventory -> productInventory.getAvailable() > 0)
                                 .orElse(false));
-
+                clientProductResponse.setProductWarrantyDuration(product.getWarrantyDuration());
                 clientProductResponse.setProductAverageRate(averageRatingScore);
                 clientProductResponse.setProductCountReviews(countReviews);
 

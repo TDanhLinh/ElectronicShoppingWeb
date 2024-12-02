@@ -62,5 +62,12 @@
             <column name="weight" type="DOUBLE"/>
             <column name="brand_id" type="BIGINT"/>
         </loadData>
+
+         <loadData
+                  file="db/fakedata/product_category.csv"
+                  separator=";"
+                  tableName="product_category"
+                  usePreparedStatements="true">
+        </loadData>
     </changeSet>
 </databaseChangeLog>

@@ -3,8 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-
-                        <changeSet author="takidev" id="1733041356124">
+    <changeSet author="takidev" id="1733041356124">
         <createTable tableName="payment_method">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -21,8 +20,8 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-         <createTable tableName="blogs">
+       
+        <createTable tableName="blogs">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -32,10 +31,9 @@
             <column name="title" type="VARCHAR(255)"/>
             <column name="user_id" type="BIGINT"/>
         </createTable>
-
-         <!-- <createIndex associatedWith="" indexName="FKpg4damav6db6a6fh5peylcni5" tableName="blogs">
+        <!-- <createIndex associatedWith="" indexName="FKpg4damav6db6a6fh5peylcni5" tableName="blogs">
             <column name="user_id"/>
         </createIndex> -->
-         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="blogs" constraintName="FKpg4damav6db6a6fh5peylcni5" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="blogs" constraintName="FKpg4damav6db6a6fh5peylcni5" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
     </changeSet>
-    </databaseChangeLog>
+</databaseChangeLog>
