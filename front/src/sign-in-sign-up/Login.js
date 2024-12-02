@@ -19,7 +19,7 @@ export function Login() {
         if (token && token !== "undefined") {
             router.push('/');
         }
-    }, [cookies, router]);
+    }, [cookies]);
 
     const validateInput = () => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -50,8 +50,6 @@ export function Login() {
             const response = await request("POST", "/api/auth/login", { email, password });
 
             if (response.status === 200) {
-                console.log(response.data);
-
                 // Store token in cookie
                 setCookie("authToken", response.data.payload.token, { path: "/", maxAge: 86400 });
                 localStorage.setItem("user", JSON.stringify(response.data.payload.user));

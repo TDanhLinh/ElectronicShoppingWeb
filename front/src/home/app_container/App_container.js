@@ -4,6 +4,7 @@ import { Home_product } from "./Home_product";
 import { Pagination } from "./Pagination";
 import { useState, useEffect } from 'react';
 import { sampleProducts } from "./SampleProducts";
+import {request} from "../../api/axios";
 
 // Lấy ra tất cả sản phẩm từ database, hiện tại chưa có axios
 export function App_container({searchText, setSearchText}) {
@@ -17,7 +18,10 @@ export function App_container({searchText, setSearchText}) {
 
     useEffect(() => {
         // lấy ra tất cả sản phẩm từ database, hiện tại chưa có axios
-        
+        request("GET", "client-api/products").then((response) => {
+            console.log(response.data);
+        });
+
         setProducts(sampleProducts); // sampleProducts nằm trong file SampleProducts.js
         
         const tempProducts = sampleProducts // lọc sản phẩm

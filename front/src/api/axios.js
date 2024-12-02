@@ -1,47 +1,57 @@
 import axios from "axios";
-import { Cookies } from "react-cookie";
+import { parseCookies, destroyCookie } from "nookies";
 
-// Initialize cookies
-const cookies = new Cookies();
+// Create an Axios instance
+const axiosInstance = axios.create({
+    baseURL: "http://localhost:8080",
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
 
-// Set up Axios defaults
-axios.defaults.baseURL = "http://localhost:8080";
-axios.defaults.headers.post["Content-Type"] = "application/json";
-
-// Add Axios Interceptors
-axios.interceptors.request.use(
+// Add Axios request interceptor
+axiosInstance.interceptors.request.use(
     (config) => {
-        // Check if the request URL contains "/auth", and avoid attaching JWT token
-        if (!config.url.includes("/auth")) {
-            // Get the token from cookies
-            const token = cookies.get("authToken");
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
+        // Get cookies
+        const cookies =
+            typeof window === "undefined"
+                ? parseCookies() // Parse cookies from the request
+                : parseCookies(null); // Parse cookies from the browser
+
+        const token = cookies.authToken;
+
+        // Attach Authorization header if token exists and URL is not "/auth"
+        if (token && !config.url.includes("/auth")) {
+            config.headers.Authorization = `Bearer ${token}`;
         }
 
         return config;
     },
     (error) => {
-        // Handle request errors
         console.error("Request error: ", error);
         return Promise.reject(error);
     }
 );
 
-// Handle response errors globally
-axios.interceptors.response.use(
+// Add Axios response interceptor
+axiosInstance.interceptors.response.use(
     (response) => {
         return response;
     },
     (error) => {
         if (error.response) {
             const status = error.response.status;
+
             if (status === 401) {
-                // Unauthorized, redirect to login page
                 console.warn("Unauthorized! Redirecting to login...");
-                cookies.remove("authToken"); // Clear token from cookies
-                window.location.href = "/login";
+
+                // Clear the auth token cookie
+                destroyCookie(null, "authToken", { path: "/" });
+
+                // Redirect to login page (only works in CSR)
+                if (typeof window !== "undefined") {
+                    window.location.href = "/login";
+                }
             } else if (status === 403) {
                 console.error("Forbidden access!");
             } else if (status >= 500) {
@@ -54,20 +64,34 @@ axios.interceptors.response.use(
     }
 );
 
-// Define the request methods
-export const request = (method, url, data) => {
-    return axios({
-        method: method,
-        url: url,
-        data: data
-    });
+// Export the Axios instance
+export default axiosInstance;
+
+// Define request methods for reuse
+export const request = (method, url, data = null) => {
+    const options = {
+        method,
+        url,
+    };
+
+    if (method.toLowerCase() === "get") {
+        options.params = data;
+    } else {
+        options.data = data;
+    }
+
+    return axiosInstance(options);
 };
 
 // Example API calls
-export const listAllAPI = (functionName) => axios.get(`/api/${functionName}/getAll`);
-export const editAPI = (functionName, id, data) => axios.put(`/api/${functionName}/update/${id}`, data);
-export const addAPI = (functionName, data) => axios.post(`/api/${functionName}/add`, data);
-export const showAPI = (functionName, id) => axios.get(`/api/${functionName}/get/${id}`);
-export const deleteAPI = (functionName, id) => axios.delete(`/api/${functionName}/delete/${id}`);
-export const searchAPI = (functionName, keyword) => axios.get(`/api/${functionName}/search?keyword=${keyword}`);
-export const editAPIWithFile = (functionName, id, formData) => axios.put(`/api/${functionName}/update/${id}`, formData);
+export const listAllAPI = (functionName) => axiosInstance.get(`/api/${functionName}/getAll`);
+export const editAPI = (functionName, id, data) =>
+    axiosInstance.put(`/api/${functionName}/update/${id}`, data);
+export const addAPI = (functionName, data) => axiosInstance.post(`/api/${functionName}/add`, data);
+export const showAPI = (functionName, id) => axiosInstance.get(`/api/${functionName}/get/${id}`);
+export const deleteAPI = (functionName, id) => axiosInstance.delete(`/api/${functionName}/delete/${id}`);
+export const searchAPI = (functionName, keyword) =>
+    axiosInstance.get(`/api/${functionName}/search`, { params: { keyword } });
+export const editAPIWithFile = (functionName, id, formData) =>
+    axiosInstance.put(`/api/${functionName}/update/${id}`, formData);
+export const listProducts = (url) => axiosInstance.get(url);

@@ -21,7 +21,7 @@ export function Register() {
     useEffect(() => {
         const token = cookies.authToken;
         if (token && token !== "undefined") router.push('/');
-    }, []);
+    }, [cookies]);
 
     const validateForm = () => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -79,71 +79,78 @@ export function Register() {
         <div className='register-container'>
             <h1 className='register-header'>ĐĂNG KÝ TÀI KHOẢN</h1>
             <div className='register-form'>
-                <h2 className='form-title'>ĐĂNG KÝ</h2>
-                <form onSubmit={submit}>
-                    <input
-                        type="text"
-                        className="input-field"
-                        id="email-input"
-                        value={email}
-                        placeholder='Email'
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="password"
-                        className="input-field"
-                        id="password-input"
-                        value={password}
-                        placeholder='Password'
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        className="input-field"
-                        id="name-input"
-                        value={name}
-                        placeholder='Your name'
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                    <div className='address-dob-container'>
-                        <input
-                            type="text"
-                            className="input-field"
-                            id="address-input"
-                            value={address}
-                            placeholder='Address'
-                            onChange={(e) => setAddress(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="date"
-                            className='input-field'
-                            id='dob-input'
-                            value={dob}
-                            onChange={(e) => setDob(e.target.value)}
-                            required
-                        />
-                    </div>
-                    {error && <div className='error-message'>{errorMsg}</div>}
-                    {success && <div className='success-message'>Đăng ký thành công</div>}
-                    <div className="options-container">
-                        <Link href="/login" className='login-link'>Đã có tài khoản?</Link>
-                    </div>
-                    <div>
-                        {loading ? (
-                            <div className="loading">Đang xử lý, vui lòng đợi...</div>
-                        ) : (
+                {success ? (
+                    <h1>Một đường link kích hoạt tài khoản đã được gửi qua email của bạn. Truy cập vào đường link để
+                        hoàn tất đăng ký</h1>
+                ) : (
+                    <>
+                        <h2 className='form-title'>ĐĂNG KÝ</h2>
+                        <form onSubmit={submit}>
                             <input
-                                type="submit"
-                                className="submit-btn"
-                                value={success ? "Đi trang đăng nhập" : "Sign up"}
+                                type="text"
+                                className="input-field"
+                                id="email-input"
+                                value={email}
+                                placeholder='Email'
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
-                        )}
-                    </div>
-                </form>
+                            <input
+                                type="password"
+                                className="input-field"
+                                id="password-input"
+                                value={password}
+                                placeholder='Password'
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="text"
+                                className="input-field"
+                                id="name-input"
+                                value={name}
+                                placeholder='Your name'
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                            <div className='address-dob-container'>
+                                <input
+                                    type="text"
+                                    className="input-field"
+                                    id="address-input"
+                                    value={address}
+                                    placeholder='Address'
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    required
+                                />
+                                <input
+                                    type="date"
+                                    className='input-field'
+                                    id='dob-input'
+                                    value={dob}
+                                    onChange={(e) => setDob(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {error && <div className='error-message'>{errorMsg}</div>}
+                            {success && <div className='success-message'>Đăng ký thành công</div>}
+                            <div className="options-container">
+                                <Link href="/login" className='login-link'>Đã có tài khoản?</Link>
+                            </div>
+                            <div>
+                                {loading ? (
+                                    <div className="loading">Đang xử lý, vui lòng đợi...</div>
+                                ) : (
+                                    <input
+                                        type="submit"
+                                        className="submit-btn"
+                                        value={success ? "Đi trang đăng nhập" : "Sign up"}
+                                    />
+                                )}
+                            </div>
+                        </form>
+                    </>
+                )}
             </div>
         </div>
     );

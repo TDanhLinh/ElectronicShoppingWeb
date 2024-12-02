@@ -1,23 +1,26 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import {useCookies} from "react-cookie";
+import {request} from "../api/axios";
 
 export function ForgotPassword() {
     const router = useRouter();
-
-    // nếu đã đăng nhập rồi, chuyển sang trang chủ
-    useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (user && user.length > 0) router.push('/');
-    }, [])
-    
+    const [cookies] = useCookies(["authToken"]);
     const [email, setEmail] = useState("");
     const [send, setSend] = useState(false);
-    
+
+    useEffect(() => {
+        const token = cookies.authToken;
+        if (token && token !== "undefined") router.push('/');
+    }, [cookies]);
+
     const submit = (e) => {
         e.preventDefault();
         if (send === false) {
             // Gửi yêu cầu tìm lại mật khẩu dựa trên email lên server
+            request("POST", "/api/auth/forgot-password", email)
+                .then()
             setSend(true);
         }
         else router.push('/login');

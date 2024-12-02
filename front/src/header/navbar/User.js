@@ -7,10 +7,8 @@ export function User() {
     
     const [user, setUser] = useState({});
 
-    // lấy ra thông tin người dùng từ database, hiện tại chưa có axios
     useEffect(() => {
-        const account = localStorage.getItem('user');
-        setUser(JSON.parse(localStorage.getItem(account)));
+        setUser(JSON.parse(localStorage.getItem("user")));
     }, [])
 
     return (
