@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { UnderDevelopment } from "../src/under-development/underDevelopment"
+import {UnderDevelopment} from "../src/under-development/UnderDevelopment";
 
 export default function login() {
     return (

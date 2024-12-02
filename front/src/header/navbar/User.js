@@ -9,10 +9,9 @@ export function User() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("user")));
-        const account = localStorage.getItem('user');
+        const account = JSON.parse(localStorage.getItem("user"));
         if (account !== '') {
-            setUser(JSON.parse(localStorage.getItem(account)));
+            setUser(account);
             setIsLoggedIn(true);
         }
         else {
