@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="takidev" id="00000000000001">
+
+<!-- create table roles; users, tokens-->
+     <createTable tableName="roles">
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="permission" type="VARCHAR(255)"/>
+        </createTable>
+
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime(6)"/>
+            <column name="updated_at" type="datetime(6)"/>
+            <column name="activation_key" type="VARCHAR(20)"/>
+            <column name="address" type="VARCHAR(200)"/>
+            <column name="avatar" type="VARCHAR(256)"/>
+            <column name="date_of_birth" type="datetime(6)"/>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="gender" type="ENUM('FEMALE', 'MALE', 'OTHER')"/>
+            <column name="language" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(15)">
+                <constraints unique="true"/>
+            </column>
+            <column name="reset_date" type="datetime(6)"/>
+            <column name="reset_key" type="VARCHAR(20)"/>
+            <column name="status" type="TINYINT(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_name" type="VARCHAR(50)"/>
+        </createTable>
+
+        <createTable tableName="tokens">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="expiration_time" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expired" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refresh_expiration_time" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refresh_token" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="revoked" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="token_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+
+<!-- add constrain-->
+        <!-- <createIndex associatedWith="" indexName="FK6e7f1kfvvn2k48olww485qvo3" tableName="users">
+            <column name="role_name"/>
+        </createIndex>
+        <createIndex associatedWith="" indexName="FK2dylsfo39lgjyqml2tbe0b0ss" tableName="tokens">
+            <column name="user_id"/>
+        </createIndex> -->
+
+         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="tokens" constraintName="FK2dylsfo39lgjyqml2tbe0b0ss" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+         <addForeignKeyConstraint baseColumnNames="role_name" baseTableName="users" constraintName="FK6e7f1kfvvn2k48olww485qvo3" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="name" referencedTableName="roles" validate="true"/>
+
+<!-- load data-->
+
+ <loadData
+                  file="db/data/role.csv"
+                  separator=";"
+                  tableName="roles"
+                  usePreparedStatements="true">
+            <column name="name" type="string"/>
+            <column name="permission" type="string"/>
+        </loadData>
+
+        <loadData
+                  file="db/data/user.csv"
+                  separator=";"
+                  tableName="users"
+                  usePreparedStatements="true">
+            
+            <column name="created_at" type="timestamp"/>
+            <column name="updated_at" type="timestamp"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>
