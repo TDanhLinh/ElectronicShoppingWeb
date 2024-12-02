@@ -1,85 +1,72 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import {useRouter} from 'next/router';
-import {request} from "../api/axios";
-import {useCookies} from "react-cookie";
+import { useRouter } from 'next/router';
+import { request } from "../api/axios";
+import { useCookies } from "react-cookie";
 
 export function Login() {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-    const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [cookies, setCookie] = useCookies(["authToken"]);
 
-    // If the user is already logged in, redirect to the home page
+    // Redirect to home page if already logged in
     useEffect(() => {
         const token = cookies.authToken;
-        if (token && token !== "undefined") router.push('/');
-    }, []);
+        if (token && token !== "undefined") {
+            router.push('/');
+        }
+    }, [cookies, router]);
+
+    const validateInput = () => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setError(true);
+            setErrorMsg('Tài khoản không hợp lệ');
+            return false;
+        }
+
+        if (!password.trim()) {
+            setError(true);
+            setErrorMsg('Mật khẩu không được để trống');
+            return false;
+        }
+
+        setError(false); // Reset error state if validation passes
+        setErrorMsg('');
+        return true;
+    };
 
     const submit = async (e) => {
         e.preventDefault();
 
-        if (success) return;
+        if (!validateInput()) return;
 
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            // kiểm tra email có đúng định dạng hay không
-            setError(true);
-            setErrorMsg('Tài khoản không hợp lệ');
-            return;
-        }
-
-        if (password === '') {
-            setError(true);
-            setErrorMsg('Mật khẩu không được để trống');
-            return;
-        }
-
-        var accounts = localStorage.getItem("accounts");
         setLoading(true);
 
-        // Send login request to BE
-        request("POST", "/api/auth/login", {email, password})
-            .then((response) => {
+        try {
+            const response = await request("POST", "/api/auth/login", { email, password });
+
+            if (response.status === 200) {
                 console.log(response.data);
-                setLoading(false);
-                if (response.status === 200) {
-                    router.push("/");
-                    setCookie("authToken", response.data.payload.token, {path: "/", maxAge: 86400});
-                    if(rememberMe){
-                        localStorage.setItem("user", JSON.stringify(response.data.payload.user));
-                    }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false);
-                setFail(true);
-            });
-    };
-        if (accounts) {
-            accounts = JSON.parse(accounts);
-            const account = accounts.find((item) => (item.email === email));
-            if (account && account.password === password) {
-                setSuccess(true);
-                setError(false);
+
+                // Store token in cookie
+                setCookie("authToken", response.data.payload.token, { path: "/", maxAge: 86400 });
+                localStorage.setItem("user", JSON.stringify(response.data.payload.user));
+
+                // Redirect to homepage
                 router.push("/");
-                localStorage.setItem("user", email);
             }
-            else {
-                setError(true);
-                setErrorMsg("Tài khoản hoặc mật khẩu không đúng")
-            }
-        }
-        else {
+        } catch (err) {
+            console.error(err);
             setError(true);
-            setErrorMsg("Tài khoản hoặc mật khẩu không đúng")
+            setErrorMsg("Tài khoản hoặc mật khẩu không đúng");
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <div className='login-container'>
@@ -105,29 +92,18 @@ export function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    {
-                        error &&
-                        <div className='message'>
-                            {errorMsg}
-                        </div>
-                    }
+                    {error && <div className='message'>{errorMsg}</div>}
                     <div className="options">
-                        <label>
-                            <input
-                                type="checkbox"
-                                onChange={() => setRememberMe(!rememberMe)}
-                            />
-                            Remember me
-                        </label>
                         <Link href="/forgot-password" className='forgot-password-link'>Forgot password?</Link>
                     </div>
+                    <br/>
                     <div>
                         {loading ? (
                             <div className="loading">Đang xử lý, vui lòng đợi...</div>
                         ) : (
                             <input
                                 type="submit"
-                                className="btn"
+                                className="register-btn"
                                 value="Login"
                             />
                         )}
@@ -146,6 +122,5 @@ export function Login() {
                 </form>
             </div>
         </div>
-    )
+    );
 }
-

@@ -10,107 +10,70 @@ export function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [exist, setExist] = useState(false);
     const [address, setAddress] = useState("");
-    const [success, setSuccess] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [dob, setDob] = useState('');
+    const [dob, setDob] = useState("");
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const submit = (e) => {
-
+    // Redirect logged-in users
     useEffect(() => {
         const token = cookies.authToken;
         if (token && token !== "undefined") router.push('/');
     }, []);
 
-    const submit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-
-        if (success) {
-            router.push("/login"); // nếu đăng ký tài khoản thành công, nút đăng ký trở thành
-                                   // nút quay sang trang đăng nhập và ấn vào sẽ ra trang đăng nhập
-            return;
-        }
-
+    const validateForm = () => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            // kiểm tra email có đúng định dạng hay không
             setError(true);
             setErrorMsg('Tài khoản không hợp lệ');
-            return;
+            return false;
         }
-
-        await request("POST", "/api/auth/registration", {email, password, name})
-            .then((response) => {
-                setLoading(false);
-                console.log(response);
-                if (response.status === 200) {
-                    setSuccess(true);
-                }
-            }).catch((error) => {
-                setLoading(false);
-                console.log(error);
-            })
-        if (password === '') {
+        if (password.trim() === '') {
             setError(true);
             setErrorMsg('Mật khẩu không được để trống');
-            return;
+            return false;
         }
-
-        if (name === '') {
+        if (name.trim() === '') {
             setError(true);
             setErrorMsg('Tên không được để trống');
-            return;
+            return false;
         }
-
-        if (address === '') {
+        if (address.trim() === '') {
             setError(true);
             setErrorMsg('Hãy điền địa chỉ tạm thời của bạn');
-            return;
+            return false;
         }
-
-        if (dob === '') {
+        if (dob.trim() === '') {
             setError(true);
             setErrorMsg('Hãy nhập vào ngày sinh của bạn');
-            return;
+            return false;
         }
+        setError(false);
+        setErrorMsg('');
+        return true;
+    };
 
-        // thêm tài khoản vào database, hiện chưa có axios
-        const newAccount = {
-            email: email,
-            password: password,
-            name: name,
-            address: address,
-            dob: dob,
-            role: 0 // role = 0: user
-        }
+    const submit = async (e) => {
+        e.preventDefault();
 
-        const accounts = localStorage.getItem("accounts");
+        if (!validateForm()) return;
 
-        if (accounts) {
-            const Accounts = JSON.parse(accounts);
-            if (Accounts.find((item) => (item.email === email))) {
-                setError(true);
-                setErrorMsg('Tài khoản đã tồn tại');
-            }
-            else {
-                localStorage.setItem(email, JSON.stringify(newAccount));
-                Accounts.push(newAccount);
-                localStorage.setItem("accounts", JSON.stringify(Accounts));
+        setLoading(true);
+
+        try {
+            const response = await request("POST", "/api/auth/registration", {email, password, name, address, dob});
+            setLoading(false);
+            if (response.status === 200) {
                 setSuccess(true);
-                setError(false);
             }
+        } catch (error) {
+            setLoading(false);
+            console.error(error);
+            setError(true);
+            setErrorMsg('Đăng ký không thành công. Thử lại sau.');
         }
-        else {
-            localStorage.setItem(email, JSON.stringify(newAccount));
-            const Accounts = [newAccount];
-            localStorage.setItem("accounts", JSON.stringify(Accounts));
-            setSuccess(true);
-            setError(false);
-        }
-    }
+    };
 
     return (
         <div className='register-container'>
@@ -160,27 +123,13 @@ export function Register() {
                             className='input-field'
                             id='dob-input'
                             value={dob}
-                            onChange={(e) => setDob(e.target.value)} 
+                            onChange={(e) => setDob(e.target.value)}
                             required
                         />
                     </div>
-                    {
-                        error &&
-                        <div className='error-message'>{errorMsg}</div>
-                    }
-                    {
-                        success &&
-                        <div className='success-message'>Đăng ký thành công</div>
-                    }
+                    {error && <div className='error-message'>{errorMsg}</div>}
+                    {success && <div className='success-message'>Đăng ký thành công</div>}
                     <div className="options-container">
-                        <label htmlFor="notify">
-                            <input 
-                                type="checkbox" 
-                                id="notify"
-                                onChange={() => setNotify(!notify)}
-                            />
-                            Nhận thông báo email
-                        </label>
                         <Link href="/login" className='login-link'>Đã có tài khoản?</Link>
                     </div>
                     <div>
@@ -190,12 +139,12 @@ export function Register() {
                             <input
                                 type="submit"
                                 className="submit-btn"
-                                value={(success === false) ? "Sign up" : "Đi trang đăng nhập"}
+                                value={success ? "Đi trang đăng nhập" : "Sign up"}
                             />
                         )}
                     </div>
                 </form>
             </div>
         </div>
-    )
+    );
 }
