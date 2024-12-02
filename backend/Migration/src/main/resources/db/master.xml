@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+<include file="db/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356115_added_entity_brand_category.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356116_added_entity_product.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356117_added_entity_image.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356118_added_entity_variant.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356119_added_entity_inventory.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356120_added_entity_cart.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356121_added_entity_order.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356122_added_entity_review.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356123_added_entity_room_message.xml" relativeToChangelogFile="false"/>
+<include file="db/changelog/1733041356124_added_entity_other.xml" relativeToChangelogFile="false"/>
+
+    </databaseChangeLog>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="takidev" id="1733041356116">
+        <createTable tableName="products">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime(6)"/>
+            <column name="updated_at" type="datetime(6)"/>
+            <column name="description" type="TEXT"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slug" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="specifications" type="JSON"/>
+            <column name="status" type="TINYINT(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit" type="VARCHAR(255)"/>
+            <column name="warranty_duration" type="BIGINT"/>
+            <column name="weight" type="DOUBLE"/>
+            <column name="brand_id" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="product_category">
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <!-- <createIndex associatedWith="" indexName="FKa3a4mpsfdf4d2y6r8ra3sc8mv" tableName="products">
+            <column name="brand_id"/>
+        </createIndex>
+        <createIndex associatedWith="" indexName="FKdswxvx2nl2032yjv609r29sdr" tableName="product_category">
+            <column name="category_id"/>
+        </createIndex>
+        <createIndex associatedWith="" indexName="FK5w81wp3eyugvi2lii94iao3fm" tableName="product_category">
+            <column name="product_id"/>
+        </createIndex> -->
+        <addForeignKeyConstraint baseColumnNames="brand_id" baseTableName="products" constraintName="FKa3a4mpsfdf4d2y6r8ra3sc8mv" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="brands" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="product_category" constraintName="FKdswxvx2nl2032yjv609r29sdr" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="categories" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_category" constraintName="FK5w81wp3eyugvi2lii94iao3fm" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+        <loadData
+                  file="db/fakedata/product.csv"
+                  separator=";"
+                  tableName="products"
+                  usePreparedStatements="true">
+            <column name="id" type="BIGINT"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="slug" type="VARCHAR(255)"/>
+            <column name="description" type="TEXT"/>
+            <column name="specifications" type="JSON"/>
+            <column name="status" type="TINYINT"/>
+            <column name="unit" type="VARCHAR(10)"/>
+            <column name="warranty_duration" type="BIGINT"/>
+            <column name="weight" type="DOUBLE"/>
+            <column name="brand_id" type="BIGINT"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

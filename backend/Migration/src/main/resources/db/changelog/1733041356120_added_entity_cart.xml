@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="takidev" id="1733041356120">
+        <createTable tableName="cart_variant">
+            <column name="created_at" type="datetime(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cart_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="variant_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <createTable tableName="carts">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime(6)"/>
+            <column name="updated_at" type="datetime(6)"/>
+            <column name="status" type="TINYINT(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <!-- <createIndex associatedWith="" indexName="FKb5o626f86h46m4s7ms6ginnop" tableName="carts">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex associatedWith="" indexName="FKni12bqkpcd6w19lxrgmq4qk1n" tableName="cart_variant">
+            <column name="variant_id"/>
+        </createIndex> -->
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="carts" constraintName="FKb5o626f86h46m4s7ms6ginnop" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="cart_id" baseTableName="cart_variant" constraintName="FKhsl7fyl5wdvp2fq4nc2t4gk7u" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="carts" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="variant_id" baseTableName="cart_variant" constraintName="FKni12bqkpcd6w19lxrgmq4qk1n" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="variants" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

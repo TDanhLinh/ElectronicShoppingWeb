@@ -1,0 +1,4 @@
+id;email;password;name;avatar;status;language;role_name
+1;admin@localhost;$2a$10$Of5ux5fsCuhkNe7EC3o3POea5tn6ekRGgmfFyNPTjZFzlw9RyJf.m;admin;https://res.cloudinary.com/dgjrkjkch/image/upload/v1733071991/avatars/a768shunxoyv7hovqq9f.png;1;vi;ADMIN
+2;user@localhost;$2a$10$KBFsyqbVXOUhm5qYJ2qfXe1rS3jx0ZJdYoJK1UMrZQD2GbxRkdDE6;user;https://res.cloudinary.com/dgjrkjkch/image/upload/v1733071994/avatars/glqn9kevdoppa0cmx8dw.png;1;vi;USER
+3;staff@localhost;$2a$10$SB/mzTAMVCxx9QwMY1VeHeOhANJlJrd.i51.PdEZimQlxYnhX193i;staff;https://res.cloudinary.com/dgjrkjkch/image/upload/v1733071992/avatars/mt8e4guegtncanlxnpww.jpg;1;vi;STAFF
