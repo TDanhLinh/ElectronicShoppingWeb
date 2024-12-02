@@ -28,7 +28,7 @@ public class ClientProductResponse {
     private JsonNode productSpecifications;
     private List<ClientVariantResponse> productVariants;
 
-    private Long warrantyDuration;
+    private Long productWarrantyDuration;
     private boolean productSaleable;
     private double productAverageRate;
     private int productCountReviews;
