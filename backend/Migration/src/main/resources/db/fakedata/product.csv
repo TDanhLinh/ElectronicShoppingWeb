@@ -1,5 +1,5 @@
 id;name;slug;description;specifications;status;unit;warranty_duration;weight;brand_id
-1;iPhone 15 Pro;iphone-15-pro;"Chiếc iPhone mới nhất của Apple với camera cải tiến và chip A17 Bionic.";{};1;pcs;12;0.5;1
+1;iPhone 15 pro;iphone-15-pro;"Chiếc iPhone mới nhất của Apple với camera cải tiến và chip A17 Bionic.";{};1;pcs;12;0.5;1
 2;MacBook Pro 16;macbook-pro-16;"Laptop mạnh mẽ dành cho chuyên gia, sử dụng chip M3 Max và pin lâu dài.";{};1;pcs;24;2.1;1
 3;Samsung Galaxy Tab S9;samsung-galaxy-tab-s9;"Máy tính bảng hiệu suất cao với màn hình AMOLED đẹp mắt và hỗ trợ bút S Pen.";{};1;pcs;12;0.8;2
 4;Sony WH-1000XM5;sony-wh-1000xm5;"Tai nghe chống ồn cao cấp với chất lượng âm thanh hàng đầu.";{};1;pcs;24;0.3;3
