@@ -4,7 +4,7 @@ import Link from 'next/link';
 const teamMembers = [
     {
         name: "Trần Danh Linh",
-        role: "Trưởng nhóm - Kỹ sư backend",
+        role: "Trưởng nhóm - Kỹ sư Backend",
         description: "Quản lý và điều phối dự án. Phát triển API.",
         image: "/assets/img/dlinh.jpg" 
     },
@@ -40,7 +40,7 @@ export function About() {
             <div className='About-review'> 
                 <h1>Giới thiệu Dự án</h1>
                 <p>
-                    Đây là 1 dự án web do nhóm 30 sản xuất có sử dụng công nghệ SPA và NextJS.
+                    Đây là 1 dự án web do nhóm 30 sản xuất có sử dụng công nghệ SPA và Spring Boot.
                 </p>
             </div>
             

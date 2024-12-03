@@ -8,7 +8,7 @@ export function UnderDevelopment() {
                     Quay về trang chủ
                 </button>
             </Link>
-            <h1 className='describe'>Hiện tại tính năng này đang được phát triển</h1>
+            <h1 className='describe'>Rất xin lỗi. Hiện tại tính năng này đang được phát triển</h1>
         </div>
     )
 }
