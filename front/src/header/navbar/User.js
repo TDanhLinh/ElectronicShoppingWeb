@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import {destroyCookie} from "nookies";
 
 export function User() {
     const router = useRouter();
@@ -42,7 +43,9 @@ export function User() {
                         <Link
                             href="/login"
                             onClick={() => {
-                                localStorage.setItem('user', '');
+                                // Clear the auth token cookie and localstorage
+                                destroyCookie(null, "authToken", { path: "/" });
+                                localStorage.clear();
                             }}
                         >
                             Đăng xuất

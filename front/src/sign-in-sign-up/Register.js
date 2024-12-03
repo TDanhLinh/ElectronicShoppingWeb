@@ -21,7 +21,7 @@ export function Register() {
     useEffect(() => {
         const token = cookies.authToken;
         if (token && token !== "undefined") router.push('/');
-    }, [cookies]);
+    }, []);
 
     const validateForm = () => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

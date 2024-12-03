@@ -20,8 +20,11 @@ axiosInstance.interceptors.request.use(
 
         const token = cookies.authToken;
 
-        // Attach Authorization header if token exists and URL is not "/auth"
-        if (token && !config.url.includes("/auth")) {
+        const excludeEndpoints = ["/login", "/register", "/forgot-password", "logout"];
+        if (
+            token &&
+            !excludeEndpoints.some((endpoint) => config.url.includes(endpoint))
+        ) {
             config.headers.Authorization = `Bearer ${token}`;
         }
 
@@ -45,8 +48,9 @@ axiosInstance.interceptors.response.use(
             if (status === 401) {
                 console.warn("Unauthorized! Redirecting to login...");
 
-                // Clear the auth token cookie
+                // Clear the auth token cookie and localstorage
                 destroyCookie(null, "authToken", { path: "/" });
+                localStorage.clear();
 
                 // Redirect to login page (only works in CSR)
                 if (typeof window !== "undefined") {
@@ -82,16 +86,3 @@ export const request = (method, url, data = null) => {
 
     return axiosInstance(options);
 };
-
-// Example API calls
-export const listAllAPI = (functionName) => axiosInstance.get(`/api/${functionName}/getAll`);
-export const editAPI = (functionName, id, data) =>
-    axiosInstance.put(`/api/${functionName}/update/${id}`, data);
-export const addAPI = (functionName, data) => axiosInstance.post(`/api/${functionName}/add`, data);
-export const showAPI = (functionName, id) => axiosInstance.get(`/api/${functionName}/get/${id}`);
-export const deleteAPI = (functionName, id) => axiosInstance.delete(`/api/${functionName}/delete/${id}`);
-export const searchAPI = (functionName, keyword) =>
-    axiosInstance.get(`/api/${functionName}/search`, { params: { keyword } });
-export const editAPIWithFile = (functionName, id, formData) =>
-    axiosInstance.put(`/api/${functionName}/update/${id}`, formData);
-export const listProducts = (url) => axiosInstance.get(url);

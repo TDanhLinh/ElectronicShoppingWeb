@@ -5,6 +5,14 @@ import React from 'react'
 import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import {IconButton} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import AddNewProduct from "./app_container/form/products/AddNewProduct";
+import ShowProduct from "./app_container/form/products/ShowProduct";
+import UpdateProduct from "./app_container/form/products/UpdateProduct";
+import ShowOrder from "./app_container/form/orders/ShowOrder";
+import UpdateOrder from "./app_container/form/orders/UpdateOrder";
+import AddNewCategory from "./app_container/form/category/AddNewCategory";
+import UpdateCategory from "./app_container/form/category/UpdateCategory";
+import UpdateAccount from "./app_container/form/accounts/UpdateAccount";
 
 
 export default function ModalDialog(props) {
@@ -19,10 +27,18 @@ export default function ModalDialog(props) {
                 <CloseIcon/>
             </IconButton>
             <DialogContent>
-                {/* Handle Customer Modal */}
-                {action === "customer/add" && <AddNewCustomer setOpen={setOpen} functionName={functionName}/>}
-                {action === "customer/view" && <ShowCustomer id={id} functionName={functionName}/>}
-                {action === "customer/edit" && <UpdateCustomer setOpen={setOpen} id={id} functionName={functionName}/>}
+                {/* Handle Products Modal */}
+                {action === "products/add" && <AddNewProduct setOpen={setOpen} functionName={functionName}/>}
+                {action === "products/view" && <ShowProduct id={id} functionName={functionName}/>}
+                {action === "products/edit" && <UpdateProduct setOpen={setOpen} id={id} functionName={functionName}/>}
+                {/* Handle Orders Modal */}
+                {action === "orders/view" && <ShowOrder id={id} functionName={functionName}/>}
+                {action === "orders/edit" && <UpdateOrder setOpen={setOpen} id={id} functionName={functionName}/>}
+                {/* Handle Category Modal */}
+                {action === "category/add" && <AddNewCategory setOpen={setOpen} functionName={functionName}/>}
+                {action === "category/edit" && <UpdateCategory setOpen={setOpen} id={id} functionName={functionName}/>}
+                {/* Handle Accounts Modal */}
+                {action === "accounts/edit" && <UpdateAccount setOpen={setOpen} id={id} functionName={functionName}/>}
             </DialogContent>
         </Dialog>
     );

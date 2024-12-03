@@ -19,7 +19,7 @@ export function Login() {
         if (token && token !== "undefined") {
             router.push('/');
         }
-    }, [cookies]);
+    }, []);
 
     const validateInput = () => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
