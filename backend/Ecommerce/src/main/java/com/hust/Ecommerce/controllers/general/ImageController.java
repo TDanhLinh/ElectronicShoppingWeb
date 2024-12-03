@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 //controller nay co tac dung upload file len cloudinary va tra ve public url
 
 @RestController
-@RequestMapping("/api/images")
+@RequestMapping("/cloudinary-api/images")
 @RequiredArgsConstructor
 public class ImageController {
 

@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.hust.Ecommerce.constants.AppConstants;
+import com.hust.Ecommerce.constants.RoleKeys;
 import com.hust.Ecommerce.security.JwtAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -38,23 +40,11 @@ public class SecurityConfiguration {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with configuration
                                 .authorizeHttpRequests(request -> request
-                                                .requestMatchers("/ws/**").permitAll()
+                                                .requestMatchers(AppConstants.PUBLIC_API_PATH).permitAll()
+
                                                 .requestMatchers(HttpMethod.GET,
                                                                 String.format("%s/auth/registration/confirm/**",
-                                                                                apiPrefix),
-
-                                                                // sagger-ui
-                                                                "/v2/api-docs",
-                                                                "/v3/api-docs",
-                                                                "/v3/api-docs/**",
-                                                                "/swagger-resources/**",
-                                                                "/swagger-ui.html",
-                                                                "/webjars/**",
-                                                                "/swagger-resources/configuration/ui",
-                                                                "/swagger-resources/configuration/security",
-                                                                "/swagger-ui.html/**",
-                                                                "/swagger-ui/**",
-                                                                "/swagger-ui.html/**")
+                                                                                apiPrefix))
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.POST,
                                                                 String.format("%s/auth/registration", apiPrefix),
@@ -68,9 +58,16 @@ public class SecurityConfiguration {
                                                                 String.format("%s/auth/reset-password/**",
                                                                                 apiPrefix))
                                                 .permitAll()
+                                                .requestMatchers(AppConstants.STAFF_API_PATHS)
+                                                .hasAnyAuthority(RoleKeys.ADMIN, RoleKeys.STAFF)
+
+                                                .requestMatchers(AppConstants.ADMIN_API_PATHS)
+                                                .hasAuthority(RoleKeys.ADMIN)
+
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                                 // .exceptionHandling(
                                 // exceptions -> exceptions
                                 // .authenticationEntryPoint(

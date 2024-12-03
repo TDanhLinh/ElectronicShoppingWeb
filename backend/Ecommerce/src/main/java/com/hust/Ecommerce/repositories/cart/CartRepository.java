@@ -16,4 +16,8 @@ public interface CartRepository extends JpaRepository<Cart, Long>, JpaSpecificat
 
     @Query("SELECT c FROM Cart c JOIN c.user u WHERE u = user AND c.status = 1")
     Optional<Cart> findByUser(User user);
+
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM Cart c WHERE c.user = :user AND c.status = 1")
+    boolean existsByUser(User user);
 }

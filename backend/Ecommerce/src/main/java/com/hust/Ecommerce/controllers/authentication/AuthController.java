@@ -2,7 +2,6 @@ package com.hust.Ecommerce.controllers.authentication;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
