@@ -78,7 +78,7 @@ export default function AddNewCategory(props) {
         formData.append("image", file);
         formData.append("folder", "category");
 
-        request("POST", "api/images/upload-single", formData,
+        request("POST", "/cloudary-api/images/upload-single", formData,
             {
                 "Content-Type": "multipart/form-data"
             })
