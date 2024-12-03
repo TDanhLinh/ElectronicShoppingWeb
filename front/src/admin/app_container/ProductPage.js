@@ -20,7 +20,7 @@ export default function ProductPage() {
     useEffect(() => {
         setLabel(sampleLabel);
         setElement(sampleElement);
-        setAction("add", "view", "edit", "delete");
+        setAction(["add", "view", "edit", "delete"]);
         Promise.all([
             request("GET", "/api/products"),
             request("GET", "/api/inventories")
@@ -70,8 +70,6 @@ export default function ProductPage() {
                         }),
                     };
                 }).sort((a, b) => a.id - b.id);
-
-                console.log(products);
 
                 setData(products);
             })

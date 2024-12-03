@@ -1,83 +1,58 @@
 import * as React from "react";
-import {useContext, useEffect, useState} from "react";
-import { Button, Grid, TextField} from "@mui/material";
+import {useEffect, useState} from "react";
+import {Grid, TextField, Button} from "@mui/material";
 import Container from "@mui/material/Container";
-import {editAPI, showAPI} from "../../api/axios"
-import * as Yup from 'yup'
-import {DataTableContext} from "../../TableContext";
+import {request} from "../../../../api/axios";
 
-export default function UpdateOrder(props) {
-    const {setOpen, id, functionName} = props;
-    const {setDataChange} = useContext(DataTableContext);
-    const [equipment, setEquipment] = useState({
-        name: '',
-        brand: '',
-        color: '',
-        manufacture: '',
-        price: '',
-        quantity: '',
-        status: '',
-        guarantee: '',
-        supplier: '',
-        storage: '',
-        building: '',
-        note: ''
+export default function ShowOrder(props) {
+    const {id} = props;
+    const [order, setOrder] = useState({
+        user_id: "",
+        code: "",
+        payment_method_type: "",
+        payment_status: "",
+        shipping_cost: "",
+        status: "",
+        tax: "",
+        to_address: "",
+        to_name: "",
+        to_phone: "",
+        total_amount: "",
+        total_pay: "",
+        vnpay_order_status: "",
     });
+    const [user, setUser] = useState({name: ""}); // Default user state
 
     useEffect(() => {
-        showAPI(functionName, id).then((response) => {
-            setEquipment(response.data);
-        }).catch(errors => {
-            console.log(errors);
-        })
-    }, [functionName, id]);
+        const fetchOrderAndUser = async () => {
+            try {
+                // Fetch the order
+                const orderResponse = await request("GET", `/api/orders/${id}`);
+                const fetchedOrder = orderResponse.data.payload.content;
+                setOrder(fetchedOrder);
 
-    const [errors, setErrors] = useState({}); // State to store validation errors
+                // Fetch the user using the order's user_id
+                const userResponse = await request("GET", `/api/users/${fetchedOrder.user_id}`);
+                setUser(userResponse.data.payload.content);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
 
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Vui lòng nhập tên hàng"),
-        quantity: Yup.string().required("Vui lòng nhập số lượng"),
-        price: Yup.string().required("Vui lòng nhập giá tiền"),
-        supplier: Yup.string().required("Vui lòng nhập Nhà cung cấp"),
-        storage: Yup.string().required("Vui lòng nhập kho"),
-        building: Yup.string().required("Vui lòng nhập tòa"),
-        manufacture: Yup.number().required("Vui lòng nhập năm sản xuất")
-            .min(1000, "Năm sản xuất phải từ 4 chữ số trở lên") // Minimum year (optional)
-            .max(2500, "Năm sản xuất không được vượt quá 2500") // Maximum year (optional)
-            .integer("Năm sản xuất phải là số nguyên"), // Ensure only whole numbers are entered
-    });
+        fetchOrderAndUser();
+    }, [id]);
 
-    const handleChange = (event) => {
-        const {name, value} = event.target;
-        setEquipment(prevEquipment => ({...prevEquipment, [name]: value}));
+    const handleChange = (field, value) => {
+        setOrder((prev) => ({...prev, [field]: value}));
     };
 
-    const handleUpdate = async () => {
-        setDataChange(false);
+    const updateOrder = async () => {
         try {
-            await validationSchema.validate(equipment, {abortEarly: false}); // Validate all fields at once
-            setErrors({}); // Clear any previous errors if validation passes
-            console.table(equipment);
-            if (equipment.id) {
-                editAPI(functionName, equipment.id, equipment)
-                    .then(response => {
-                        if (response.status === 200) { // Check for successful status code (e.g., 200)
-                            setDataChange(true);
-                            setOpen(false);
-                            alert("Lưu thành công");
-                        } else {
-                            console.error("Error updating equipment:", response.statusText);
-                            alert("Lưu thất bại");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error); // Handle other errors
-                        alert("Có lỗi xảy ra");
-                    });
-            }
-        } catch (err) {
-            // Set errors from Yup validation
-            setErrors(err.inner.reduce((acc, error) => ({...acc, [error.path]: error.message}), {}));
+            await request("PUT", `/api/orders/${id}`, order);
+            alert("Order updated successfully!");
+        } catch (error) {
+            console.error("Error updating order:", error);
+            alert("Failed to update the order.");
         }
     };
 
@@ -85,63 +60,124 @@ export default function UpdateOrder(props) {
         <Container fixed>
             <Grid container columnSpacing={3}>
                 <Grid item xs={4}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic1" label="Tên hàng" variant="outlined"
-                               name="name" value={equipment.name} onChange={handleChange} required
-                               error={!!errors.name} // Set error prop if there's an error for this field
-                               helperText={errors.name} // Display error message if it exists
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-code"
+                        label="Order Code"
+                        variant="outlined"
+                        value={order.code}
+                        onChange={(e) => handleChange("code", e.target.value)}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic4" label="Số lượng" variant="outlined"
-                               name="quantity" value={equipment.quantity} onChange={handleChange} required
-                               error={!!errors.quantity} helperText={errors.quantity} type="number"
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-payment-method"
+                        label="Payment Method Type"
+                        variant="outlined"
+                        value={order.payment_method_type}
+                        onChange={(e) => handleChange("payment_method_type", e.target.value)}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic7" label="Tình trạng" variant="outlined"
-                               name="status" value={equipment.status} onChange={handleChange}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-payment-status"
+                        label="Payment Status"
+                        variant="outlined"
+                        value={order.payment_status}
+                        onChange={(e) => handleChange("payment_status", e.target.value)}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic10" label="Nhà cung cấp"
-                               variant="outlined" name="supplier" value={equipment.supplier} onChange={handleChange}
-                               error={!!errors.supplier} helperText={errors.supplier} required
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic2" label="Thương hiệu" variant="outlined"
-                               name="brand" value={equipment.brand} onChange={handleChange}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic5" label="Giá tiền" variant="outlined"
-                               name="price" value={equipment.price} onChange={handleChange} required
-                               error={!!errors.price} helperText={errors.price} type="number"
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic11" label="Thời hạn bảo hành"
-                               variant="outlined"
-                               name="guarantee" value={equipment.guarantee} onChange={handleChange} required type="date"
-                               error={!!errors.guarantee} helperText={errors.guarantee} InputLabelProps={{shrink: true}}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic12" label="Kho"
-                               variant="outlined" name="storage" value={equipment.storage} onChange={handleChange}
-                               error={!!errors.storage} helperText={errors.storage} required
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-user-name"
+                        label="User Name"
+                        variant="outlined"
+                        value={user.name}
+                        InputProps={{readOnly: true}}
                     />
                 </Grid>
                 <Grid item xs={4}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic3" label="Màu" variant="outlined"
-                               name="color" value={equipment.color} onChange={handleChange}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-shipping-cost"
+                        label="Shipping Cost"
+                        variant="outlined"
+                        value={order.shipping_cost}
+                        onChange={(e) => handleChange("shipping_cost", e.target.value)}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic6" label="Năm sản xuất" variant="outlined"
-                               name="manufacture" value={equipment.manufacture} onChange={handleChange} type="number"
-                               error={!!errors.manufacture} helperText={errors.manufacture}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-status"
+                        label="Order Status"
+                        variant="outlined"
+                        value={order.status}
+                        onChange={(e) => handleChange("status", e.target.value)}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic9" label="Tòa"
-                               variant="outlined" name="building" value={equipment.building} onChange={handleChange}
-                               error={!!errors.building} helperText={errors.building} required
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-tax"
+                        label="Tax"
+                        variant="outlined"
+                        value={order.tax}
+                        onChange={(e) => handleChange("tax", e.target.value)}
+                    />
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-total-amount"
+                        label="Total Amount"
+                        variant="outlined"
+                        value={order.total_amount}
+                        onChange={(e) => handleChange("total_amount", e.target.value)}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-to-address"
+                        label="To Address"
+                        variant="outlined"
+                        value={order.to_address}
+                        onChange={(e) => handleChange("to_address", e.target.value)}
+                    />
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-to-name"
+                        label="To Name"
+                        variant="outlined"
+                        value={order.to_name}
+                        onChange={(e) => handleChange("to_name", e.target.value)}
+                    />
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-to-phone"
+                        label="To Phone"
+                        variant="outlined"
+                        value={order.to_phone}
+                        onChange={(e) => handleChange("to_phone", e.target.value)}
+                    />
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-total-pay"
+                        label="Total Pay"
+                        variant="outlined"
+                        value={order.total_pay}
+                        onChange={(e) => handleChange("total_pay", e.target.value)}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic12" label="Ghi chú" multiline
-                               variant="outlined" name="note" value={equipment.note} onChange={handleChange}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-notes"
+                        label="VNPAY Order Status"
+                        multiline
+                        variant="outlined"
+                        value={order.vnpay_order_status}
+                        onChange={(e) => handleChange("vnpay_order_status", e.target.value)}
                     />
                 </Grid>
-                <Grid item xs={12} container justifyContent="flex-end">
-                    <Button variant="contained" color="success" onClick={() => handleUpdate()}>Lưu</Button>
+                <Grid item xs={12}>
+                    <Button variant="contained" color="primary" sx={{m: 1}} onClick={updateOrder}>
+                        Update Order
+                    </Button>
                 </Grid>
             </Grid>
         </Container>
-    )
+    );
 }

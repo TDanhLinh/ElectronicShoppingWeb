@@ -6,14 +6,13 @@ import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import {IconButton} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import AddNewProduct from "./app_container/form/products/AddNewProduct";
-import ShowProduct from "./app_container/form/products/ShowProduct";
 import UpdateProduct from "./app_container/form/products/UpdateProduct";
 import ShowOrder from "./app_container/form/orders/ShowOrder";
 import UpdateOrder from "./app_container/form/orders/UpdateOrder";
 import AddNewCategory from "./app_container/form/category/AddNewCategory";
 import UpdateCategory from "./app_container/form/category/UpdateCategory";
 import UpdateAccount from "./app_container/form/accounts/UpdateAccount";
-
+import {ShowProduct} from "./app_container/form/products/ShowProduct";
 
 export default function ModalDialog(props) {
     const {open, setOpen} = props;
@@ -35,10 +34,10 @@ export default function ModalDialog(props) {
                 {action === "orders/view" && <ShowOrder id={id} functionName={functionName}/>}
                 {action === "orders/edit" && <UpdateOrder setOpen={setOpen} id={id} functionName={functionName}/>}
                 {/* Handle Category Modal */}
-                {action === "category/add" && <AddNewCategory setOpen={setOpen} functionName={functionName}/>}
-                {action === "category/edit" && <UpdateCategory setOpen={setOpen} id={id} functionName={functionName}/>}
+                {action === "categories/add" && <AddNewCategory setOpen={setOpen} functionName={functionName}/>}
+                {action === "categories/edit" && <UpdateCategory setOpen={setOpen} id={id} functionName={functionName}/>}
                 {/* Handle Accounts Modal */}
-                {action === "accounts/edit" && <UpdateAccount setOpen={setOpen} id={id} functionName={functionName}/>}
+                {action === "users/edit" && <UpdateAccount setOpen={setOpen} id={id} functionName={functionName}/>}
             </DialogContent>
         </Dialog>
     );

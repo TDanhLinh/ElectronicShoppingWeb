@@ -1,159 +1,226 @@
-import * as React from "react";
-import {useContext, useState} from "react";
-import {Autocomplete, Button, Grid, TextField} from "@mui/material";
-import Container from "@mui/material/Container";
-import {addAPI} from "../../api/axios"
-import * as Yup from 'yup'
-import {DataTableContext} from "../../TableContext";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, TextField, Autocomplete, Grid, Container } from "@mui/material";
+import { DataTableContext } from "../../../TableContext";
+import * as Yup from "yup";
+import { request } from "../../../../api/axios";
 
 export default function AddNewProduct(props) {
-    const {setOpen, functionName} = props;
-    const {setDataChange} = useContext(DataTableContext);
-    const [customer, setCustomer] = useState({
-        name: '',
-        phoneNumber: '',
-        email: '',
-        birth: '',
-        room: '',
-        building: '',
-        sex: '',
-        cccd: '',
-        homeTown: '',
-        bankAccount: '',
-        bank: '',
-        job: '',
-        communicator: '',
-        communicatorPhone: ''
+    const { setOpen } = props;
+    const { setDataChange } = useContext(DataTableContext);
+
+    const [product, setProduct] = useState({
+        name: "",
+        slug: "",
+        description: "",
+        thumbnail: "",
+        status: 1,
+        brandId: "",
+        categoryIds: [],
+        images: [],
+        variants: [],
     });
 
-    const [errors, setErrors] = useState({}); // State to store validation errors
-    const sexOptions = ["Nam", "Nữ", "Khác"];
+    const [errors, setErrors] = useState({});
+    const [brands, setBrands] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [newVariant, setNewVariant] = useState({});
 
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+    useEffect(() => {
+        // Fetch brands
+        request("get", "/api/brands").then((response) => {
+            setBrands(response.data.payload.content || []);
+        }).catch((error) => {
+            console.error("Error fetching brands:", error);
+        });
+
+        // Fetch categories
+        request("get", "/api/categories").then((response) => {
+            setCategories(response.data.payload.content || []);
+        }).catch((error) => {
+            console.error("Error fetching categories:", error);
+        });
+    }, []);
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Vui lòng nhập họ và tên"),
-        email: Yup.string().required("Vui lòng nhập email").email("Email không hợp lệ"),
-        phoneNumber: Yup.string().matches(phoneRegExp, "Số điện thoại không hợp lệ"),
-        birth: Yup.date().required("Vui lòng chọn ngày sinh"),
-        room: Yup.string().required("Vui lòng nhập phòng"),
-        building: Yup.string().required("Vui lòng nhập tòa"),
-        homeTown: Yup.string().required("Vui lòng nhập quê quán"),
-        sex: Yup.string().required("Vui lòng chọn giới tính"),
-        cccd: Yup.string()
-            .required("Vui lòng nhập CCCD")
-            .length(12, "CCCD phải có đúng 12 số"), // Add CCCD length validation
+        name: Yup.string().required("Vui lòng nhập tên sản phẩm"),
+        description: Yup.string().required("Vui lòng nhập mô tả"),
+        brandId: Yup.string().required("Vui lòng chọn thương hiệu"),
+        categoryIds: Yup.array().min(1, "Vui lòng chọn ít nhất một phân loại sản phẩm"),
+        thumbnail: Yup.string().required("Vui lòng tải ảnh đại diện"),
     });
 
-    const handleChange = (event) => {
-        const {name, value} = event.target;
-        // Handle TextFields
-        if (event.target.type !== "select-one") { // Check if it's not a select element (Autocomplete)
-            setCustomer(prevCustomer => ({...prevCustomer, [name]: value}));
-        } else { // Handle Autocomplete
-            setCustomer(prevCustomer => ({...prevCustomer, sex: value})); // Update sex specifically
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setProduct((prev) => ({
+            ...prev,
+            [name]: name === "name" ? value : value.trim(),
+            ...(name === "name" && { slug: value.toLowerCase().replace(/\s+/g, "-") }),
+        }));
+    };
+
+    const handleFileUpload = async (event, isMultiple = false) => {
+        const files = event.target.files;
+        if (!files || files.length === 0) return;
+
+        const formData = new FormData();
+        for (const file of files) {
+            formData.append("image", file);
+        }
+
+        try {
+            const response = await request(
+                "post",
+                `/api/images/${isMultiple ? "upload-multiple" : "upload-single"}`,
+                formData
+            );
+            const uploadedPaths = isMultiple
+                ? response.data.payload.map((img) => img.path)
+                : [response.data.payload.path];
+
+            setProduct((prev) => ({
+                ...prev,
+                images: isMultiple ? [...prev.images, ...uploadedPaths] : prev.images,
+                ...(isMultiple || { thumbnail: uploadedPaths[0] }),
+            }));
+        } catch (error) {
+            console.error("Image Upload Error:", error);
+            alert("Có lỗi xảy ra khi tải ảnh");
         }
     };
 
-    const handleAdd = async () => {
-        setDataChange(false);
+    const handleAddVariant = () => {
+        if (Object.keys(newVariant).length === 0) return;
+        setProduct((prev) => ({
+            ...prev,
+            variants: [...prev.variants, { ...newVariant, status: 1 }],
+        }));
+        setNewVariant({});
+    };
+
+    const handleSubmit = async () => {
         try {
-            await validationSchema.validate(customer, {abortEarly: false}); // Validate all fields at once
-            setErrors({}); // Clear any previous errors if validation passes
-            console.table(customer);
-            addAPI(functionName, customer)
-                .then((response) => {
-                    console.log(response);
-                    if (response.status === 201) {
-                        setDataChange(true);
-                        alert("Thêm khách hàng mới thành công");
-                        setOpen(false);
-                    } else {
-                        console.error("Error updating customer:", response.statusText);
-                        alert("Thêm khách hàng mới thất bại");
-                        setOpen(false);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                    alert("Có lỗi xảy ra");
+            await validationSchema.validate(product, { abortEarly: false });
+            setErrors({});
+            request("post", "/api/products", product).then((response) => {
+                if (response.status === 201) {
+                    alert("Thêm sản phẩm thành công");
+                    setDataChange(true);
                     setOpen(false);
-                });
-        } catch (err) {
-            // Set errors from Yup validation
-            setErrors(err.inner.reduce((acc, error) => ({...acc, [error.path]: error.message}), {}));
+                } else {
+                    alert("Có lỗi xảy ra");
+                }
+            }).catch((error) => {
+                console.error("Error creating product:", error);
+                alert("Có lỗi xảy ra khi thêm sản phẩm");
+            });
+        } catch (validationErrors) {
+            const errorObject = validationErrors.inner.reduce(
+                (acc, error) => ({ ...acc, [error.path]: error.message }),
+                {}
+            );
+            setErrors(errorObject);
         }
     };
 
     return (
         <Container fixed>
-            <Grid container rowSpacing={3} columnSpacing={3}>
+            <Grid container spacing={3}>
                 <Grid item xs={6}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic1" label="Họ và tên" variant="outlined"
-                               name="name" value={customer.name} onChange={handleChange} required
-                               error={!!errors.name} // Set error prop if there's an error for this field
-                               helperText={errors.name} // Display error message if it exists
+                    <TextField
+                        fullWidth
+                        label="Tên sản phẩm"
+                        name="name"
+                        value={product.name}
+                        onChange={handleInputChange}
+                        error={!!errors.name}
+                        helperText={errors.name}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic2" label="Email" variant="outlined"
-                               name="email" value={customer.email} onChange={handleChange}
-                               error={!!errors.email} helperText={errors.email}
+                    <TextField
+                        fullWidth
+                        multiline
+                        label="Mô tả"
+                        name="description"
+                        value={product.description}
+                        onChange={handleInputChange}
+                        error={!!errors.description}
+                        helperText={errors.description}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic3" label="Phòng" variant="outlined"
-                               name="room" value={customer.room} onChange={handleChange} required
-                               error={!!errors.room} helperText={errors.room}
+                    <Autocomplete
+                        options={brands}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e, value) => setProduct((prev) => ({ ...prev, brandId: value?.id }))}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Thương hiệu"
+                                error={!!errors.brandId}
+                                helperText={errors.brandId}
+                            />
+                        )}
                     />
-                    <Autocomplete sx={{m: 1, width: "100%"}} options={sexOptions} value={customer.sex}
-                                  onChange={(event, newValue) => {
-                                      setCustomer({...customer, sex: newValue});
-                                  }}
-                                  renderInput={(params) => (
-                                      <TextField {...params} id="outlined-basic4"
-                                                 label="Giới tính" variant="outlined" name="sex"
-                                                 error={!!errors.sex} helperText={errors.sex}
-                                      />
-                                  )}
+                    <Autocomplete
+                        multiple
+                        options={categories}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e, value) =>
+                            setProduct((prev) => ({
+                                ...prev,
+                                categoryIds: value.map((category) => category.id),
+                            }))
+                        }
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Phân loại sản phẩm"
+                                error={!!errors.categoryIds}
+                                helperText={errors.categoryIds}
+                            />
+                        )}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic5" label="Quê quán" variant="outlined"
-                               name="homeTown" value={customer.homeTown} onChange={handleChange}
-                               error={!!errors.homeTown} helperText={errors.homeTown}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic6" label="Tài khoản ngân hàng"
-                               variant="outlined" name="bankAccount" value={customer.bankAccount}
-                               onChange={handleChange}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic7" label="Người liên lạc" variant="outlined"
-                               name="communicator" value={customer.communicator} onChange={handleChange}/>
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic8" label="Số điện thoại" variant="outlined"
-                               name="phoneNumber" value={customer.phoneNumber} onChange={handleChange} required
-                               type="number"
-                               error={!!errors.phoneNumber} helperText={errors.phoneNumber}
+                    <Button
+                        variant="contained"
+                        component="label"
+                        fullWidth
+                    >
+                        Upload Thumbnail
+                        <input type="file" hidden accept="image/*" onChange={(e) => handleFileUpload(e)} />
+                    </Button>
+                    {product.thumbnail && (
+                        <img
+                            src={product.thumbnail}
+                            alt="Thumbnail Preview"
+                            style={{ marginTop: 10, width: "100%", maxHeight: 200, objectFit: "cover" }}
+                        />
+                    )}
+                    <Button
+                        variant="contained"
+                        component="label"
+                        fullWidth
+                        sx={{ mt: 2 }}
+                    >
+                        Upload Additional Images
+                        <input type="file" hidden multiple accept="image/*" onChange={(e) => handleFileUpload(e, true)} />
+                    </Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        fullWidth
+                        label="Thuộc tính mới (JSON)"
+                        value={JSON.stringify(newVariant)}
+                        onChange={(e) => setNewVariant(JSON.parse(e.target.value || "{}"))}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic9" label="Ngày sinh" variant="outlined"
-                               name="birth" value={customer.birth} onChange={handleChange} type="date" required
-                               error={!!errors.birth} helperText={errors.birth} InputLabelProps={{shrink: true}}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic10" label="Tòa" variant="outlined"
-                               name="building" value={customer.building} onChange={handleChange} required
-                               error={!!errors.building} helperText={errors.building}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic11" label="CCCD" variant="outlined"
-                               name="cccd" value={customer.cccd} onChange={handleChange} required type="number"
-                               error={!!errors.cccd} helperText={errors.cccd}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic12" label="Công việc" variant="outlined"
-                               name="job" value={customer.job} onChange={handleChange}/>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic13" label="Ngân hàng" variant="outlined"
-                               name="bank" value={customer.bank} onChange={handleChange}/>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic14" label="SĐT Người liên lạc"
-                               variant="outlined" name="communicatorPhone"
-                               value={customer.communicatorPhone} onChange={handleChange}/>
+                    <Button onClick={handleAddVariant} variant="outlined">
+                        Thêm thuộc tính
+                    </Button>
                 </Grid>
                 <Grid item xs={12} container justifyContent="flex-end">
-                    <Button variant="contained" color="success" onClick={() => handleAdd()}>Lưu</Button>
+                    <Button variant="contained" onClick={handleSubmit}>
+                        Lưu sản phẩm
+                    </Button>
                 </Grid>
             </Grid>
         </Container>
-    )
+    );
 }

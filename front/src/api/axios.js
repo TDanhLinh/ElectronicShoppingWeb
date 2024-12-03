@@ -1,5 +1,5 @@
 import axios from "axios";
-import { parseCookies, destroyCookie } from "nookies";
+import {destroyCookie, parseCookies} from "nookies";
 
 // Create an Axios instance
 const axiosInstance = axios.create({
@@ -46,10 +46,11 @@ axiosInstance.interceptors.response.use(
             const status = error.response.status;
 
             if (status === 401) {
+                alert("Hết phiên đăng nhập, mời bạn đăng nhập lại");
                 console.warn("Unauthorized! Redirecting to login...");
 
                 // Clear the auth token cookie and localstorage
-                destroyCookie(null, "authToken", { path: "/" });
+                destroyCookie(null, "authToken", {path: "/"});
                 localStorage.clear();
 
                 // Redirect to login page (only works in CSR)
@@ -72,10 +73,11 @@ axiosInstance.interceptors.response.use(
 export default axiosInstance;
 
 // Define request methods for reuse
-export const request = (method, url, data = null) => {
+export const request = (method, url, data = null, customHeader = {}) => {
     const options = {
         method,
         url,
+        headers: customHeader,
     };
 
     if (method.toLowerCase() === "get") {

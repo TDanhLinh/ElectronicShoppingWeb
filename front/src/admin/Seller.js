@@ -10,7 +10,8 @@ export function Seller() {
     const [label, setLabel] = useState([]);
     const [data, setData] = useState([]);
     const [element, setElement] = useState([]);
-    const [viewAction, setViewAction] = useState(true);
+    const [action, setAction] = useState([]);
+    const [dataChange, setDataChange] = useState(true);
 
     // nếu chưa đăng nhập, chuyển sang trang đăng nhập
     useEffect(() => {
@@ -22,7 +23,7 @@ export function Seller() {
 
     return (
         <div className="App">
-            <DataTableContext.Provider value={{data, setData}}>
+            <DataTableContext.Provider value={{data, setData, dataChange, setDataChange}}>
                 <LableTableContext.Provider value={{label, setLabel, action, setAction}}>
                     <ElementTableContext.Provider value={{element, setElement}}>
                         <Header

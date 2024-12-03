@@ -9,18 +9,18 @@ import {request} from "../../api/axios";
 const sampleLabel = ['STT', 'Họ và tên', 'Email', 'Số điện thoại', 'Vai trò', 'Thao tác'];
 const sampleElement = ['id', 'name', 'email', 'phoneNumber', 'role'];
 
-export default function AccountPage() {
+export default function AccountPage(props) {
     const {setLabel, setAction} = useContext(LableTableContext);
     const {setData, dataChange} = useContext(DataTableContext);
     const {setElement} = useContext(ElementTableContext);
     const buttonTitle = "Thêm người dùng";
     const header = "Quản lý người dùng";
-    const functionName = "accounts";
+    const functionName = "users";
 
     useEffect(() => {
         setLabel(sampleLabel);
         setElement(sampleElement);
-        setAction("edit", "delete");
+        setAction(["edit", "delete"]);
         request("GET", "/api/users").then((response) => {
             const accounts = response.data.payload.content.map((account) => {
                 return {
@@ -33,7 +33,7 @@ export default function AccountPage() {
         }).catch(error => {
             console.log(error);
         })
-    }, [dataChange, setData, setElement, setLabel]);
+    }, [dataChange]);
 
     return (
         <div>

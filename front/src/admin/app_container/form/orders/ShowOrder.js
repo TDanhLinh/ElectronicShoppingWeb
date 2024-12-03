@@ -2,82 +2,163 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {Grid, TextField} from "@mui/material";
 import Container from "@mui/material/Container";
-import {showAPI} from "../../api/axios"
+import {request} from "../../../../api/axios";
 
 export default function ShowOrder(props) {
-    const {id, functionName} = props;
-    const [equipment, setEquipment] = useState({
-        name: '',
-        brand: '',
-        color: '',
-        manufacture: '',
-        price: '',
-        quantity: '',
-        status: '',
-        guarantee: '',
-        supplier: '',
-        storage: '',
-        building: '',
-        note: ''
+    const {id} = props; // Removed unused `functionName` prop
+    const [order, setOrder] = useState({
+        user_id: "",
+        code: "",
+        payment_method_type: "",
+        payment_status: "",
+        shipping_cost: "",
+        status: "",
+        tax: "",
+        to_address: "",
+        to_name: "",
+        to_phone: "",
+        total_amount: "",
+        total_pay: "",
+        vnpay_order_status: "",
     });
+    const [user, setUser] = useState({ name: "" }); // Default user state
 
     useEffect(() => {
-        showAPI(functionName, id).then((response) => {
-            setEquipment(response.data);
-        }).catch(errors => {
-            console.log(errors);
-        })
-    }, [functionName, id]);
+        const fetchOrderAndUser = async () => {
+            try {
+                // First fetch the order
+                const orderResponse = await request("GET", `/api/orders/${id}`);
+                const fetchedOrder = orderResponse.data.payload.content;
+                setOrder(fetchedOrder);
+
+                // Then fetch the user using the order's user_id
+                const userResponse = await request("GET", `/api/users/${fetchedOrder.user_id}`);
+                setUser(userResponse.data.payload.content);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchOrderAndUser();
+    }, [id]); // Dependency array includes `id`
 
     return (
         <Container fixed>
             <Grid container columnSpacing={3}>
                 <Grid item xs={4}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic1" label="Tên hàng" variant="outlined"
-                               name="name" value={equipment.name}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-code"
+                        label="Order Code"
+                        variant="outlined"
+                        value={order.code}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic4" label="Số lượng" variant="outlined"
-                               name="quantity" value={equipment.quantity}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-payment-method"
+                        label="Payment Method Type"
+                        variant="outlined"
+                        value={order.payment_method_type}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic7" label="Tình trạng" variant="outlined"
-                               name="status" value={equipment.status}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-payment-status"
+                        label="Payment Status"
+                        variant="outlined"
+                        value={order.payment_status}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic10" label="Nhà cung cấp"
-                               variant="outlined" name="supplier" value={equipment.supplier}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-user-name"
+                        label="User Name"
+                        variant="outlined"
+                        value={user.name}
+                        InputProps={{ readOnly: true }}
                     />
                 </Grid>
                 <Grid item xs={4}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic2" label="Thương hiệu" variant="outlined"
-                               name="brand" value={equipment.brand}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-shipping-cost"
+                        label="Shipping Cost"
+                        variant="outlined"
+                        value={order.shipping_cost}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic5" label="Giá tiền" variant="outlined"
-                               name="price" value={equipment.price}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-status"
+                        label="Order Status"
+                        variant="outlined"
+                        value={order.status}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic11" label="Thời hạn bảo hành"
-                               variant="outlined" InputLabelProps={{shrink: true}}
-                               name="guarantee" value={equipment.guarantee}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-tax"
+                        label="Tax"
+                        variant="outlined"
+                        value={order.tax}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic12" label="Kho"
-                               variant="outlined" name="storage" value={equipment.storage}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-total-amount"
+                        label="Total Amount"
+                        variant="outlined"
+                        value={order.total_amount}
+                        InputProps={{ readOnly: true }}
                     />
                 </Grid>
                 <Grid item xs={4}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic3" label="Màu" variant="outlined"
-                               name="color" value={equipment.color}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-to-address"
+                        label="To Address"
+                        variant="outlined"
+                        value={order.to_address}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic6" label="Năm sản xuất" variant="outlined"
-                               name="manufacture" value={equipment.manufacture}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-to-name"
+                        label="To Name"
+                        variant="outlined"
+                        value={order.to_name}
+                        InputProps={{ readOnly: true }}
                     />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic9" label="Tòa"
-                               variant="outlined" name="building" value={equipment.building}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-to-phone"
+                        label="To Phone"
+                        variant="outlined"
+                        value={order.to_phone}
+                        InputProps={{ readOnly: true }}
+                    />
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-total-pay"
+                        label="Total Pay"
+                        variant="outlined"
+                        value={order.total_pay}
+                        InputProps={{ readOnly: true }}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic12" label="Ghi chú" multiline
-                               variant="outlined" name="note" value={equipment.note}
+                    <TextField
+                        sx={{m: 1, width: "100%"}}
+                        id="outlined-notes"
+                        label="VNPAY Order Status"
+                        multiline
+                        variant="outlined"
+                        value={order.vnpay_order_status}
+                        InputProps={{ readOnly: true }}
                     />
                 </Grid>
             </Grid>
         </Container>
-    )
+    );
 }

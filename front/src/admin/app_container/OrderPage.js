@@ -20,7 +20,7 @@ export default function OrderPage() {
     useEffect(() => {
         setLabel(sampleLabel);
         setElement(sampleElement);
-        setAction("view", "edit", "delete");
+        setAction(["view", "edit", "delete"]);
         request("GET", "/api/orders").then((response) => {
             setData(response.data.payload.content);
         }).catch(error => {

@@ -17,6 +17,7 @@ import ModalDialog from "./ModalDialog";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ClearIcon from '@mui/icons-material/Clear';
+import {request} from "../api/axios";
 
 export default function DisplayTable(props) {
     // It's using label and data context provided by the pages
@@ -54,20 +55,20 @@ export default function DisplayTable(props) {
     }
 
     const handleView = (id) => {
-        setModalAction(functionName + '/view'); // Set action for modal content (e.g., display item details)
+        setModalAction(functionName + '/view');
         setOpenInfo(true);
         setId(id);
     };
 
     const handleEdit = (id) => {
-        setModalAction(functionName + '/edit'); // Set action for modal content (e.g., edit form)
+        setModalAction(functionName + '/edit');
         setOpenInfo(true);
         setId(id);
     };
 
     const handleDelete = (id) => {
         setDataChange(false);
-        deleteAPI(functionName, id).then((response) => {
+        request("DELETE", `api/${functionName}/${id}`).then((response) => {
             console.log(response);
             if (response.status === 200) {
                 setDataChange(true);

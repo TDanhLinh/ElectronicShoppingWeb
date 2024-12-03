@@ -1,50 +1,61 @@
 import * as React from "react";
-import { useContext, useState } from "react";
-import { Button, Grid, TextField } from "@mui/material";
+import {useContext, useState} from "react";
+import {Button, CircularProgress, Grid, TextField} from "@mui/material";
 import Container from "@mui/material/Container";
 import * as Yup from "yup";
 import {request} from "../../../../api/axios";
 import {DataTableContext} from "../../../TableContext";
 
 export default function AddNewCategory(props) {
-    const { setOpen } = props;
-    const { setDataChange } = useContext(DataTableContext);
+    const {setOpen} = props;
+    const {setDataChange} = useContext(DataTableContext);
 
     const [category, setCategory] = useState({
         name: "",
         slug: "",
         description: "",
-        thumbnail: "",
+        thumbnail: ""
     });
 
-    const [errors, setErrors] = useState({}); // State to store validation errors
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Vui lòng nhập tên phân loại sản phẩm"),
-        slug: Yup.string().required("Vui lòng nhập slug"),
         description: Yup.string().required("Vui lòng nhập mô tả"),
-        thumbnail: Yup.string().url("Vui lòng nhập URL hợp lệ").required("Vui lòng nhập hình ảnh thumbnail"),
     });
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setCategory((prevCategory) => ({ ...prevCategory, [name]: value }));
+        const {name, value} = event.target;
+        setCategory((prevCategory) => ({
+            ...prevCategory,
+            [name]: value,
+            ...(name === "name" && {slug: value.toLowerCase().replace(/\s+/g, "-")}),
+        }));
     };
 
     const handleAdd = async () => {
         setDataChange(false);
         try {
-            await validationSchema.validate(category, { abortEarly: false }); // Validate all fields at once
-            setErrors({}); // Clear any previous errors if validation passes
-            request("POST", "/api/categories")
+            await validationSchema.validate(category, {abortEarly: false});
+            setErrors({});
+
+            const updateCategory = {
+                name: category.name,
+                slug: category.slug,
+                description: category.description,
+                thumbnail: category.thumbnail,
+            };
+
+            request("POST", "/api/categories", updateCategory)
                 .then((response) => {
                     if (response.status === 201) {
                         setDataChange(true);
-                        alert("Phân loại sản phẩm đã được thêm hoặc cập nhật thành công");
+                        alert("Phân loại sản phẩm đã được thêm thành công");
                         setOpen(false);
                     } else {
                         console.error("Error updating service:", response.statusText);
-                        alert("Thêm hoặc cập nhật phân loại sản phẩm thất bại");
+                        alert("Thêm phân loại sản phẩm thất bại");
                         setOpen(false);
                     }
                 })
@@ -54,9 +65,40 @@ export default function AddNewCategory(props) {
                     setOpen(false);
                 });
         } catch (err) {
-            // Set errors from Yup validation
-            setErrors(err.inner.reduce((acc, error) => ({ ...acc, [error.path]: error.message }), {}));
+            setErrors(err.inner.reduce((acc, error) => ({...acc, [error.path]: error.message}), {}));
         }
+    };
+
+    const handleFileUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        setLoading(true); // Start loading indicator
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("folder", "category");
+
+        request("POST", "api/images/upload-single", formData,
+            {
+                "Content-Type": "multipart/form-data"
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    setCategory((prevCategory) => ({
+                        ...prevCategory,
+                        thumbnail: response.data.payload.path,
+                    }));
+                } else {
+                    alert("Tải ảnh thất bại");
+                }
+            })
+            .catch((error) => {
+                console.error("Upload Error:", error);
+                alert("Có lỗi xảy ra khi tải ảnh");
+            })
+            .finally(() => {
+                setLoading(false); // Stop loading
+            });
     };
 
     return (
@@ -64,7 +106,13 @@ export default function AddNewCategory(props) {
             <Grid container columnSpacing={3}>
                 <Grid item xs={6}>
                     <TextField
-                        sx={{ m: 1, width: "100%" }}
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
                         id="outlined-basic1"
                         label="Tên phân loại sản phẩm"
                         variant="outlined"
@@ -75,36 +123,36 @@ export default function AddNewCategory(props) {
                         error={!!errors.name}
                         helperText={errors.name}
                     />
+                </Grid>
+                <Grid item xs={6}>
                     <TextField
-                        sx={{ m: 1, width: "100%" }}
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
                         id="outlined-basic2"
                         label="Slug"
                         variant="outlined"
                         name="slug"
                         value={category.slug}
                         onChange={handleChange}
-                        required
-                        error={!!errors.slug}
-                        helperText={errors.slug}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        sx={{ m: 1, width: "100%" }}
-                        id="outlined-basic3"
-                        label="Thumbnail URL"
-                        variant="outlined"
-                        name="thumbnail"
-                        value={category.thumbnail}
-                        onChange={handleChange}
-                        required
-                        error={!!errors.thumbnail}
-                        helperText={errors.thumbnail}
+                        InputProps={{
+                            readOnly: true,
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        sx={{ m: 1, width: "100%" }}
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
                         id="outlined-basic4"
                         label="Mô tả"
                         multiline
@@ -118,9 +166,58 @@ export default function AddNewCategory(props) {
                         helperText={errors.description}
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
+                        disabled={loading} // Disable button while loading
+                    >
+                        {loading ? (
+                            <CircularProgress size={24} sx={{color: "white"}}/>
+                        ) : (
+                            "Tải ảnh"
+                        )}
+                        <input
+                            type="file"
+                            hidden
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                        />
+                    </Button>
+                    {category.thumbnail && !loading && (
+                        <img
+                            src={category.thumbnail}
+                            alt="Thumbnail Preview"
+                            style={{
+                                marginTop: "10px",
+                                width: "100%",
+                                height: "auto",
+                                maxHeight: "200px",
+                                objectFit: "contain",
+                            }}
+                        />
+                    )}
+                    {errors.thumbnail && (
+                        <span style={{color: "red", fontSize: "12px"}}>
+                            {errors.thumbnail}
+                        </span>
+                    )}
+                </Grid>
                 <Grid item xs={12} container justifyContent="flex-end">
-                    <Button variant="contained" color="success" onClick={() => handleAdd()}>
-                        Lưu
+                    <Button
+                        variant="contained"
+                        color="success"
+                        onClick={handleAdd}
+                        disabled={loading} // Disable button while loading
+                    >
+                        {loading ? <CircularProgress size={24} sx={{color: "white"}}/> : "Lưu"}
                     </Button>
                 </Grid>
             </Grid>

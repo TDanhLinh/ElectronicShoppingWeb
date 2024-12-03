@@ -1,123 +1,236 @@
 import * as React from "react";
 import {useContext, useEffect, useState} from "react";
-import {Button, Grid, TextField} from "@mui/material";
+import {Button, CircularProgress, Grid, TextField} from "@mui/material";
 import Container from "@mui/material/Container";
-import {editAPI, showAPI} from "../../api/axios"
-import * as Yup from 'yup'
-import {DataTableContext} from "../../TableContext";
+import * as Yup from "yup";
+import {request} from "../../../../api/axios";
+import {DataTableContext} from "../../../TableContext";
 
 export default function UpdateCategory(props) {
-    const {setOpen, id, functionName} = props;
+    const {setOpen, id} = props;
     const {setDataChange} = useContext(DataTableContext);
-    const [problem, setProblem] = useState({
-        name: '',
-        building: '',
-        room: '',
-        description: '',
-        status: '',
-        type: '',
-        implementer: '',
-        term: '',
+
+    const [category, setCategory] = useState({
+        name: "",
+        slug: "",
+        description: "",
+        thumbnail: "",
     });
 
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false); // State for loading indicator
+
+    // Fetch category data on mount
     useEffect(() => {
-        showAPI(functionName, id).then((response) => {
-            setProblem(response.data);
-        }).catch(errors => {
-            console.log(errors);
-        })
-    }, [functionName, id]);
+        request("GET", `/api/categories/${id}`).then((response) => {
+            setCategory(response.data.payload);
+        });
+    }, [id]);
 
-    const [errors, setErrors] = useState({}); // State to store validation errors
-
+    // Validation schema
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Vui lòng nhập tên sự cố"),
-        building: Yup.string().required("Vui lòng nhập tòa xảy ra sự cố"),
-        type: Yup.string().required("Vui lòng nhập loại sự cố"),
-        implementer: Yup.string().required("Vui lòng nhập người chịu trách nhiệm xử lý"),
-        term: Yup.date().required("Vui lòng chọn hạn hoàn thành"),
-        status: Yup.string().required("Vui lòng nhập trạng thái")
+        name: Yup.string().required("Vui lòng nhập tên phân loại sản phẩm"),
+        description: Yup.string().required("Vui lòng nhập mô tả"),
+        thumbnail: Yup.string().url("Vui lòng nhập URL hợp lệ").required("Vui lòng nhập hình ảnh thumbnail"),
     });
 
+    // Handle change of input fields
     const handleChange = (event) => {
         const {name, value} = event.target;
-        setProblem(prevProblem => ({...prevProblem, [name]: value}));
+        setCategory((prevCategory) => ({
+            ...prevCategory,
+            [name]: value,
+            ...(name === "name" && {slug: value.toLowerCase().replace(/\s+/g, "-")}),
+        }));
     };
 
+    // Handle form submission (update category)
     const handleUpdate = async () => {
         setDataChange(false);
         try {
-            await validationSchema.validate(problem, {abortEarly: false}); // Validate all fields at once
-            setErrors({}); // Clear any previous errors if validation passes
-            console.table(problem);
-            if (problem.id) {
-                editAPI(functionName, problem.id, problem)
-                    .then(response => {
-                        if (response.status === 200) { // Check for successful status code (e.g., 200)
-                            setDataChange(true);
-                            setOpen(false);
-                            alert("Lưu thành công");
-                        } else {
-                            console.error("Error updating problem:", response.statusText);
-                            alert("Lưu thất bại");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error); // Handle other errors
-                        alert("Có lỗi xảy ra");
-                    });
-            }
+            await validationSchema.validate(category, {abortEarly: false});
+            setErrors({});
+
+            const updateCategory = {
+                name: category.name,
+                slug: category.slug,
+                description: category.description,
+                thumbnail: category.thumbnail,
+            };
+
+            request("PUT", `/api/categories/${id}`, updateCategory)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataChange(true);
+                        alert("Phân loại sản phẩm đã được cập nhật thành công");
+                        setOpen(false);
+                    } else {
+                        console.error("Error updating category:", response.statusText);
+                        alert("Cập nhật phân loại sản phẩm thất bại");
+                        setOpen(false);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("Có lỗi xảy ra");
+                    setOpen(false);
+                });
         } catch (err) {
-            // Set errors from Yup validation
             setErrors(err.inner.reduce((acc, error) => ({...acc, [error.path]: error.message}), {}));
         }
+    };
+
+    // Handle image upload
+    const handleFileUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        setLoading(true); // Start loading indicator
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("folder", "category");
+
+        request("POST", "api/images/upload-single", formData, {
+            "Content-Type": "multipart/form-data",
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    setCategory((prevCategory) => ({
+                        ...prevCategory,
+                        thumbnail: response.data.payload.path,
+                    }));
+                } else {
+                    alert("Tải ảnh thất bại");
+                }
+            })
+            .catch((error) => {
+                console.error("Upload Error:", error);
+                alert("Có lỗi xảy ra khi tải ảnh");
+            })
+            .finally(() => {
+                setLoading(false); // Stop loading indicator
+            });
     };
 
     return (
         <Container fixed>
             <Grid container columnSpacing={3}>
-                <Grid item xs={6}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic1" label="Tên sự cố" variant="outlined"
-                               name="name" value={problem.name} onChange={handleChange} required
-                               error={!!errors.name} // Set error prop if there's an error for this field
-                               helperText={errors.name} // Display error message if it exists
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic4" label="Tòa" variant="outlined"
-                               name="building" value={problem.building} onChange={handleChange} required
-                               error={!!errors.building} helperText={errors.building}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic2" label="Người xử lý" variant="outlined"
-                               name="implementer" value={problem.implementer} onChange={handleChange}
-                               error={!!errors.implementer} helperText={errors.implementer}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic2" label="Trạng thái" variant="outlined"
-                               name="status" value={problem.status} onChange={handleChange}
-                               error={!!errors.status} helperText={errors.status}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic10" label="Loại sự cố"
-                               variant="outlined" name="type" value={problem.type} onChange={handleChange}
-                               error={!!errors.type} helperText={errors.type} required
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic7" label="Phòng" variant="outlined"
-                               name="room" value={problem.room} onChange={handleChange}
-                    />
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic5" label="Thời hạn" variant="outlined"
-                               name="term" value={problem.term} onChange={handleChange} required
-                               error={!!errors.term} helperText={errors.term} type="date"
-                               InputLabelProps={{shrink: true}}
+                <Grid item xs={12}>
+                    <TextField
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
+                        id="outlined-basic1"
+                        label="Tên phân loại sản phẩm"
+                        variant="outlined"
+                        name="name"
+                        value={category.name}
+                        onChange={handleChange}
+                        required
+                        error={!!errors.name}
+                        helperText={errors.name}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField sx={{m: 1, width: "100%"}} id="outlined-basic12" label="Mô tả" multiline
-                               variant="outlined" name="description" value={problem.description} onChange={handleChange}
+                    <TextField
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
+                        id="outlined-basic2"
+                        label="Slug"
+                        variant="outlined"
+                        name="slug"
+                        value={category.slug}
+                        onChange={handleChange}
+                        InputProps={{
+                            readOnly: true,
+                        }}
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
+                        id="outlined-basic4"
+                        label="Mô tả"
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        name="description"
+                        value={category.description}
+                        onChange={handleChange}
+                        required
+                        error={!!errors.description}
+                        helperText={errors.description}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                            m: 1,
+                            width: "100%",
+                            "& .MuiInputBase-input": {
+                                caretColor: "black",
+                            }
+                        }}
+                        disabled={loading} // Disable button while loading
+                    >
+                        {loading ? (
+                            <CircularProgress size={24} sx={{color: "white"}}/>
+                        ) : (
+                            "Tải ảnh"
+                        )}
+                        <input
+                            type="file"
+                            hidden
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                        />
+                    </Button>
+                    {category.thumbnail && !loading && (
+                        <img
+                            src={category.thumbnail}
+                            alt="Thumbnail Preview"
+                            style={{
+                                marginTop: "10px",
+                                width: "100%",
+                                maxHeight: "200px",
+                                objectFit: "contain",
+                            }}
+                        />
+                    )}
+                    {errors.thumbnail && (
+                        <span style={{color: "red", fontSize: "12px"}}>
+                            {errors.thumbnail}
+                        </span>
+                    )}
+                </Grid>
                 <Grid item xs={12} container justifyContent="flex-end">
-                    <Button variant="contained" color="success" onClick={() => handleUpdate()}>Lưu</Button>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        onClick={handleUpdate}
+                        disabled={loading} // Disable button while loading
+                    >
+                        {loading ? <CircularProgress size={24} sx={{color: "white"}}/> : "Cập nhật"}
+                    </Button>
                 </Grid>
             </Grid>
         </Container>
-    )
+    );
 }
