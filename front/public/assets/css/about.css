@@ -7,8 +7,6 @@ body {
     box-sizing: border-box;
 }
 
-<<<<<<< HEAD
-
 .about-container {
     max-width: 1200px; 
     width: 100%; 
@@ -49,8 +47,6 @@ body {
     margin: 30px 20px 10px 20px;
     text-align: left;
 }
-=======
->>>>>>> d2e12815289014f932c6ec6018bb1f524611cfe0
 
 /* Danh sách thành viên */
 .about-team-list {
