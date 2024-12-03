@@ -4,7 +4,7 @@ import Link from 'next/link';
 const teamMembers = [
     {
         name: "Trần Danh Linh",
-        role: "Trưởng nhóm - Kỹ sư backend",
+        role: "Trưởng nhóm - Kỹ sư Backend",
         description: "Quản lý và điều phối dự án. Phát triển API.",
         image: "/assets/img/dlinh.jpg" 
     },
