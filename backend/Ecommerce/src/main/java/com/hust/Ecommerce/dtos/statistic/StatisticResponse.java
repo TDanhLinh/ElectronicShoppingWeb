@@ -10,13 +10,13 @@ public class StatisticResponse {
     private Integer totalCustomer;
     // tong so san pham
     private Integer totalProduct;
-    // tong so order thanh cong (status = 6)
+    // tong so order
     private Integer totalOrder;
     // tong so review
     private Integer totalReview;
     // tong nhan hieu
     private Integer totalBrand;
 
-    // phan tich order
+    // phan tich order thanh cong tuc la status = 6
     private List<StatisticOrderResource> statisticOrder;
 }

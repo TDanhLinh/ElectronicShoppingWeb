@@ -1,6 +1,7 @@
 package com.hust.Ecommerce.controllers.client;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -65,12 +66,20 @@ public class ClientCartController {
     // update cart khong can userId, nhung can cartId
     @PostMapping
     public ResponseEntity<ApiResponse<?>> saveCart(@RequestBody ClientCartRequest request) {
+        User user = authenticationService.getUserWithAuthorities()
+                .orElseThrow(() -> new ResourceNotFoundException(MessageKeys.ACCOUNT_NOT_LOGIN));
+
         final Cart cartBeforeSave;
 
-        // TODO: Đôi khi cartId null nhưng thực tế user vẫn đang có cart trong DB
+        // neu trong request khong co cart_id tuc la tao cart moi
         if (request.getCartId() == null) {
+            // kiem tra user do dang co cart chua
+            if (cartRepository.existsByUser(user))
+                throw new RuntimeException("cart is existed");
+
             cartBeforeSave = clientCartMapper.requestToEntity(request);
         } else {
+            // nguoc lai update cart
             cartBeforeSave = cartRepository.findById(request.getCartId())
                     .map(existingEntity -> clientCartMapper.partialUpdate(existingEntity,
                             request))
@@ -88,7 +97,9 @@ public class ClientCartController {
             }
         }
 
+        // update cart
         Cart cart = cartRepository.save(cartBeforeSave);
+        // response tra ve cho user
         ClientCartResponse clientCartResponse = clientCartMapper.entityToResponse(cart);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
