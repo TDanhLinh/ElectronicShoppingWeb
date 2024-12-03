@@ -10,11 +10,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.constants.RoleKeys;
+import com.hust.Ecommerce.security.CustomAccessDeniedHandler;
 import com.hust.Ecommerce.security.JwtAuthenticationEntryPoint;
 
 @Configuration
@@ -61,18 +62,16 @@ public class SecurityConfiguration {
                                                 .requestMatchers(AppConstants.ADMIN_API_PATHS)
                                                 .hasAuthority(RoleKeys.ADMIN)
 
+                                                .requestMatchers(AppConstants.CLIENT_API_PATHS)
+                                                .hasAuthority(RoleKeys.USER)
+
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                                // .exceptionHandling(
-                                // exceptions -> exceptions
-                                // .authenticationEntryPoint(
-                                // new BearerTokenAuthenticationEntryPoint())
-                                // .accessDeniedHandler(
-                                // new BearerTokenAccessDeniedHandler()))
                                 .oauth2ResourceServer(oauth2 -> oauth2
                                                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                                                .accessDeniedHandler(new CustomAccessDeniedHandler())
                                                 .jwt());
 
                 // http.securityMatcher(String.valueOf(EndpointRequest.toAnyEndpoint()));
