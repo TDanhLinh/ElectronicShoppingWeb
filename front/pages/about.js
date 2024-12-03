@@ -1,6 +1,6 @@
 // pages/about.js
 import Head from 'next/head';
-import { About } from '../src/about/About';
+import { About } from '../src/about/about';
 
 export default function AboutPage() {
     return (

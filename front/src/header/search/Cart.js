@@ -6,12 +6,20 @@ import { useRouter } from 'next/router';
 export function Cart() {
     const router = useRouter();
 
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     
     useEffect(() => {
         // lấy thông tin về sản phẩm trong giỏ hàng, chưa có axios
-        
-        setCart(sampleProducts);
+
+        const account = localStorage.getItem('user');
+        if (account !== '') {
+            setIsLoggedIn(true);
+            setCart(sampleProducts);
+        }
+        else {
+            setIsLoggedIn(false);
+        }
     }, [])
     
     // xóa sản phẩm ra khỏi cart, chưa có axios

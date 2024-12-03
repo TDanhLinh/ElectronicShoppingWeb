@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 export function Register() {
     const router = useRouter();
 
+    // nếu đã đăng nhập rồi, chuyển sang trang chủ  
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user && user.length > 0) router.push('/');
@@ -13,20 +14,54 @@ export function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [exist, setExist] = useState(false);
     const [address, setAddress] = useState("");
     const [success, setSuccess] = useState(false);
     const [notify, setNotify] = useState(false);
     const [dob, setDob] = useState('');
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     
     const submit = (e) => {
         e.preventDefault();
 
         if (success) {
-            router.push("/login");
+            router.push("/login"); // nếu đăng ký tài khoản thành công, nút đăng ký trở thành 
+                                   // nút quay sang trang đăng nhập và ấn vào sẽ ra trang đăng nhập
             return;
         }
 
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            // kiểm tra email có đúng định dạng hay không
+            setError(true);
+            setErrorMsg('Tài khoản không hợp lệ');
+            return;
+        }
+
+        if (password === '') {
+            setError(true);
+            setErrorMsg('Mật khẩu không được để trống');
+            return;
+        }
+
+        if (name === '') {
+            setError(true);
+            setErrorMsg('Tên không được để trống');
+            return;
+        }
+
+        if (address === '') {
+            setError(true);
+            setErrorMsg('Hãy điền địa chỉ tạm thời của bạn');
+            return;
+        }
+
+        if (dob === '') {
+            setError(true);
+            setErrorMsg('Hãy nhập vào ngày sinh của bạn');
+            return;
+        }
+
+        // thêm tài khoản vào database, hiện chưa có axios
         const newAccount = {
             email: email,
             password: password,
@@ -41,14 +76,15 @@ export function Register() {
         if (accounts) {
             const Accounts = JSON.parse(accounts);
             if (Accounts.find((item) => (item.email === email))) {
-                setExist(true);
+                setError(true);
+                setErrorMsg('Tài khoản đã tồn tại');
             }
             else {
                 localStorage.setItem(email, JSON.stringify(newAccount));
                 Accounts.push(newAccount);
                 localStorage.setItem("accounts", JSON.stringify(Accounts));
                 setSuccess(true);
-                setExist(false);
+                setError(false);
             }
         }
         else {
@@ -56,7 +92,7 @@ export function Register() {
             const Accounts = [newAccount];
             localStorage.setItem("accounts", JSON.stringify(Accounts));
             setSuccess(true);
-            setExist(false);
+            setError(false);
         }
     }
 
@@ -112,8 +148,14 @@ export function Register() {
                             required
                         />
                     </div>
-                    {exist && (<div className='error-message'>Tài khoản đã tồn tại</div>)}
-                    {success && (<div className='success-message'>Đăng ký thành công</div>)}
+                    {
+                        error && 
+                        <div className='error-message'>{errorMsg}</div>
+                    }
+                    {
+                        success && 
+                        <div className='success-message'>Đăng ký thành công</div>
+                    }
                     <div className="options-container">
                         <label htmlFor="notify">
                             <input 
