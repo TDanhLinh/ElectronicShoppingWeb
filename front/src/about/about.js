@@ -40,7 +40,7 @@ export function About() {
             <div className='About-review'> 
                 <h1>Giới thiệu Dự án</h1>
                 <p>
-                    Đây là 1 dự án web do nhóm 30 sản xuất có sử dụng công nghệ SPA và NextJS.
+                    Đây là 1 dự án web do nhóm 30 sản xuất có sử dụng công nghệ SPA và Spring Boot.
                 </p>
             </div>
             
