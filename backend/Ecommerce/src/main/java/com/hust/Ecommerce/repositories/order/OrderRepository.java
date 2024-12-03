@@ -25,7 +25,8 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 
     Optional<Order> findByVnPayOrderId(String vnPayOrderId);
 
-    @Query("SELECT COUNT(o.id) FROM Order o")
+    // tim so order thanh cong
+    @Query("SELECT COUNT(o.id) FROM Order o WHERE o.status = 6")
     int countByOrderId();
 
 }

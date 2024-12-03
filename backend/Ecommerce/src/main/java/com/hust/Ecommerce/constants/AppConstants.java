@@ -12,4 +12,22 @@ public interface AppConstants {
     String DEFAULT_PAGE_SIZE = "100";
     String DEFAULT_SORT = "id,desc";
     double DEFAULT_TAX = 0.1;
+
+    String[] CLIENT_API_PATHS = {
+            "/client-api/users/**",
+            "/client-api/reviews/**",
+            "/client-api/carts/**",
+            "/client-api/orders/**",
+            "/client-api/chat/**",
+            "/client-api/payment-methods/**"
+    };
+
+    String[] STAFF_API_PATHS = {
+
+    };
+
+    String[] ADMIN_API_PATHS = {
+
+    };
+
 }
