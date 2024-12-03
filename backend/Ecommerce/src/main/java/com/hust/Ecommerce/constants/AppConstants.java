@@ -15,7 +15,6 @@ public interface AppConstants {
 
         String[] CLIENT_API_PATHS = {
                         "/client-api/users/**",
-                        "/client-api/reviews/**",
                         "/client-api/carts/**",
                         "/client-api/orders/**",
                         "/client-api/chat/**",
@@ -35,12 +34,16 @@ public interface AppConstants {
         };
         String[] PUBLIC_API_PATH = {
                         "/cloudinary-api/images/**",
-                        "/ws/**"
+                        "/ws/**",
+                        "/client-api/products/**",
+                        "/client-api/reviews/**",
+                        "/client-api/categories/**"
         };
 
         String[] ADMIN_API_PATHS = {
                         "/api/users/**",
                         "/api/stats/**"
+
         };
 
 }

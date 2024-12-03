@@ -51,13 +51,13 @@ public class ImageController {
                         .build());
     }
 
-    @DeleteMapping("/cloud/single-image")
+    @DeleteMapping("/single-image")
     public ResponseEntity<Void> deleteImage(@RequestBody String imageName) {
         imageService.deleteImage(imageName);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping("/cloud/multi-image")
+    @DeleteMapping("/multi-image")
     public ResponseEntity<Void> deleteMultipleImages(@RequestBody List<String> imageNames) {
         imageNames.forEach(imageService::deleteImage);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
