@@ -10,4 +10,5 @@ import com.hust.Ecommerce.mappers.GenericMapper;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ImageMapper extends GenericMapper<Image, ImageRequest, ImageResponse> {
+
 }
