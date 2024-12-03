@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatisticResource {
+public class StatisticOrderResource {
     private Instant date;
-    private Long total;
+    private Long totalOrder;
+    // tong so tien truoc thue, shipping cost
+    private Long totalAmount;
+    // tong so tien sau thue, shipping cost ma user phai tra
+    private Long totalPay;
 }
