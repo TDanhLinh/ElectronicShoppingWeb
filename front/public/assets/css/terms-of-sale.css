@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFBDE; /* Nền dịu nhẹ */
+    color: #000000; /* Màu chữ chính */
+}
+
+.terms-of-sale-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #A8BB47; /* Viền màu xanh lá nhạt */
+    border-radius: 8px;
+    background-color: #FEF7BC; /* Nền hộp dịu nhẹ */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.terms-of-sale-container h1 {
+    font-size: 2rem;
+    color: #024F3F; /* Tiêu đề màu xanh đậm */
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.terms-of-sale-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.terms-of-sale-container a {
+    color: #FFD601; /* Link màu vàng sáng */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.terms-of-sale-container a:hover {
+    color: #A8BB47; /* Màu hover cho link */
+    text-decoration: underline;
+}
+
+/* Button Quay về trang chủ */
+.back-to-home {
+    background-color: #A8BB47; /* Màu xanh lá cây cho nền */
+    color: #FFFFFF; /* Màu chữ trắng */
+    padding: 12px 24px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng chuyển màu và scale khi hover */
+    text-align: center;
+}
+
+.back-to-home:hover {
+    background-color: #024F3F; /* Màu xanh đậm khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ khi hover */
+}
+
+.back-to-home:active {
+    background-color: #FFD601; /* Màu vàng đậm khi nhấn */
+    transform: scale(1); /* Trở lại kích thước bình thường khi nhấn */
+}
+
+.back-to-home:focus {
+    outline: none; /* Loại bỏ viền khi focus */
+}
+
+

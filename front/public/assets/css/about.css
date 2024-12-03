@@ -1,18 +1,17 @@
-/* Thiết lập chung cho trang */
 body {
-    background-color: #FEF7BC; /* Màu nền vàng nhạt cho trang */
+    background-color: #FEF7BC; 
     font-family: 'Arial, sans-serif';
-    color: #024F3F; /* Màu xanh đậm cho văn bản chính */
+    color: #024F3F;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Container chính */
+
 .about-container {
-    max-width: 1200px; /* Đặt chiều rộng tối đa để không quá rộng */
-    width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
-    margin: 0 auto; /* Căn giữa container */
+    max-width: 1200px; 
+    width: 100%; 
+    margin: 0 auto; 
     padding: 20px;
 }
 
