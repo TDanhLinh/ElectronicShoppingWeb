@@ -1,18 +1,20 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Link from 'next/link';
-import { sampleProducts } from './SampleProducts';
-import { sampleUser } from './SampleUser';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
+import {request} from "../api/axios";
+import {useCookies} from "react-cookie";
 
 export function Payment() {
-    // Nếu chưa đăng nhập, chuyển sang trang đăng nhập
     const router = useRouter();
+    const [cookies, setCookie] = useCookies(["authToken"]);
 
     useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (!user || user.length === 0) router.push('/login');
-    }, [])
-    
+        const token = cookies.authToken;
+        if (!token || token === "undefined") {
+            router.push('/login');
+        }
+    }, []);
+
     const [user, setUser] = useState({});
     const [cartItems, setCartItems] = useState([]);
     const [success, setSuccess] = useState(false);
@@ -24,35 +26,32 @@ export function Payment() {
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    // Lấy thông tin giỏ hàng từ database, đang thiếu axios
+    // Fetch cart data from the API
     useEffect(() => {
-        
-        setCartItems(sampleProducts);
-
-        setUser(sampleUser);
-        setName(sampleUser.name);
-        setAddress(sampleUser.address);
-        if (user.sdt) setSdt(user.std);
+        request("GET", "/client-api/carts").then((response) => {
+            setCartItems(response.data.payload.cartItems); // Adjusted to access the correct path in the response
+        });
+        if (user.sdt) setSdt(user.sdt);
     }, []);
 
-    // Cập nhật khi giỏ hàng thay đổi, thiếu axios
+    // Update local storage when cart changes
     const updateLocalStorage = (items) => {
         localStorage.setItem("cartItems", JSON.stringify(items));
     };
 
-    // Hàm xử lý xóa sản phẩm
+    // Remove item from cart
     const handleRemoveItem = (itemId) => {
-        const updatedItems = cartItems.filter(item => item.id !== itemId);
+        const updatedItems = cartItems.filter(item => item.cartItemVariant.variantId !== itemId);
         setCartItems(updatedItems);
         updateLocalStorage(updatedItems);
     };
 
-    // Tính toán tổng cộng
-    const subtotal = cartItems.reduce((acc, item) => acc + item.discountedPrice * item.quantity, 0);
-    const shippingFee = cartItems.reduce((acc, item) => acc + item.shippingFee, 0);
+    // Calculate subtotal and shipping
+    const subtotal = cartItems.reduce((acc, item) => acc + item.cartItemVariant.variantPrice * item.cartItemQuantity, 0);
+    const shippingFee = cartItems.reduce((acc, item) => acc + item.cartItemVariant.shippingFee || 0, 0);
     const total = subtotal + shippingFee;
 
-    // xóa tất cả sản phẩm ra khỏi giỏ hàng
+    // Handle order placement
     const clickOnOrder = () => {
         if (success) return;
 
@@ -80,9 +79,34 @@ export function Payment() {
             return;
         }
 
-        setSuccess(true);
-        setError(false);
-    }
+        // Map Vietnamese payment method to backend enum value
+        const paymentMethodType = paymentMethod === 'Thanh toán khi nhận hàng' ? 'CASH' : 'VNPAY';
+
+        // Prepare the request payload
+        const orderData = {
+            paymentMethodType: paymentMethodType, // Correct enum value (CASH or VNPAY)
+            ipAdress: "1.8.9.0", // You may want to get this dynamically
+            note: note,
+            shippingInfo: {
+                name: name,
+                phone: sdt,
+                address: address
+            }
+        };
+
+        // Make the POST request to create the order
+        request("POST", "/client-api/orders", orderData)
+            .then((response) => {
+                setSuccess(true);
+                setError(false);
+                console.log("Order placed successfully", response.data);
+            })
+            .catch((error) => {
+                setError(true);
+                setErrorMsg('Đặt hàng thất bại. Vui lòng thử lại');
+                console.error("Error placing order", error);
+            });
+    };
 
     const clickOnItem = (id) => {
         router.push(`/products/${id}`);
@@ -95,31 +119,38 @@ export function Payment() {
                     Quay về trang chủ
                 </button>
             </Link>
-            
+
             <div className="payment-page">
                 <h1>Thanh toán</h1>
                 <div className="product-info">
                     <h2>Thông tin sản phẩm</h2>
                     {cartItems.map((item) => (
-                        <div key={item.id} className="product-item">
-                            <div 
-                                className="product-item-img" style={{backgroundImage: `url(${item.src})`}}
-                                onClick={() => clickOnItem(item.id)}
+                        <div key={item.cartItemVariant.variantId} className="product-item">
+                            <div
+                                className="product-item-img"
+                                style={{backgroundImage: `url(${item.cartItemVariant.productThumbnail})`}}
+                                onClick={() => clickOnItem(item.cartItemVariant.productId)}
                             />
                             <div className="product-details">
-                                <p 
+                                <p
                                     className='product-item-name'
-                                    onClick={() => clickOnItem(item.id)}
+                                    onClick={() => clickOnItem(item.cartItemVariant.productId)}
                                 >
-                                    <strong>{item.name}</strong>
+                                    <strong>{item.cartItemVariant.productName}</strong>
                                 </p>
-                                <p>{'Số lượng: ' + item.quantity}</p>
+                                <p>{'Số lượng: ' + item.cartItemQuantity}</p>
+                                {item.cartItemVariant.variantProperties && (
+                                    <p>{Object.entries(item.cartItemVariant.variantProperties).map(([key, value]) => (
+                                        <span key={key}>{key}: {value}</span>
+                                    ))}</p>
+                                )}
                             </div>
                             <div className="product-pricing">
-                                <p className="original-price">{item.originalPrice.toLocaleString()}đ</p>
-                                <p className="discounted-price">{item.discountedPrice.toLocaleString()}đ</p>
+                                <p className="original-price">{item.cartItemVariant.variantPrice.toLocaleString()}đ</p>
+                                <p className="discounted-price">{item.cartItemVariant.variantPrice.toLocaleString()}đ</p>
                             </div>
-                            <button onClick={() => handleRemoveItem(item.id)} className="remove-btn">
+                            <button onClick={() => handleRemoveItem(item.cartItemVariant.variantId)}
+                                    className="remove-btn">
                                 Xóa
                             </button>
                         </div>
@@ -133,7 +164,7 @@ export function Payment() {
                         value={address}
                         className='transfer-to-input'
                         placeholder='Địa chỉ của bạn'
-                        onChange={(e) => setAddress(e.target.value)} 
+                        onChange={(e) => setAddress(e.target.value)}
                     />
                     <h2>Chọn phương thức thanh toán</h2>
                     <div className='payment-method'>
@@ -144,7 +175,7 @@ export function Payment() {
                                 value='Thanh toán khi nhận hàng'
                                 checked={paymentMethod === 'Thanh toán khi nhận hàng'}
                                 className='payment-radio'
-                                onChange={(e) => setPaymentMethod(e.target.value)} 
+                                onChange={(e) => setPaymentMethod(e.target.value)}
                             />
                             <span className="radio-custom"></span>
                             <span className='payment-method-type'>Thanh toán khi nhận hàng</span>
@@ -156,7 +187,7 @@ export function Payment() {
                                 value='Thanh toán qua VNPay'
                                 checked={paymentMethod === 'Thanh toán qua VNPay'}
                                 className='payment-radio'
-                                onChange={(e) => setPaymentMethod(e.target.value)} 
+                                onChange={(e) => setPaymentMethod(e.target.value)}
                             />
                             <span className="radio-custom"></span>
                             <span className='payment-method-type'>Thanh toán qua VNPay</span>
@@ -170,7 +201,7 @@ export function Payment() {
                                 value={name}
                                 className='payment-user-input'
                                 placeholder='Tên của bạn'
-                                onChange={(e) => setName(e.target.value)} 
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
                         <div className='payment-user-box'>
@@ -180,7 +211,7 @@ export function Payment() {
                                 value={sdt}
                                 className='payment-user-input'
                                 placeholder='Số điện thoại của bạn'
-                                onChange={(e) => setSdt(e.target.value)} 
+                                onChange={(e) => setSdt(e.target.value)}
                             />
                         </div>
                     </div>
@@ -190,7 +221,7 @@ export function Payment() {
                         value={note}
                         className='transfer-to-input'
                         placeholder='Ghi chú của bạn'
-                        onChange={(e) => setNote(e.target.value)} 
+                        onChange={(e) => setNote(e.target.value)}
                     />
                 </div>
 
@@ -216,7 +247,8 @@ export function Payment() {
                             </div>
                         </div>
                     }
-                    <button className="place-order-btn" onClick={clickOnOrder}>{(success) ? 'Thành công' : 'Đặt hàng'}</button>
+                    <button className="place-order-btn"
+                            onClick={clickOnOrder}>{(success) ? 'Thành công' : 'Đặt hàng'}</button>
                 </div>
             </div>
         </div>

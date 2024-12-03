@@ -6,10 +6,10 @@ import {DataTableContext, ElementTableContext, LableTableContext} from "../Table
 import {useContext, useEffect} from "react";
 import {request} from "../../api/axios";
 
-const sampleLabel = ['Mã đơn hàng', 'Tên khách hàng', 'Thời gian tạo', 'Phương thức thanh toán' ,'Trạng thái', 'Tổng tiền', 'Thao tác'];
-const sampleElement = ['id', 'name', 'buyerName', 'created_at', 'payment_method_type', 'status', 'total_money'];
+const sampleLabel = ['Mã đơn hàng', 'Tên khách hàng', 'Thời gian tạo', 'Phương thức thanh toán', 'Trạng thái', 'Tổng tiền (đ)', 'Thao tác'];
+const sampleElement = ['code', 'toName', 'createdAt', 'paymentMethodType', 'status', 'totalPay'];
 
-export default function OrderPage() {
+export default function OrderPage(props) {
     const {setLabel, setAction} = useContext(LableTableContext);
     const {setData, dataChange} = useContext(DataTableContext);
     const {setElement} = useContext(ElementTableContext);
@@ -17,16 +17,34 @@ export default function OrderPage() {
     const header = "Quản lý đơn hàng";
     const functionName = "orders";
 
+    const statusMap = {
+        1: "Chờ thanh toán",
+        2: "Đã thanh toán",
+        3: "Đang vận chuyển",
+        4: "Đã giao hàng",
+        5: "Đã hủy",
+        6: "Hoàn tất"
+    };
+
     useEffect(() => {
+        // Set labels, elements, and actions
         setLabel(sampleLabel);
         setElement(sampleElement);
         setAction(["view", "edit", "delete"]);
-        request("GET", "/api/orders").then((response) => {
-            setData(response.data.payload.content);
-        }).catch(error => {
-            console.log(error);
-        })
-    }, [dataChange, setData, setElement, setLabel]);
+
+        // Fetch order data
+        request("GET", "/api/orders")
+            .then((response) => {
+                const updatedData = response.data.payload.content.map(order => ({
+                    ...order,
+                    status: statusMap[order.status] || "Unknown status",
+                }));
+                setData(updatedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [dataChange]);
 
     return (
         <div>

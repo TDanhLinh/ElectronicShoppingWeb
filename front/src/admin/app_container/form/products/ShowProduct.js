@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Detail} from "../../../../product-id/app_container/Detail";
 import {Comments} from "../../../../product-id/app_container/Comments";
 import {Image} from "../../../../product-id/app_container/Image";
@@ -25,7 +25,8 @@ export function ShowProduct(props) {
 
     useEffect(() => {
         request("GET", `/api/products/${id}`).then((response) => {
-            setProduct(response.data.payload);
+            setProduct(response.data.payload.content);
+            console.log(product);
         })
     }, [])
 

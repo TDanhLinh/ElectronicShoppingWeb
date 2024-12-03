@@ -1,180 +1,90 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {Grid, TextField, Button} from "@mui/material";
+import {useContext, useEffect, useState} from "react";
+import { Grid, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import Container from "@mui/material/Container";
-import {request} from "../../../../api/axios";
+import { request } from "../../../../api/axios";
+import {DataTableContext} from "../../../TableContext";
 
 export default function ShowOrder(props) {
-    const {id} = props;
+    const { setOpen, id } = props;
     const [order, setOrder] = useState({
-        user_id: "",
-        code: "",
-        payment_method_type: "",
-        payment_status: "",
-        shipping_cost: "",
         status: "",
-        tax: "",
-        to_address: "",
-        to_name: "",
-        to_phone: "",
-        total_amount: "",
-        total_pay: "",
-        vnpay_order_status: "",
     });
-    const [user, setUser] = useState({name: ""}); // Default user state
+
+    const [status, setStatus] = useState("");
+    const {setDataChange} = useContext(DataTableContext);
+
+    // Map of status numbers to labels
+    const statusMap = {
+        1: "Chờ thanh toán",
+        2: "Đã thanh toán",
+        3: "Đang vận chuyển",
+        4: "Đã giao hàng",
+        5: "Đã hủy",
+        6: "Hoàn tất",
+    };
 
     useEffect(() => {
-        const fetchOrderAndUser = async () => {
+        const fetchOrder = async () => {
             try {
                 // Fetch the order
                 const orderResponse = await request("GET", `/api/orders/${id}`);
-                const fetchedOrder = orderResponse.data.payload.content;
+                const fetchedOrder = orderResponse.data.payload;
                 setOrder(fetchedOrder);
-
-                // Fetch the user using the order's user_id
-                const userResponse = await request("GET", `/api/users/${fetchedOrder.user_id}`);
-                setUser(userResponse.data.payload.content);
+                setStatus(fetchedOrder.status);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
-        fetchOrderAndUser();
+        fetchOrder();
     }, [id]);
 
-    const handleChange = (field, value) => {
-        setOrder((prev) => ({...prev, [field]: value}));
+    const handleStatusChange = (e) => {
+        setStatus(e.target.value);
     };
 
-    const updateOrder = async () => {
+    const updateOrderStatus = async () => {
+        setDataChange(false);
         try {
-            await request("PUT", `/api/orders/${id}`, order);
-            alert("Order updated successfully!");
+            // Send only the status field
+            const requestBody = {
+                status: parseInt(status),
+            };
+
+            await request("PUT", `/api/orders/${id}`, requestBody);
+            alert("Order status updated successfully!");
+            setOpen(false);
+            setDataChange(true);
         } catch (error) {
             console.error("Error updating order:", error);
-            alert("Failed to update the order.");
+            alert("Failed to update the order status.");
+            setOpen(false);
         }
     };
 
     return (
         <Container fixed>
             <Grid container columnSpacing={3}>
-                <Grid item xs={4}>
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-code"
-                        label="Order Code"
-                        variant="outlined"
-                        value={order.code}
-                        onChange={(e) => handleChange("code", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-payment-method"
-                        label="Payment Method Type"
-                        variant="outlined"
-                        value={order.payment_method_type}
-                        onChange={(e) => handleChange("payment_method_type", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-payment-status"
-                        label="Payment Status"
-                        variant="outlined"
-                        value={order.payment_status}
-                        onChange={(e) => handleChange("payment_status", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-user-name"
-                        label="User Name"
-                        variant="outlined"
-                        value={user.name}
-                        InputProps={{readOnly: true}}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-shipping-cost"
-                        label="Shipping Cost"
-                        variant="outlined"
-                        value={order.shipping_cost}
-                        onChange={(e) => handleChange("shipping_cost", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-status"
-                        label="Order Status"
-                        variant="outlined"
-                        value={order.status}
-                        onChange={(e) => handleChange("status", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-tax"
-                        label="Tax"
-                        variant="outlined"
-                        value={order.tax}
-                        onChange={(e) => handleChange("tax", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-total-amount"
-                        label="Total Amount"
-                        variant="outlined"
-                        value={order.total_amount}
-                        onChange={(e) => handleChange("total_amount", e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-to-address"
-                        label="To Address"
-                        variant="outlined"
-                        value={order.to_address}
-                        onChange={(e) => handleChange("to_address", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-to-name"
-                        label="To Name"
-                        variant="outlined"
-                        value={order.to_name}
-                        onChange={(e) => handleChange("to_name", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-to-phone"
-                        label="To Phone"
-                        variant="outlined"
-                        value={order.to_phone}
-                        onChange={(e) => handleChange("to_phone", e.target.value)}
-                    />
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-total-pay"
-                        label="Total Pay"
-                        variant="outlined"
-                        value={order.total_pay}
-                        onChange={(e) => handleChange("total_pay", e.target.value)}
-                    />
+                <Grid item xs={12}>
+                    <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
+                        <InputLabel>Order Status</InputLabel>
+                        <Select
+                            value={status}
+                            onChange={handleStatusChange}
+                            label="Order Status"
+                        >
+                            {Object.entries(statusMap).map(([key, value]) => (
+                                <MenuItem key={key} value={key}>
+                                    {value}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField
-                        sx={{m: 1, width: "100%"}}
-                        id="outlined-notes"
-                        label="VNPAY Order Status"
-                        multiline
-                        variant="outlined"
-                        value={order.vnpay_order_status}
-                        onChange={(e) => handleChange("vnpay_order_status", e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Button variant="contained" color="primary" sx={{m: 1}} onClick={updateOrder}>
-                        Update Order
+                    <Button variant="contained" color="primary" sx={{ m: 1 }} onClick={updateOrderStatus}>
+                        Update Status
                     </Button>
                 </Grid>
             </Grid>

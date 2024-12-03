@@ -1,6 +1,3 @@
-/*
-This is a component that displays a table with the labels and data provided by the pages
-*/
 import * as React from 'react';
 import {useContext, useEffect, useState} from 'react';
 import Paper from '@mui/material/Paper';
@@ -31,7 +28,7 @@ export default function DisplayTable(props) {
     const [openInfo, setOpenInfo] = useState(false);
     const [modalAction, setModalAction] = useState(null); // Track button action for modal content
     const [id, setId] = useState({});
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState(data); // State to hold filtered data
     const [anchorEl, setAnchorEl] = useState(null);
     const [currentId, setCurrentId] = useState(null);
@@ -52,7 +49,7 @@ export default function DisplayTable(props) {
     const handleAdd = () => {
         setModalAction(functionName + '/add');
         setOpenInfo(true);
-    }
+    };
 
     const handleView = (id) => {
         setModalAction(functionName + '/view');
@@ -79,7 +76,7 @@ export default function DisplayTable(props) {
             }
         }).catch(error => {
             console.error(error);
-        })
+        });
     };
 
     const handleSearch = async (value) => {
@@ -112,86 +109,104 @@ export default function DisplayTable(props) {
         setCurrentId(null);
     };
 
-    return ((<Paper sx={{width: '100%', overflow: 'hidden'}}>
-        <div style={{display: "flex", justifyContent: "space-between", margin: "1rem 3rem 1rem 3rem"}}>
-            <h1>{header}</h1>
-            <Stack direction="row" spacing={2}>
-                <TextField label="Tìm kiếm" variant="outlined" size="small" value={searchTerm}
-                           onChange={(e) => handleSearch(e.target.value)}
-                           slotProps={{
-                               input: {
-                                   endAdornment: (searchTerm && ( // Conditionally render the clear icon
-                                       (<IconButton onClick={clearSearch}>
-                                           <ClearIcon/>
-                                       </IconButton>)))
-                               }
-                           }}
-                />
-                {action.includes("add") && (
-                    <Button title={buttonTitle} variant="contained" size="small" onClick={handleAdd}
-                            sx={{backgroundColor: "green", color: "white", borderRadius: 2}}>
-                        <AddIcon fontSize="inherit"/>
-                    </Button>
-                )}
-            </Stack>
-        </div>
-        <TableContainer sx={{maxHeight: 600}}>
-            <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                    <TableRow>
-                        {/* Mapping through labels */}
-                        {label.map((item) => (<TableCell
-                            key={item.id}
-                            align="center"
-                            style={{maxWidth: item.maxWidth}}
-                        >
-                            {item}
-                        </TableCell>))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {filteredData
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((item) => (<TableRow hover role="checkbox" tabIndex={-1} key={item.id}>
-                            {/* Mapping through table elements */}
-                            {element.map((e) => {
-                                const value = item[e];
-                                return (<TableCell key={e} align="center">
-                                    {e.format && typeof value === 'number' ? e.format(value) : value}
-                                </TableCell>);
-                            })}
-                            {/* Action buttons */}
-                            <TableCell align="center">
-                                <IconButton
-                                    onClick={(e) => handleMenuOpen(e, item.id)}
-                                    size="small">
-                                    <MoreVertIcon/>
-                                </IconButton>
-                                <Menu
-                                    anchorEl={anchorEl}
-                                    open={currentId === item.id}
-                                    onClose={handleMenuClose}
+    return (
+        <Paper sx={{width: '100%', overflow: 'hidden'}}>
+            <div style={{display: "flex", justifyContent: "space-between", margin: "1rem 3rem 1rem 3rem"}}>
+                <h1>{header}</h1>
+                <Stack direction="row" spacing={2}>
+                    <TextField label="Tìm kiếm" variant="outlined" size="small" value={searchTerm}
+                               onChange={(e) => handleSearch(e.target.value)}
+                               slotProps={{
+                                   input: {
+                                       endAdornment: (searchTerm && ( // Conditionally render the clear icon
+                                           (<IconButton onClick={clearSearch}>
+                                               <ClearIcon/>
+                                           </IconButton>)))
+                                   }
+                               }}
+                    />
+                    {action.includes("add") && (
+                        <Button title={buttonTitle} variant="contained" size="small" onClick={handleAdd}
+                                sx={{backgroundColor: "green", color: "white", borderRadius: 2}}>
+                            <AddIcon fontSize="inherit"/>
+                        </Button>
+                    )}
+                </Stack>
+            </div>
+            <TableContainer sx={{maxHeight: 600}}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            {/* Mapping through labels */}
+                            {label.map((item) => (
+                                <TableCell
+                                    key={item.id}
+                                    align="center"
+                                    style={{
+                                        maxWidth: item.maxWidth,
+                                        fontSize: '14px'
+                                    }} // Increase font size for table header
                                 >
-                                    {action.includes("view") && (
-                                        <MenuItem onClick={() => handleView(item.id)}>Xem</MenuItem>
-                                    )}
-                                    {action.includes("edit") && (
-                                        <MenuItem onClick={() => handleEdit(item.id)}>Sửa</MenuItem>
-                                    )}
-                                    {action.includes("delete") && (
-                                        <MenuItem onClick={() => handleDelete(item.id)}>Xóa</MenuItem>
-                                    )}
-                                </Menu>
-                            </TableCell>
-                        </TableRow>))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-        <TablePagination rowsPerPageOptions={[10, 15, 20]} component="div" count={data.length} page={page}
-                         onPageChange={handleChangePage} rowsPerPage={rowsPerPage}
-                         onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-        <ModalDialog open={openInfo} setOpen={setOpenInfo} action={modalAction}
-                     id={id} functionName={functionName} setFilteredData={setFilteredData}/>
-    </Paper>));
+                                    {item}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {filteredData
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((item) => (
+                                <TableRow hover role="checkbox" tabIndex={-1} key={item.id}>
+                                    {/* Mapping through table elements */}
+                                    {element.map((e) => {
+                                        const value = item[e];
+                                        return (
+                                            <TableCell key={e} align="center"
+                                                       style={{fontSize: '12px'}}> {/* Increase font size for cell text */}
+                                                {e.format && typeof value === 'number' ? e.format(value) : value}
+                                            </TableCell>
+                                        );
+                                    })}
+                                    {/* Action buttons */}
+                                    <TableCell align="center"
+                                               style={{fontSize: '12px'}}> {/* Increase font size for action cell */}
+                                        <IconButton
+                                            onClick={(e) => handleMenuOpen(e, item.id)}
+                                            size="small">
+                                            <MoreVertIcon/>
+                                        </IconButton>
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            open={currentId === item.id}
+                                            onClose={handleMenuClose}
+                                        >
+                                            {action.includes("view") && (
+                                                <MenuItem onClick={() => handleView(item.id)}>Xem</MenuItem>
+                                            )}
+                                            {action.includes("edit") && (
+                                                <MenuItem onClick={() => handleEdit(item.id)}>Sửa</MenuItem>
+                                            )}
+                                            {action.includes("delete") && (
+                                                <MenuItem onClick={() => handleDelete(item.id)}>Xóa</MenuItem>
+                                            )}
+                                        </Menu>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 15, 20]}
+                component="div"
+                count={data.length}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            <ModalDialog open={openInfo} setOpen={setOpenInfo} action={modalAction}
+                         id={id} functionName={functionName} setFilteredData={setFilteredData}/>
+        </Paper>
+    );
 }

@@ -19,33 +19,31 @@ export function App_container() {
 
     return (
         <div className="app__container">
-            <div className="grid wide">
-                <div className=" row sm-gutter app__content">
-                    <div className="col l-2 m-0 c-0">
-                        <SideBar sideBar={sideBar} setSideBar={setSideBar} categories={categories}/>
-                    </div>
-                    <div className="col l-10 m-12 c-12">
-                        {
-                            sideBar === 'Quản lý sản phẩm' &&
-                            <ProductPage/>
-                        }
-                        {
-                            sideBar === 'Quản lý đơn hàng' &&
-                            <OrderPage/>
-                        }
-                        {
-                            sideBar === 'Quản lý phân loại' &&
-                            <CategoryPage/>
-                        }
-                        {
-                            sideBar === 'Doanh thu' &&
-                            <RevenuePage/>
-                        }
-                        {
-                            sideBar === 'Quản lý tài khoản' &&
-                            <AccountPage/>
-                        }
-                    </div>
+            <div className="row sm-gutter app__content" style={{margin: '20px'}}>
+                <div className="col l-2 m-0 c-0">
+                    <SideBar sideBar={sideBar} setSideBar={setSideBar} categories={categories}/>
+                </div>
+                <div className="col l-10 m-12 c-12">
+                    {
+                        sideBar === 'Quản lý sản phẩm' &&
+                        <ProductPage sideBar={sideBar}/>
+                    }
+                    {
+                        sideBar === 'Quản lý đơn hàng' &&
+                        <OrderPage sideBar={sideBar}/>
+                    }
+                    {
+                        sideBar === 'Quản lý phân loại' &&
+                        <CategoryPage sideBar={sideBar}/>
+                    }
+                    {
+                        sideBar === 'Doanh thu' &&
+                        <RevenuePage sideBar={sideBar}/>
+                    }
+                    {
+                        sideBar === 'Quản lý tài khoản' &&
+                        <AccountPage sideBar={sideBar}/>
+                    }
                 </div>
             </div>
         </div>

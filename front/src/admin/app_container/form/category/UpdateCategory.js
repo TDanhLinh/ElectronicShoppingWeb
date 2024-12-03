@@ -90,7 +90,7 @@ export default function UpdateCategory(props) {
         formData.append("image", file);
         formData.append("folder", "category");
 
-        request("POST", "/cloudary-api/images/upload-single", formData, {
+        request("POST", "/cloudinary-api/images/upload-single", formData, {
             "Content-Type": "multipart/form-data",
         })
             .then((response) => {

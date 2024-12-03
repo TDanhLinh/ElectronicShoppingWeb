@@ -9,7 +9,7 @@ import {request} from "../../api/axios";
 const sampleLabel = ['STT', 'Tên sản phẩm', 'Số lượng trong kho', 'Số lượng đã bán', 'Giá', 'Tình trạng', 'Lần cập nhập cuối', 'Thao tác'];
 const sampleElement = ['id', 'name', 'totalAvailable', 'totalSold', 'price', 'status', 'updated_at'];
 
-export default function ProductPage() {
+export default function ProductPage(props) {
     const {setLabel, setAction} = useContext(LableTableContext);
     const {setData, dataChange} = useContext(DataTableContext);
     const {setElement} = useContext(ElementTableContext);
@@ -20,7 +20,7 @@ export default function ProductPage() {
     useEffect(() => {
         setLabel(sampleLabel);
         setElement(sampleElement);
-        setAction(["add", "view", "edit", "delete"]);
+        setAction(["add", "edit", "delete"]);
         Promise.all([
             request("GET", "/api/products"),
             request("GET", "/api/inventories")
@@ -76,7 +76,7 @@ export default function ProductPage() {
             .catch(error => {
                 console.error("Error fetching data:", error);
             });
-    }, [dataChange, setData, setElement, setLabel]);
+    }, [dataChange]);
 
     return (
         <div>
