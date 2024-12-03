@@ -16,4 +16,6 @@ public class StatisticOrderResource {
     private Long totalAmount;
     // tong so tien sau thue, shipping cost ma user phai tra
     private Long totalPay;
+    // so san pham ban ra
+    private Integer quantity;
 }
