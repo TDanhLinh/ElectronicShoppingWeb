@@ -1,13 +1,52 @@
-/* Thiết lập chung cho trang */
 body {
-    background-color: #FEF7BC; /* Màu nền vàng nhạt cho trang */
+    background-color: #FEF7BC; 
     font-family: 'Arial, sans-serif';
-    color: #024F3F; /* Màu xanh đậm cho văn bản chính */
+    color: #024F3F;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+.about-container {
+    max-width: 1200px; 
+    width: 100%; 
+    margin: 0 auto; 
+    padding: 20px;
+}
+
+/* Liên kết điều hướng */
+.about-nav {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #024F3F; /* Màu xanh đậm cho liên kết điều hướng */
+    text-align: left;
+    padding-left: 20px;
+}
+
+/* Tiêu đề chính */
+.about-title {
+    font-size: 2.5em;
+    color: #A8BB47; /* Màu xanh lá cây cho tiêu đề chính */
+    margin: 10px 20px;
+    text-align: left;
+}
+
+/* Mô tả dự án */
+.about-description {
+    color: #737373; /* Màu xám cho phần mô tả */
+    width: 100%;
+    font-size: 1.2em;
+    margin: 10px 20px 30px 20px;
+    text-align: left;
+}
+
+/* Tiêu đề phần thành viên nhóm */
+.about-team-title {
+    font-size: 2em;
+    color: #024F3F; /* Xanh đậm cho tiêu đề thành viên nhóm */
+    margin: 30px 20px 10px 20px;
+    text-align: left;
+}
 
 /* Danh sách thành viên */
 .about-team-list {

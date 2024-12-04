@@ -59,14 +59,14 @@ public class SecurityConfiguration {
                                                                 String.format("%s/auth/reset-password/**",
                                                                                 apiPrefix))
                                                 .permitAll()
-                                                .requestMatchers(AppConstants.STAFF_API_PATHS)
-                                                .hasAnyAuthority(RoleKeys.ADMIN, RoleKeys.STAFF)
+                                                // .requestMatchers(AppConstants.STAFF_API_PATHS)
+                                                // .hasAnyAuthority(RoleKeys.ADMIN, RoleKeys.STAFF)
 
-                                                .requestMatchers(AppConstants.ADMIN_API_PATHS)
-                                                .hasAuthority(RoleKeys.ADMIN)
+                                                // .requestMatchers(AppConstants.ADMIN_API_PATHS)
+                                                // .hasAuthority(RoleKeys.ADMIN)
 
-                                                .requestMatchers(AppConstants.CLIENT_API_PATHS)
-                                                .hasAuthority(RoleKeys.USER)
+                                                // .requestMatchers(AppConstants.CLIENT_API_PATHS)
+                                                // .hasAuthority(RoleKeys.USER)
 
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session

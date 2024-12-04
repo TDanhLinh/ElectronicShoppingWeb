@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.constants.FieldName;
 import com.hust.Ecommerce.constants.MessageKeys;
 import com.hust.Ecommerce.constants.ResourceName;
@@ -39,6 +40,7 @@ import com.hust.Ecommerce.security.SecurityUtils;
 import com.hust.Ecommerce.services.authentication.AuthenticationService;
 import com.hust.Ecommerce.services.mail.MailServiceImpl;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,12 +77,14 @@ public class AuthController {
         }
 
         @GetMapping("/registration/confirm")
-        public void activateAccount(@RequestParam(value = "key") String key, HttpServletResponse response) throws IOException {
+        public void activateAccount(@RequestParam(value = "key") String key, HttpServletResponse response)
+                        throws IOException {
+
                 authenticationService.activateRegistration(key)
-                        .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
+                                .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
 
                 // Redirect to the login page on the frontend
-                response.sendRedirect("http://localhost:3000/login");
+                response.sendRedirect(AppConstants.FRONTEND_HOST + "/login");
         }
 
         @PostMapping("/login")
