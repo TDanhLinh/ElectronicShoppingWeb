@@ -1,131 +1,126 @@
-* {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #222629; /* Dark background */
+    color: #fff; /* Light text for contrast */
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    user-select: none;
-}
-
-.login {
+  }
+  
+  /* Login container */
+  .login-container {
+    width: 100%;
     height: 100vh;
-    background: url('https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/hinh-nen-may-tinh-dep-a-41-1.jpg') no-repeat center center/cover;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0;
-}
-
-.describe {
-    height: 70px;
-    color: white;
-    font-size: 40px;
-    font-weight: 300;
-    letter-spacing: 6px;
-    margin: 0 0 40px 0;
+    background-color: #222629;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  /* Header style */
+  .login-header {
+    font-size: 2rem;
+    color: #61892f; /* Green */
+    margin-bottom: 20px;
     text-align: center;
-}
-
-.login-form {
-    width: 450px;
-    height: 420px;
-    margin: 0 auto;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 40px;
+  }
+  
+  /* Login form */
+  .login-form {
+    background-color: #474B4F; /* Dark grey */
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Input fields */
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #6B6E70; /* Light grey border */
+    background-color: #222629; /* Dark background */
+    color: #fff;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-
-.login-form h2 {
-    color: white;
-    font-size: 35px;
-    font-weight: 100;
-    margin: 0 auto 30px auto;
-    text-align: center;
-}
-
-.input-box {
-    width: 87%;
-    padding: 15px 10px 15px;
-    font-size: 14px;
-    border: 2px solid #537b35;
-    margin-bottom: 26px;
-    font-family: 'Quicksand', sans-serif;
-    background-color: transparent;
-    color: white;
+  }
+  
+  .input-field:focus {
     outline: none;
-}
-
-.input-box::placeholder {
-    color: #aaa;
-}
-
-.options {
+    border-color: #86c232; /* Lighter green on focus */
+  }
+  
+  /* Error message */
+  .error-message {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Remember me and forgot password */
+  .options-container {
     display: flex;
     justify-content: space-between;
-    color: white;
-    font-size: 16px;
-    margin: 0 30px 26px 30px;
-}
-
-.options input {
-    margin-right: 5px;
-    font-size: 15px;
-    opacity: 0.6;
-    width: 15px;
-    height: 15px;
-}
-
-.options .forgot-password {
-    color: white;
-    text-decoration: none;
-    transition: color 0.5s ease;
-}
-
-.options .forgot-password:hover {
-    color: #537b35;
-}
-
-.login-btn {
-    padding: 10px 65px;
-    background-color: #537b35;
-    color: white;
+    align-items: center;
+    color: #fff;
+    margin: 15px 0 15px 0;
+  }
+  
+  .forgot-password-link {
+    color: #86c232; /* Green */
+    font-size: 0.9rem;
+  }
+  
+  .forgot-password-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #61892f; /* Green */
+    color: #fff;
     border: none;
+    font-size: 1rem;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: 0.4s ease;
-}
-
-.login-btn:hover {
-    background-color: darkgreen;
-}
-
-.register {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0 0 0;
-}
-
-.register p {
-    color: white;
-    margin: 0 10px 0 0;
-}
-
-.register .register-btn {
-    background-color: transparent;
-    padding: 7px 20px;
-    border: 1px solid white;
-    color: white;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #86c232; /* Lighter green */
+  }
+  
+  /* Register link section */
+  .register-link-container {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .register-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #6B6E70; /* Dark grey */
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
-    transition: 0.5s ease;
-    font-weight: bold;
-}
-
-.register .register-btn:hover {
-    border: 1px solid #537b35;
-    color: #537b35;
-}
+    transition: background-color 0.3s;
+  }
+  
+  .register-btn:hover {
+    background-color: #86c232; /* Lighter green */
+  }
+  
+  

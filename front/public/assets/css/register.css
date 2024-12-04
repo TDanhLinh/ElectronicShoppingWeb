@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #222629; /* Dark background */
+    color: #fff; /* Light text */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Register container */
+  .register-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222629;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  /* Header style */
+  .register-header {
+    font-size: 2rem;
+    color: #61892f; /* Green */
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Register form */
+  .register-form {
+    background-color: #474B4F; /* Dark grey */
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px; /* Set maximum width for form */
+    box-sizing: border-box;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Input fields */
+  .input-field {
+    width: 100%; /* Ensure inputs take up the full container width */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #6B6E70; /* Light grey border */
+    background-color: #222629; /* Dark background */
+    color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: #86c232; /* Lighter green on focus */
+  }
+  
+  /* Error and success messages */
+  .error-message {
+    color: #ff4d4d; /* Red */
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: rgb(105, 19, 19); /* Dark red for success */
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  /* Address and date of birth input styling */
+  .address-dob-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Adds spacing between the inputs */
+  }
+  
+  .address-dob-container .input-field {
+    width: 48%; /* Adjust width for 2 input fields in a row */
+    box-sizing: border-box;
+  }
+  
+  /* Remember me and login link */
+  .options-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    margin: 10px 0 15px 0;
+  }
+  
+  .login-link {
+    color: #86c232; /* Green */
+    font-size: 0.9rem;
+  }
+  
+  .login-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #61892f; /* Green */
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #86c232; /* Lighter green */
+  }
+  

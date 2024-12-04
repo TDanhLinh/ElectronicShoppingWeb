@@ -23,6 +23,7 @@ spring:
     url: jdbc:mysql://electronicweb.cjia2m4808pw.ap-southeast-1.rds.amazonaws.com:3306/electronicweb
     username: admin
     password: Linh1132003
+    
   #hibernate jpa
   jpa:
     show-sql: true
@@ -71,7 +72,7 @@ payment:
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
     tmnCode: B0G7MQOH
     secretKey: MUQDZO18PYW9GLBHMISDS442I9SARIHT
-    returnUrl: http://localhost:${server.port}/client-api/orders/confirm
+    returnUrl: http://localhost:${server.port}/api/payment/vn-pay/call-back
     version: 2.1.0
     command: pay
     orderType: other

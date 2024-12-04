@@ -1,0 +1,92 @@
+* {
+    caret-color: transparent;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    border: 0;
+    padding: 0;
+    margin: 0; /* Reset thêm margin */
+}
+
+body {
+    background-color: #FFFBDE; /* Nền toàn trang đồng nhất */
+    color: #000000; /* Màu văn bản */
+    font-family: 'Arial', sans-serif;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden; /* Tránh tràn ngang */
+}
+
+/* Container căn giữa */
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /* Điều hướng dọc */
+    text-align: center; /* Canh giữa văn bản */
+    padding: 20px; /* Thêm không gian bên trong */
+}
+
+/* Văn bản mô tả */
+.describe {
+    font-size: 50px;
+    color: #024F3F; /* Màu xanh lá đậm */
+    margin-bottom: 20px; /* Thêm khoảng cách dưới */
+}
+
+
+/* Button Quay về trang chủ */
+.back-to-home {
+    background-color: #A8BB47; /* Màu xanh lá cây cho nền */
+    color: #FFFFFF; /* Màu chữ trắng */
+    padding: 12px 24px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hiệu ứng chuyển màu và scale khi hover */
+    text-align: center;
+}
+
+.back-to-home:hover {
+    background-color: #024F3F; /* Màu xanh đậm khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ khi hover */
+}
+
+.back-to-home:active {
+    background-color: #FFD601; /* Màu vàng đậm khi nhấn */
+    transform: scale(1); /* Trở lại kích thước bình thường khi nhấn */
+}
+
+.back-to-home:focus {
+    outline: none; /* Loại bỏ viền khi focus */
+}
+
+
+/* Giới thiệu Dự án */
+.About-review {
+    background-color: #FFFBDE; /* Màu nền vàng sáng */
+    padding: 40px 20px; /* Padding vừa đủ xung quanh */
+    border-radius: 8px; /* Bo góc nhẹ cho phần tử */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ */
+    margin: 30px 0; /* Khoảng cách giữa các phần tử */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+.About-review h1 {
+    font-size: 2.5rem; /* Kích thước chữ lớn cho tiêu đề */
+    color: #024F3F; /* Màu xanh đậm cho tiêu đề */
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    font-weight: 600;
+}
+
+.About-review p {
+    font-size: 1.4rem; /* Kích thước chữ vừa phải cho mô tả */
+    color: #737373; /* Màu chữ xám cho nội dung */
+    line-height: 1.6; /* Khoảng cách dòng dễ đọc */
+    max-width: 800px; /* Giới hạn chiều rộng để không quá dài */
+    margin: 0 auto; /* Căn giữa đoạn văn */
+    padding: 0 10px; /* Padding nhẹ để nội dung không chạm vào biên */
+}

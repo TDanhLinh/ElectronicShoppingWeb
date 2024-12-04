@@ -1,0 +1,291 @@
+* {
+    caret-color: transparent;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    border: 0;
+    padding: 0;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    background: url('/assets/img/rp.jpg') ; /* Thêm ảnh nền */
+}
+
+
+.back-to-home {
+    height: 50px;
+    width: 225px;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    z-index: 10;
+    background-color: #FEF7BC; /* Màu vàng nhạt */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: -10px;
+    color: #000000; /* Màu đen cho chữ */
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.back-to-home:hover {
+    background-color: #FFD601; /* Màu vàng đậm khi hover */
+}
+
+.payment-page {
+    width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #FFFBDE; /* Màu vàng nhạt cho nền */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: left;
+    color: #A8BB47; /* Màu xanh lá sáng cho tiêu đề */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.product-info, .order-summary {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0); /* Xóa background */
+    border-radius: 8px;
+    color: #000000; /* Màu đen cho chữ */
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #BAB2B5;
+    background-color: rgba(255, 255, 255, 0); /* Xóa background */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    color: #000000; /* Màu đen cho chữ */
+}
+
+.product-item-img {
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: contain;
+    border: 1px solid #BAB2B5;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.product-item-name {
+    cursor: pointer;
+    color: #A8BB47; /* Màu xanh lá sáng cho tên sản phẩm */
+}
+
+.product-details, .product-pricing {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.product-details p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #000000; /* Màu đen cho chữ */
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #BAB2B5;
+    font-size: 14px;
+}
+
+.discounted-price {
+    font-size: 18px;
+    color: #A8BB47; /* Màu xanh lá sáng cho giá giảm */
+    font-weight: bold;
+}
+
+.remove-btn {
+    background-color: #024F3F; /* Màu xanh đậm cho nút xóa */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: #FFD601; /* Màu vàng đậm khi hover */
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #000000; /* Màu đen cho chữ */
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000; /* Màu đen cho chữ */
+    margin-top: 20px;
+}
+
+.place-order-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #A8BB47; /* Màu xanh lá sáng cho nút đặt hàng */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.place-order-btn:hover {
+    background-color: #FFD601; /* Màu vàng đậm khi hover */
+}
+
+.product-details input {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f7f7f7;
+}
+
+.transfer-to {
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0); /* Xóa background */
+    border-radius: 8px;
+    color: #000000; /* Màu đen cho chữ */
+    padding: 20px;
+}
+
+.transfer-to-input {
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1f1f1f;
+    width: 100%;
+    outline: none;
+    cursor: text;
+    caret-color: auto;
+    border: none;
+    border-radius: 5px;
+}
+
+.payment-method {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    gap: 20px;
+}
+
+.pame input[type="radio"] {
+    display: none;
+}
+
+.pame {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #FFD601; /* Màu vàng đậm cho viền radio button */
+    border-radius: 50%; /* Hình tròn */
+    margin-right: 10px;
+    position: relative;
+    background-color: #fff; /* Màu trắng ở vòng trong */
+    transition: all 0.3s ease;
+}
+
+.pame input[type="radio"]:checked + .radio-custom {
+    border-color: #FFD601; /* Màu vàng đậm khi chọn */
+    background-color: #fff; /* Nền bên trong không đổi */
+}
+
+.pame input[type="radio"]:checked + .radio-custom::after {
+    content: '';
+    position: absolute;
+    width: 10px; /* Kích thước hình tròn ở giữa */
+    height: 10px;
+    background-color: #FFD601; /* Màu vàng đậm */
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.payment-method-type {
+    font-size: 20px;
+    color: #000000; /* Màu đen cho chữ */
+}
+
+.payment-user-info {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: -30px;
+}
+
+.payment-user-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%;
+    padding: 0 40px 20px 30px;
+}
+
+.input-separate {
+    border-right: 1px solid #024F3F; /* Màu xanh đậm cho viền */
+}
+
+.payment-user-input {
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f1f1f;
+    width: 100%;
+    outline: none;
+    cursor: text;
+    caret-color: auto;
+    border: none;
+    border-radius: 5px;
+}
+
+.error-message-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    font-size: 16px;
+}

@@ -1,66 +1,56 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-export function Home_filter() {
+// Chọn ra filter để sắp xếp sản phẩm
+export function Home_filter({page, setPage, maxPage, setFilter}) {
     
-    const [state, setState] = useState(0);
-    const [filter, setFilter] = useState([
-        {
-            type: 0,
-            name: "Phổ biến"
-        },
-        {
-            type: 1,
-            name: "Mới nhất"
-        },
-        {
-            type: 2,
-            name: "Bán chạy"
-        },
-    ])
-    const [priceFilter, setPriceFilter] = useState([
-        {
-            type: 3,
-            name: 'Giá: thấp đến cao'
-        },
-        {
-            type: 4,
-            name: 'Giá: cao đến thấp'
-        },
-    ])
-    const [page, setPage] = useState(1);
-    const [maxPage, setMaxPage] = useState(69);
+    const [state, setState] = useState(-1);
+
+    const filters = [
+        "Phổ biến",
+        "Mới nhất",
+        "Bán chạy",
+        'Giá: thấp đến cao',
+        'Giá: cao đến thấp',
+    ]
+
+    const changeFilter = (index) => {
+        setState(index);
+        setFilter(filters[index])
+    }
+    const pageOnChange = (numPage) => {
+        if (numPage > 0 && numPage <= maxPage) {
+            setPage(numPage);
+        }
+    }
     
     return (
-        <div className="home-filter hide-on-mobile-tablet">
+        <div className="home-filter">
             <span className="home-filter__label">Sắp xếp theo</span>
             {
-                filter.map((item, index) => (
+                filters.slice(0, 3).map((item, index) => (
                     <button 
                         key={index}
-                        className={"btn home-filter__btn"+((state === item.type) ? " btn--primary" : "")}
-                        onClick={()=>setState(item.type)}
+                        className={"btn home-filter__btn"+((state >= 0 && filters[state] === item) ? " btn--primary" : "")}
+                        onClick={()=>changeFilter(index)}
                     >
-                        {item.name}
+                        {item}
                     </button>
                 ))
             }
 
             <div className="select-input">
-                <span className="select-input__label">{(state > 2) ? priceFilter[state-3].name : "Giá"}</span>
+                <span className="select-input__label">{(state > 2) ? filters[state] : "Giá"}</span>
                 <i className="select-input__icon fas fa-chevron-down"></i>
                 
                 <ul className="select-input__list">
                     {
-                        priceFilter.map((item, index) => (
+                        filters.slice(3, 5).map((item, index) => (
                             <li key = {index} className="select-input__item">
                                 <div 
                                     className="select-input__link"
-                                    onClick={()=>setState(item.type)}
-                                    style={{
-                                        cursor: 'pointer',
-                                    }}
+                                    onClick={()=>changeFilter(index + 3)}
                                 >
-                                    {item.name}
+                                    {item}
                                 </div>
                             </li>
                         ))
@@ -75,19 +65,13 @@ export function Home_filter() {
                 <div className="home-filter__page-control">
                     <div 
                         className={"home-filter__page-btn"+((page === 1) ? " home-filter__page-icon--disable" : "")}
-                        onClick={()=>{if (page > 1) setPage(page - 1)}}
-                        style={{
-                            cursor: (page === 1) ? "default" : "pointer",
-                        }}
+                        onClick={()=>pageOnChange(page - 1)}
                     >
                         <i className="home-filter__page-icon fas fa-chevron-left"></i>
                     </div>
                     <div 
                         className={"home-filter__page-btn"+((page === maxPage) ? " home-filter__page-icon--disable" : "")}
-                        onClick={()=>{if (page < maxPage) setPage(page + 1)}}
-                        style={{
-                            cursor: (page === maxPage) ? "default" : "pointer",
-                        }}
+                        onClick={()=>pageOnChange(page + 1)}
                     >
                         <i className="home-filter__page-icon fas fa-chevron-right"></i>
                     </div>

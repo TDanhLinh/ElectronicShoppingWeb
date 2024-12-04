@@ -17,6 +17,9 @@ import com.hust.Ecommerce.constants.AppConstants;
 import com.hust.Ecommerce.constants.RoleKeys;
 import com.hust.Ecommerce.security.CustomAccessDeniedHandler;
 import com.hust.Ecommerce.security.JwtAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
@@ -36,7 +39,7 @@ public class SecurityConfiguration {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
-                                .cors(AbstractHttpConfigurer::disable) // Enable CORS
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with configuration
                                 .authorizeHttpRequests(request -> request
                                                 .requestMatchers(AppConstants.PUBLIC_API_PATH).permitAll()
 
@@ -76,5 +79,17 @@ public class SecurityConfiguration {
 
                 // http.securityMatcher(String.valueOf(EndpointRequest.toAnyEndpoint()));
                 return http.build();
+        }
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.addAllowedOrigin("http://localhost:3000"); // Allow requests from frontend
+                configuration.addAllowedMethod("*"); // Allow all HTTP methods
+                configuration.addAllowedHeader("*"); // Allow all headers
+                configuration.setAllowCredentials(true); // Allow cookies
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration);
+                return source;
         }
 }
