@@ -3,7 +3,7 @@ import {destroyCookie, parseCookies} from "nookies";
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "https://ecommerceweb-latest.onrender.com",
     headers: {
         "Content-Type": "application/json",
     },

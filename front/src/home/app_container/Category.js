@@ -1,61 +1,40 @@
-import { useEffect, useState } from "react";
-import { request } from "../../api/axios";
+import { useState, useEffect } from "react";
 
-export function Category({ searchCategory, setSearchCategory }) {
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+// Lưu các danh mục, danh mục sẽ tương đương với phần tìm kiếm ở header
+export function Category({searchText, setSearchText}) {
 
-    useEffect(() => {
-        // Fetch categories from the API
-        const fetchCategories = async () => {
-            try {
-                const response = await request("GET", "/client-api/categories");
-                if (response.status === 200) {
-                    const data = response.data.payload.content;
-                    setCategories(data); // assuming the response is an array of categories
-                } else {
-                    throw new Error("Failed to fetch categories");
-                }
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const categories = [
+        'Đồng hồ thông minh',
+        'Iphone',
+        'Samsung',
+        'Máy vi tính',
+        'Macbook',
+    ]
 
-        fetchCategories();
-    }, []);
-
-    const clickOnCategory = (categorySlug) => {
-        setSearchCategory(categorySlug); // Set searchCategory to categorySlug for searching
-    };
-
-    if (loading) return <div>Loading categories...</div>;
-    if (error) return <div>Error: {error}</div>;
+    const clickOnCategory = (item) => {
+        setSearchText(item.toLowerCase());
+    }
 
     return (
         <nav className="category">
             <h3 className="category__heading">Danh mục</h3>
             <ul className="category-list">
-                {categories.map((category, index) => {
-                    const categorySlug = category.categorySlug || "";
-                    const categoryName = category.categoryName || "Unknown Category";
-                    return (
+                {
+                    categories.map((item, index) => (
                         <li
                             key={index}
-                            className={`category-item${(searchCategory === categorySlug) ? " category-item--active" : ""}`}
+                            className={"category-item"+((searchText.toLowerCase() === item.toLowerCase()) ? " category-item--active" : "")}
                         >
                             <div
                                 className="category-item__link"
-                                onClick={() => clickOnCategory(categorySlug)} // search by categorySlug
+                                onClick={()=>clickOnCategory(item)}
                             >
-                                {categoryName} {/* Display categoryName */}
+                                {item}
                             </div>
                         </li>
-                    );
-                })}
+                    ))
+                }
             </ul>
         </nav>
-    );
+    )
 }
