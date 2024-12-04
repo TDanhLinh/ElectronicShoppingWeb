@@ -83,7 +83,7 @@ public class SecurityConfiguration {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.addAllowedOrigin("http://localhost:3000"); // Allow requests from frontend
+                configuration.addAllowedOrigin("https://electronic-shopping-web.vercel.app/"); // Allow requests from frontend
                 configuration.addAllowedMethod("*"); // Allow all HTTP methods
                 configuration.addAllowedHeader("*"); // Allow all headers
                 configuration.setAllowCredentials(true); // Allow cookies
